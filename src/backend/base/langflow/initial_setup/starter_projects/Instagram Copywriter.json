@@ -1347,7 +1347,9 @@
             "icon": "bot",
             "legacy": false,
             "metadata": {},
-            "output_types": [],
+            "output_types": [
+              "agent"
+            ],
             "outputs": [
               {
                 "allows_loop": false,

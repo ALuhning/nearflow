@@ -273,6 +273,7 @@ import {
 } from "../icons/GradientSparkles";
 import { GroqIcon } from "../icons/Groq";
 import { HCDIcon } from "../icons/HCD";
+import { NearIcon } from "../icons/NEAR";
 import { HuggingFaceIcon } from "../icons/HuggingFace";
 import { IFixIcon } from "../icons/IFixIt";
 import { IcosaIcon } from "../icons/Icosa";
@@ -720,6 +721,7 @@ export const nodeIconsLucide: iconsType = {
   Streamlit,
   Discord: FaDiscord,
   MistralAI: MistralIcon,
+  NearAI: NearIcon,
   Upstash: UpstashSvgIcon,
   Confluence: ConfluenceIcon,
   AIML: AIMLIcon,
