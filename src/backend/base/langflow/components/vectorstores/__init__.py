@@ -10,7 +10,6 @@ from .faiss import FaissVectorStoreComponent
 from .hcd import HCDVectorStoreComponent
 from .milvus import MilvusVectorStoreComponent
 from .mongodb_atlas import MongoVectorStoreComponent
-from .nearvector import NearVectorStoreComponent
 from .opensearch import OpenSearchVectorStoreComponent
 from .pgvector import PGVectorStoreComponent
 from .pinecone import PineconeVectorStoreComponent
@@ -36,7 +35,6 @@ __all__ = [
     "HCDVectorStoreComponent",
     "MilvusVectorStoreComponent",
     "MongoVectorStoreComponent",
-    "NearVectorStoreComponent",
     "OpenSearchVectorStoreComponent",
     "PGVectorStoreComponent",
     "PineconeVectorStoreComponent",

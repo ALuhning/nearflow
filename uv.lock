@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.10, <3.14"
 resolution-markers = [
     "python_full_version >= '3.13'",
@@ -4514,7 +4513,6 @@ requires-dist = [
     { name = "youtube-transcript-api", specifier = "==0.6.3" },
     { name = "zep-python", specifier = "==2.0.2" },
 ]
-provides-extras = ["deploy", "couchbase", "cassio", "local", "clickhouse-connect", "nv-ingest"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -4598,7 +4596,6 @@ dependencies = [
     { name = "mcp" },
     { name = "multiprocess" },
     { name = "nanoid" },
-    { name = "near-ai-agent" },
     { name = "nest-asyncio" },
     { name = "networkx" },
     { name = "opentelemetry-api" },
@@ -4608,7 +4605,6 @@ dependencies = [
     { name = "orjson" },
     { name = "pandas" },
     { name = "passlib" },
-    { name = "pathlib" },
     { name = "pillow" },
     { name = "platformdirs" },
     { name = "prometheus-client" },
@@ -4619,7 +4615,6 @@ dependencies = [
     { name = "python-docx" },
     { name = "python-jose" },
     { name = "python-multipart" },
-    { name = "requests" },
     { name = "rich" },
     { name = "sentry-sdk", extra = ["fastapi", "loguru"] },
     { name = "setuptools" },
@@ -4735,7 +4730,6 @@ requires-dist = [
     { name = "mcp", specifier = ">=1.1.2" },
     { name = "multiprocess", specifier = ">=0.70.14,<1.0.0" },
     { name = "nanoid", specifier = ">=2.0.0,<3.0.0" },
-    { name = "near-ai-agent", specifier = ">=1.0.0a4" },
     { name = "nest-asyncio", specifier = ">=1.6.0,<2.0.0" },
     { name = "networkx", specifier = ">=3.4.2" },
     { name = "opentelemetry-api", specifier = ">=1.25.0,<2.0.0" },
@@ -4745,7 +4739,6 @@ requires-dist = [
     { name = "orjson", specifier = "==3.10.15" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "passlib", specifier = ">=1.7.4,<2.0.0" },
-    { name = "pathlib", specifier = ">=1.0.1" },
     { name = "pillow", specifier = ">=11.1.0,<12.0.0" },
     { name = "platformdirs", specifier = ">=4.2.0,<5.0.0" },
     { name = "prometheus-client", specifier = ">=0.20.0,<1.0.0" },
@@ -4758,7 +4751,6 @@ requires-dist = [
     { name = "python-multipart", specifier = ">=0.0.12,<1.0.0" },
     { name = "redis", marker = "extra == 'all'", specifier = ">=4.6.0" },
     { name = "redis", marker = "extra == 'deploy'", specifier = ">=4.6.0" },
-    { name = "requests", specifier = ">=2.32.0" },
     { name = "rich", specifier = ">=13.7.0,<14.0.0" },
     { name = "sentence-transformers", marker = "extra == 'all'", specifier = ">=2.0.0" },
     { name = "sentence-transformers", marker = "extra == 'local'", specifier = ">=2.0.0" },
@@ -4771,7 +4763,6 @@ requires-dist = [
     { name = "uvicorn", specifier = ">=0.30.0,<1.0.0" },
     { name = "validators", specifier = ">=0.34.0" },
 ]
-provides-extras = ["deploy", "local", "all"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -5744,20 +5735,6 @@ wheels = [
 ]
 
 [[package]]
-name = "near-ai-agent"
-version = "1.0.0a4"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "python-json-logger" },
-    { name = "requests" },
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/1c/f3/680327a07ab776718e247a29845597759b6d1a0981a169a43122dc7a92bd/near_ai_agent-1.0.0a4.tar.gz", hash = "sha256:f52cee1a39cba9dc40d4976746bb79657b8912c63de4d6cd1cc9544f09842a76", size = 9351 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/3a/83a335f8837573ed39ce0127c493278d3bc590ab0df75201a98a0baa779a/near_ai_agent-1.0.0a4-py3-none-any.whl", hash = "sha256:e97b14aad30ed31fd7bef2656775a04c3d8300c1fad0d5f9b582ce6f774d7055", size = 9564 },
-]
-
-[[package]]
 name = "needle-python"
 version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -6531,15 +6508,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/b6/06/9da9ee59a67fae7761aab3ccc84fa4f3f33f125b370f1ccdb915bf967c11/passlib-1.7.4.tar.gz", hash = "sha256:defd50f72b65c5402ab2c573830a6978e5f202ad0d984793c8dde2c4152ebe04", size = 689844 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3b/a4/ab6b7589382ca3df236e03faa71deac88cae040af60c071a78d254a62172/passlib-1.7.4-py2.py3-none-any.whl", hash = "sha256:aa6bca462b8d8bda89c70b382f0c298a20b5560af6cbfa2dce410c0a2fb669f1", size = 525554 },
-]
-
-[[package]]
-name = "pathlib"
-version = "1.0.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ac/aa/9b065a76b9af472437a0059f77e8f962fe350438b927cb80184c32f075eb/pathlib-1.0.1.tar.gz", hash = "sha256:6940718dfc3eff4258203ad5021090933e5c04707d5ca8cc9e73c94a7894ea9f", size = 49298 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/78/f9/690a8600b93c332de3ab4a344a4ac34f00c8f104917061f779db6a918ed6/pathlib-1.0.1-py3-none-any.whl", hash = "sha256:f35f95ab8b0f59e6d354090350b44a80a80635d22efdedfa84c7ad1cf0a74147", size = 14363 },
 ]
 
 [[package]]
@@ -7799,15 +7767,6 @@ wheels = [
 ]
 
 [[package]]
-name = "python-json-logger"
-version = "3.2.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e3/c4/358cd13daa1d912ef795010897a483ab2f0b41c9ea1b35235a8b2f7d15a7/python_json_logger-3.2.1.tar.gz", hash = "sha256:8eb0554ea17cb75b05d2848bc14fb02fbdbd9d6972120781b974380bfa162008", size = 16287 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4b/72/2f30cf26664fcfa0bd8ec5ee62ec90c03bd485e4a294d92aabc76c5203a5/python_json_logger-3.2.1-py3-none-any.whl", hash = "sha256:cdc17047eb5374bd311e748b42f99d71223f3b0e186f4206cc5d52aefe85b090", size = 14924 },
-]
-
-[[package]]
 name = "python-lsp-jsonrpc"
 version = "1.1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -8279,7 +8238,6 @@ wheels = [
 name = "rpds-py"
 version = "0.23.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ca/0e/4c797078d00dbf1f63af96e4b3beffb67f71230f58442272b4b1962a61c8/rpds_py-0.23.0.tar.gz", hash = "sha256:ffac3b13182dc1bf648cde2982148dc9caf60f3eedec7ae639e05636389ebf5d", size = 26808 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/9c/39/c2b2337f0dd0494a7e66eb3f114dde2a08c613b9374f52fdec8c38890def/rpds_py-0.23.0-cp310-cp310-macosx_10_12_x86_64.whl", hash = "sha256:1b36e993b95f0744a94a5add7624cfaf77b91805819c1a960026bc452f95841e", size = 372147 },
     { url = "https://files.pythonhosted.org/packages/1c/19/cd8c3bc46b5151db48b9f411cc7cd957766220f93d0edcb8cb81cdc8b192/rpds_py-0.23.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:72a0dd4d599fadaf519d4e4b8092e5d7940057c61e70f9f06c1d004a47895204", size = 356821 },

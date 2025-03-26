@@ -836,9 +836,7 @@
             "legacy": false,
             "lf_version": "1.1.1",
             "metadata": {},
-            "output_types": [
-              "agent"
-            ],
+            "output_types": [],
             "outputs": [
               {
                 "allows_loop": false,
@@ -1458,9 +1456,7 @@
             "legacy": false,
             "lf_version": "1.1.1",
             "metadata": {},
-            "output_types": [
-              "agent"
-            ],
+            "output_types": [],
             "outputs": [
               {
                 "allows_loop": false,
@@ -2080,9 +2076,7 @@
             "legacy": false,
             "lf_version": "1.1.1",
             "metadata": {},
-            "output_types": [
-              "agent"
-            ],
+            "output_types": [],
             "outputs": [
               {
                 "allows_loop": false,
