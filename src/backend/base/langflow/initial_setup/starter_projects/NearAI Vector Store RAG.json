@@ -2023,9 +2023,7 @@
                 "display_name": "NEAR Credentials",
                 "dynamic": false,
                 "info": "Credential JSON (must include `auth.api_key`).",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": [],
                 "load_from_db": true,
                 "name": "near_credentials",
                 "password": true,
@@ -2326,9 +2324,7 @@
                 "display_name": "NEAR credentials",
                 "dynamic": false,
                 "info": "NEAR AI credentials as JSON",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": [],
                 "load_from_db": true,
                 "name": "near_credentials",
                 "password": true,
@@ -2437,7 +2433,7 @@
                 "copy_field": false,
                 "display_name": "Search Query",
                 "dynamic": false,
-                "info": "",
+                "info": "Enter a query to run a similarity search.",
                 "input_types": [
                   "Message"
                 ],
@@ -2681,9 +2677,7 @@
                 "display_name": "NEAR credentials",
                 "dynamic": false,
                 "info": "NEAR AI credentials as JSON",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": [],
                 "load_from_db": true,
                 "name": "near_credentials",
                 "password": true,
@@ -2792,7 +2786,7 @@
                 "copy_field": false,
                 "display_name": "Search Query",
                 "dynamic": false,
-                "info": "",
+                "info": "Enter a query to run a similarity search.",
                 "input_types": [
                   "Message"
                 ],
@@ -2893,9 +2887,9 @@
       }
     ],
     "viewport": {
-      "x": 205.42462471616778,
-      "y": -211.81052702513153,
-      "zoom": 0.509540974217836
+      "x": 226.47060112603924,
+      "y": -230.03465786281447,
+      "zoom": 0.5034320753701682
     }
   },
   "description": "Load your data for chat context with Retrieval Augmented Generation and NearAI vector db.",
@@ -2908,14 +2902,14 @@
   "id": "0dc468be-780e-46db-9078-2204a8fa9198",
   "is_component": false,
   "locked": false,
-  "name": "Vector Store RAG",
+  "name": "NearAI Vector Store RAG",
   "tags": [
     "openai",
     "astradb",
     "rag",
     "q-a"
   ],
-  "updated_at": "2025-04-13T17:09:37+00:00",
+  "updated_at": "2025-04-19T12:45:49+00:00",
   "user_id": "7f2c7441-40b7-467f-b371-651e7f3aa3f8",
   "webhook": false
 }

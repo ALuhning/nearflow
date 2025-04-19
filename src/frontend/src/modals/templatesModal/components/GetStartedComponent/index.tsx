@@ -20,14 +20,14 @@ export default function GetStartedComponent() {
       bgHorizontalImage: memoryChatbotHorizontal,
       icon: "MessagesSquare",
       category: "prompting",
-      flow: examples.find((example) => example.name === "Basic Prompting"),
+      flow: examples.find((example) => example.name === "Basic NearAI Prompting"),
     },
     {
       bgImage: vectorRag,
       bgHorizontalImage: vectorRagHorizontal,
       icon: "Database",
       category: "RAG",
-      flow: examples.find((example) => example.name === "Vector Store RAG"),
+      flow: examples.find((example) => example.name === "NearAI Vector Store RAG"),
     },
     {
       bgImage: multiAgent,
