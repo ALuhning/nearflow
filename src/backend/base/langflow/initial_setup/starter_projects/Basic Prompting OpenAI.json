@@ -1,92 +1,71 @@
 {
-  "access_type": "PRIVATE",
   "data": {
     "edges": [
       {
-        "animated": false,
         "className": "",
         "data": {
           "sourceHandle": {
             "dataType": "ChatInput",
-            "id": "ChatInput-c8Qhd",
+            "id": "ChatInput-jFwUm",
             "name": "message",
-            "output_types": [
-              "Message"
-            ]
+            "output_types": ["Message"]
           },
           "targetHandle": {
             "fieldName": "input_value",
-            "id": "NearAIModel-N9jzB",
-            "inputTypes": [
-              "Message"
-            ],
+            "id": "OpenAIModel-OcXkl",
+            "inputTypes": ["Message"],
             "type": "str"
           }
         },
-        "id": "xy-edge__ChatInput-c8Qhd{œdataTypeœ:œChatInputœ,œidœ:œChatInput-c8Qhdœ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}-NearAIModel-N9jzB{œfieldNameœ:œinput_valueœ,œidœ:œNearAIModel-N9jzBœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
-        "selected": false,
-        "source": "ChatInput-c8Qhd",
-        "sourceHandle": "{œdataTypeœ: œChatInputœ, œidœ: œChatInput-c8Qhdœ, œnameœ: œmessageœ, œoutput_typesœ: [œMessageœ]}",
-        "target": "NearAIModel-N9jzB",
-        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œNearAIModel-N9jzBœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
+        "id": "reactflow__edge-ChatInput-jFwUm{œdataTypeœ:œChatInputœ,œidœ:œChatInput-jFwUmœ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}-OpenAIModel-OcXkl{œfieldNameœ:œinput_valueœ,œidœ:œOpenAIModel-OcXklœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "source": "ChatInput-jFwUm",
+        "sourceHandle": "{œdataTypeœ: œChatInputœ, œidœ: œChatInput-jFwUmœ, œnameœ: œmessageœ, œoutput_typesœ: [œMessageœ]}",
+        "target": "OpenAIModel-OcXkl",
+        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œOpenAIModel-OcXklœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
       },
       {
-        "animated": false,
         "className": "",
         "data": {
           "sourceHandle": {
             "dataType": "Prompt",
-            "id": "Prompt-ar7p8",
+            "id": "Prompt-3SM2g",
             "name": "prompt",
-            "output_types": [
-              "Message"
-            ]
+            "output_types": ["Message"]
           },
           "targetHandle": {
             "fieldName": "system_message",
-            "id": "NearAIModel-N9jzB",
-            "inputTypes": [
-              "Message"
-            ],
+            "id": "OpenAIModel-OcXkl",
+            "inputTypes": ["Message"],
             "type": "str"
           }
         },
-        "id": "xy-edge__Prompt-ar7p8{œdataTypeœ:œPromptœ,œidœ:œPrompt-ar7p8œ,œnameœ:œpromptœ,œoutput_typesœ:[œMessageœ]}-NearAIModel-N9jzB{œfieldNameœ:œsystem_messageœ,œidœ:œNearAIModel-N9jzBœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
-        "selected": false,
-        "source": "Prompt-ar7p8",
-        "sourceHandle": "{œdataTypeœ: œPromptœ, œidœ: œPrompt-ar7p8œ, œnameœ: œpromptœ, œoutput_typesœ: [œMessageœ]}",
-        "target": "NearAIModel-N9jzB",
-        "targetHandle": "{œfieldNameœ: œsystem_messageœ, œidœ: œNearAIModel-N9jzBœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
+        "id": "reactflow__edge-Prompt-3SM2g{œdataTypeœ:œPromptœ,œidœ:œPrompt-3SM2gœ,œnameœ:œpromptœ,œoutput_typesœ:[œMessageœ]}-OpenAIModel-OcXkl{œfieldNameœ:œsystem_messageœ,œidœ:œOpenAIModel-OcXklœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "source": "Prompt-3SM2g",
+        "sourceHandle": "{œdataTypeœ: œPromptœ, œidœ: œPrompt-3SM2gœ, œnameœ: œpromptœ, œoutput_typesœ: [œMessageœ]}",
+        "target": "OpenAIModel-OcXkl",
+        "targetHandle": "{œfieldNameœ: œsystem_messageœ, œidœ: œOpenAIModel-OcXklœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
       },
       {
-        "animated": false,
         "className": "",
         "data": {
           "sourceHandle": {
-            "dataType": "NearAIModel",
-            "id": "NearAIModel-N9jzB",
+            "dataType": "OpenAIModel",
+            "id": "OpenAIModel-OcXkl",
             "name": "text_output",
-            "output_types": [
-              "Message"
-            ]
+            "output_types": ["Message"]
           },
           "targetHandle": {
             "fieldName": "input_value",
-            "id": "ChatOutput-TYHBQ",
-            "inputTypes": [
-              "Data",
-              "DataFrame",
-              "Message"
-            ],
+            "id": "ChatOutput-gDYiJ",
+            "inputTypes": ["Data", "DataFrame", "Message"],
             "type": "str"
           }
         },
-        "id": "xy-edge__NearAIModel-N9jzB{œdataTypeœ:œNearAIModelœ,œidœ:œNearAIModel-N9jzBœ,œnameœ:œtext_outputœ,œoutput_typesœ:[œMessageœ]}-ChatOutput-TYHBQ{œfieldNameœ:œinput_valueœ,œidœ:œChatOutput-TYHBQœ,œinputTypesœ:[œDataœ,œDataFrameœ,œMessageœ],œtypeœ:œstrœ}",
-        "selected": false,
-        "source": "NearAIModel-N9jzB",
-        "sourceHandle": "{œdataTypeœ: œNearAIModelœ, œidœ: œNearAIModel-N9jzBœ, œnameœ: œtext_outputœ, œoutput_typesœ: [œMessageœ]}",
-        "target": "ChatOutput-TYHBQ",
-        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œChatOutput-TYHBQœ, œinputTypesœ: [œDataœ, œDataFrameœ, œMessageœ], œtypeœ: œstrœ}"
+        "id": "reactflow__edge-OpenAIModel-OcXkl{œdataTypeœ:œOpenAIModelœ,œidœ:œOpenAIModel-OcXklœ,œnameœ:œtext_outputœ,œoutput_typesœ:[œMessageœ]}-ChatOutput-gDYiJ{œfieldNameœ:œinput_valueœ,œidœ:œChatOutput-gDYiJœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "source": "OpenAIModel-OcXkl",
+        "sourceHandle": "{œdataTypeœ: œOpenAIModelœ, œidœ: œOpenAIModel-OcXklœ, œnameœ: œtext_outputœ, œoutput_typesœ: [œMessageœ]}",
+        "target": "ChatOutput-gDYiJ",
+        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œChatOutput-gDYiJœ, œinputTypesœ: [œDataœ, œDataFrameœ, œMessageœ], œtypeœ: œstrœ}"
       }
     ],
     "nodes": [
@@ -94,11 +73,9 @@
         "data": {
           "description": "Get chat inputs from the Playground.",
           "display_name": "Chat Input",
-          "id": "ChatInput-c8Qhd",
+          "id": "ChatInput-jFwUm",
           "node": {
-            "base_classes": [
-              "Message"
-            ],
+            "base_classes": ["Message"],
             "beta": false,
             "conditional_paths": [],
             "custom_fields": {},
@@ -117,7 +94,7 @@
             "frozen": false,
             "icon": "MessagesSquare",
             "legacy": false,
-            "lf_version": "1.3.2",
+            "lf_version": "1.0.19.post2",
             "metadata": {},
             "output_types": [],
             "outputs": [
@@ -129,9 +106,7 @@
                 "name": "message",
                 "selected": "Message",
                 "tool_mode": true,
-                "types": [
-                  "Message"
-                ],
+                "types": ["Message"],
                 "value": "__UNDEFINED__"
               }
             ],
@@ -144,9 +119,7 @@
                 "display_name": "Background Color",
                 "dynamic": false,
                 "info": "The background color of the icon.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "background_color",
@@ -165,9 +138,7 @@
                 "display_name": "Icon",
                 "dynamic": false,
                 "info": "The icon of the message.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "chat_icon",
@@ -265,10 +236,7 @@
                 "dynamic": false,
                 "info": "Type of sender.",
                 "name": "sender",
-                "options": [
-                  "Machine",
-                  "User"
-                ],
+                "options": ["Machine", "User"],
                 "placeholder": "",
                 "required": false,
                 "show": true,
@@ -282,9 +250,7 @@
                 "display_name": "Sender Name",
                 "dynamic": false,
                 "info": "Name of the sender.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "sender_name",
@@ -302,9 +268,7 @@
                 "display_name": "Session ID",
                 "dynamic": false,
                 "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "session_id",
@@ -339,9 +303,7 @@
                 "display_name": "Text Color",
                 "dynamic": false,
                 "info": "The text color of the name",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "text_color",
@@ -360,10 +322,10 @@
         },
         "dragging": false,
         "height": 234,
-        "id": "ChatInput-c8Qhd",
+        "id": "ChatInput-jFwUm",
         "measured": {
           "height": 234,
-          "width": 320
+          "width": 360
         },
         "position": {
           "x": 689.5720422421635,
@@ -381,11 +343,9 @@
         "data": {
           "description": "Create a prompt template with dynamic variables.",
           "display_name": "Prompt",
-          "id": "Prompt-ar7p8",
+          "id": "Prompt-3SM2g",
           "node": {
-            "base_classes": [
-              "Message"
-            ],
+            "base_classes": ["Message"],
             "beta": false,
             "conditional_paths": [],
             "custom_fields": {
@@ -395,13 +355,10 @@
             "display_name": "Prompt",
             "documentation": "",
             "edited": false,
-            "field_order": [
-              "template"
-            ],
+            "field_order": ["template"],
             "frozen": false,
             "icon": "prompts",
             "legacy": false,
-            "lf_version": "1.3.2",
             "metadata": {},
             "output_types": [],
             "outputs": [
@@ -413,9 +370,7 @@
                 "name": "prompt",
                 "selected": "Message",
                 "tool_mode": true,
-                "types": [
-                  "Message"
-                ],
+                "types": ["Message"],
                 "value": "__UNDEFINED__"
               }
             ],
@@ -464,9 +419,7 @@
                 "display_name": "Tool Placeholder",
                 "dynamic": false,
                 "info": "A placeholder input for tool mode.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "tool_placeholder",
@@ -487,10 +440,10 @@
         },
         "dragging": false,
         "height": 260,
-        "id": "Prompt-ar7p8",
+        "id": "Prompt-3SM2g",
         "measured": {
           "height": 260,
-          "width": 320
+          "width": 360
         },
         "position": {
           "x": 690.2015147036818,
@@ -506,9 +459,9 @@
       },
       {
         "data": {
-          "id": "undefined-Lx4JA",
+          "id": "undefined-kVLkG",
           "node": {
-            "description": "## 📖 README\n\nPerform basic prompting with an NearAI served model.\n\n#### Quick Start\n-  Ensure you've added your NearAI credentials as a global variable\n- Select your NearAI Credentials \n- Select  model from the dropdown\n- Open the **Playground** to chat with your bot.\n\n#### Next steps:\n Experiment by changing the prompt and the NearAI model temperature to see how the bot's responses change.",
+            "description": "## 📖 README\n\nPerform basic prompting with an OpenAI model.\n\n#### Quick Start\n- Add your **OpenAI API key** to the **OpenAI Model**\n- Open the **Playground** to chat with your bot.\n\n#### Next steps:\n Experiment by changing the prompt and the OpenAI model temperature to see how the bot's responses change.",
             "display_name": "Read Me",
             "documentation": "",
             "template": {
@@ -518,14 +471,14 @@
         },
         "dragging": false,
         "height": 332,
-        "id": "undefined-Lx4JA",
+        "id": "undefined-kVLkG",
         "measured": {
           "height": 332,
-          "width": 325
+          "width": 328
         },
         "position": {
-          "x": 315.0301085707805,
-          "y": 765.7950161826644
+          "x": 133.95771636602308,
+          "y": 753.6499167055161
         },
         "positionAbsolute": {
           "x": 66.38770028934243,
@@ -542,11 +495,46 @@
       },
       {
         "data": {
-          "id": "ChatOutput-TYHBQ",
+          "id": "note-WrEGM",
           "node": {
-            "base_classes": [
-              "Message"
-            ],
+            "description": "### 💡 Add your OpenAI API key here 👇",
+            "display_name": "",
+            "documentation": "",
+            "template": {
+              "backgroundColor": "transparent"
+            }
+          },
+          "type": "note"
+        },
+        "dragging": false,
+        "height": 324,
+        "id": "note-WrEGM",
+        "measured": {
+          "height": 324,
+          "width": 326
+        },
+        "position": {
+          "x": 1075.829573520873,
+          "y": 657.2057655038416
+        },
+        "positionAbsolute": {
+          "x": 1075.829573520873,
+          "y": 657.2057655038416
+        },
+        "resizing": false,
+        "selected": false,
+        "style": {
+          "height": 324,
+          "width": 324
+        },
+        "type": "noteNode",
+        "width": 324
+      },
+      {
+        "data": {
+          "id": "ChatOutput-gDYiJ",
+          "node": {
+            "base_classes": ["Message"],
             "beta": false,
             "conditional_paths": [],
             "custom_fields": {},
@@ -568,7 +556,6 @@
             "frozen": false,
             "icon": "MessagesSquare",
             "legacy": false,
-            "lf_version": "1.3.2",
             "metadata": {},
             "output_types": [],
             "outputs": [
@@ -580,9 +567,7 @@
                 "name": "message",
                 "selected": "Message",
                 "tool_mode": true,
-                "types": [
-                  "Message"
-                ],
+                "types": ["Message"],
                 "value": "__UNDEFINED__"
               }
             ],
@@ -595,9 +580,7 @@
                 "display_name": "Background Color",
                 "dynamic": false,
                 "info": "The background color of the icon.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "background_color",
@@ -617,9 +600,7 @@
                 "display_name": "Icon",
                 "dynamic": false,
                 "info": "The icon of the message.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "chat_icon",
@@ -675,9 +656,7 @@
                 "display_name": "Data Template",
                 "dynamic": false,
                 "info": "Template to convert Data to Text. If left empty, it will be dynamically set to the Data's text key.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "data_template",
@@ -697,11 +676,7 @@
                 "display_name": "Text",
                 "dynamic": false,
                 "info": "Message to be passed as output.",
-                "input_types": [
-                  "Data",
-                  "DataFrame",
-                  "Message"
-                ],
+                "input_types": ["Data", "DataFrame", "Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "input_value",
@@ -722,10 +697,7 @@
                 "dynamic": false,
                 "info": "Type of sender.",
                 "name": "sender",
-                "options": [
-                  "Machine",
-                  "User"
-                ],
+                "options": ["Machine", "User"],
                 "placeholder": "",
                 "required": false,
                 "show": true,
@@ -741,9 +713,7 @@
                 "display_name": "Sender Name",
                 "dynamic": false,
                 "info": "Name of the sender.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "sender_name",
@@ -763,9 +733,7 @@
                 "display_name": "Session ID",
                 "dynamic": false,
                 "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "session_id",
@@ -801,9 +769,7 @@
                 "display_name": "Text Color",
                 "dynamic": false,
                 "info": "The text color of the name",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "load_from_db": false,
                 "name": "text_color",
@@ -824,10 +790,10 @@
         },
         "dragging": false,
         "height": 234,
-        "id": "ChatOutput-TYHBQ",
+        "id": "ChatOutput-gDYiJ",
         "measured": {
           "height": 234,
-          "width": 320
+          "width": 360
         },
         "position": {
           "x": 1460.070372772908,
@@ -843,17 +809,14 @@
       },
       {
         "data": {
-          "id": "NearAIModel-N9jzB",
+          "id": "OpenAIModel-OcXkl",
           "node": {
-            "base_classes": [
-              "LanguageModel",
-              "Message"
-            ],
+            "base_classes": ["LanguageModel", "Message"],
             "beta": false,
             "conditional_paths": [],
             "custom_fields": {},
-            "description": "Generates text using NearAI LLMs.",
-            "display_name": "NearAI",
+            "description": "Generates text using OpenAI LLMs.",
+            "display_name": "OpenAI",
             "documentation": "",
             "edited": false,
             "field_order": [
@@ -864,15 +827,15 @@
               "model_kwargs",
               "json_mode",
               "model_name",
-              "nearai_api_base",
-              "near_credentials",
+              "openai_api_base",
+              "api_key",
               "temperature",
               "seed",
               "max_retries",
               "timeout"
             ],
             "frozen": false,
-            "icon": "NearAI",
+            "icon": "OpenAI",
             "legacy": false,
             "metadata": {},
             "minimized": false,
@@ -887,9 +850,7 @@
                 "required_inputs": [],
                 "selected": "Message",
                 "tool_mode": true,
-                "types": [
-                  "Message"
-                ],
+                "types": ["Message"],
                 "value": "__UNDEFINED__"
               },
               {
@@ -898,20 +859,33 @@
                 "display_name": "Language Model",
                 "method": "build_model",
                 "name": "model_output",
-                "required_inputs": [
-                  "near_credentials"
-                ],
+                "required_inputs": ["api_key"],
                 "selected": "LanguageModel",
                 "tool_mode": true,
-                "types": [
-                  "LanguageModel"
-                ],
+                "types": ["LanguageModel"],
                 "value": "__UNDEFINED__"
               }
             ],
             "pinned": false,
             "template": {
               "_type": "Component",
+              "api_key": {
+                "_input_type": "SecretStrInput",
+                "advanced": false,
+                "display_name": "OpenAI API Key",
+                "dynamic": false,
+                "info": "The OpenAI API Key to use for the OpenAI model.",
+                "input_types": ["Message"],
+                "load_from_db": true,
+                "name": "api_key",
+                "password": true,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "OPENAI_API_KEY"
+              },
               "code": {
                 "advanced": true,
                 "dynamic": true,
@@ -928,7 +902,7 @@
                 "show": true,
                 "title_case": false,
                 "type": "code",
-                "value": "import json\nfrom langchain_openai import ChatOpenAI\nfrom openai import OpenAI\nfrom pydantic import SecretStr\nfrom typing_extensions import override\n\nfrom langflow.base.models.model import LCModelComponent\nfrom langflow.field_typing import LanguageModel\nfrom langflow.field_typing.range_spec import RangeSpec\nfrom langflow.inputs import (\n    BoolInput, DictInput, DropdownInput, IntInput, SecretStrInput, SliderInput, StrInput\n)\n\n\nclass NearAIModelComponent(LCModelComponent):\n    display_name = \"NearAI\"\n    description = \"Generates text using NearAI LLMs.\"\n    icon = \"NearAI\"\n    name = \"NearAIModel\"\n\n    nearai_api_base = \"https://api.near.ai/v1\"\n\n    _openai_models = []\n    _model_display_map = {}\n    default_credentials = \"\"\n\n    \n    @override\n    def update_build_config(cls, build_config: dict, field_value: str, field_name: str | None = None):\n        try:\n            credentials_str = SecretStr(cls.near_credentials).get_secret_value()\n            credentials_json = json.loads(credentials_str)\n            api_key = credentials_json[\"auth\"]\n        except Exception as e:\n            print(f\"[update_build_config] Failed to get api_key: {e}\")\n            api_key = None\n    \n        if field_name in {\"nearai_api_base\", \"model_name\"}:\n            models = cls.fetch_openai_models(api_key)\n            cls._model_display_map = {\n                cls.format_model_display_name(m): m for m in models\n            }\n            cls._openai_models = models  # ✅ Ensure this is updated!\n            build_config[\"model_name\"][\"options\"] = list(cls._model_display_map.keys())\n    \n        return build_config\n\n\n    @classmethod\n    def format_model_display_name(cls, model_name: str) -> str:\n        if \"::\" in model_name:\n            provider, full_path = model_name.split(\"::\", 1)\n            short_name = full_path.split(\"/\")[-1]\n            return f\"{provider} - {short_name}\"\n        return model_name\n\n    @classmethod\n    def fetch_openai_models(cls, api_key=None, base_url=None):\n        try:\n            if not api_key:\n                print(\"[fetch_openai_models] No API key provided.\")\n                return cls._openai_models\n    \n            if not base_url:\n                base_url = cls.nearai_api_base\n    \n            client = OpenAI(api_key=api_key, base_url=base_url)\n            response = client.models.list()\n    \n            model_ids = [model.id for model in response.data]\n    \n            if model_ids:\n                cls._openai_models = model_ids\n                cls._model_display_map = {\n                    cls.format_model_display_name(m): m for m in model_ids\n                }\n    \n            return cls._openai_models\n        except Exception as e:\n            print(f\"[fetch_openai_models] Error: {e}\")\n            return cls._openai_models\n\n\n    \n    inputs = [\n        *LCModelComponent._base_inputs,\n        IntInput(\n            name=\"max_tokens\",\n            display_name=\"Max Tokens\",\n            advanced=True,\n            info=\"Maximum tokens to generate.\",\n            range_spec=RangeSpec(min=0, max=128000)\n        ),\n        DictInput(\n            name=\"model_kwargs\",\n            display_name=\"Model Kwargs\",\n            advanced=True,\n            info=\"Additional kwargs for the model.\",\n        ),\n        BoolInput(\n            name=\"json_mode\",\n            display_name=\"JSON Mode\",\n            advanced=True,\n            info=\"Force JSON output.\",\n        ),\n        DropdownInput(\n            name=\"model_name\",\n            display_name=\"Model Name 📏\",\n            advanced=False,\n            options=[],\n            real_time_refresh=True,\n            refresh_button=True\n        ),\n        StrInput(\n            name=\"nearai_api_base\",\n            display_name=\"NearAI API Base\",\n            advanced=True,\n            info=\"Base URL of the NearAI API.\",\n            value=nearai_api_base,\n        ),\n        SecretStrInput(\n            name=\"near_credentials\",\n            display_name=\"NEAR Credentials\",\n            info=\"Credential JSON (must include `auth.api_key`).\",\n            advanced=False,\n            required=True,\n            value=default_credentials,\n        ),\n        SliderInput(\n            name=\"temperature\",\n            display_name=\"Temperature\",\n            value=0.1,\n            range_spec=RangeSpec(min=0, max=1, step=0.01)\n        ),\n        IntInput(\n            name=\"seed\",\n            display_name=\"Seed\",\n            advanced=True,\n            info=\"Controls reproducibility.\",\n            value=1,\n        ),\n        IntInput(\n            name=\"max_retries\",\n            display_name=\"Max Retries\",\n            advanced=True,\n            info=\"Retry attempts for generation.\",\n            value=5,\n        ),\n        IntInput(\n            name=\"timeout\",\n            display_name=\"Timeout\",\n            advanced=True,\n            info=\"Request timeout in seconds.\",\n            value=700,\n        ),\n    ]\n\n\n    def get_credentials_api_key(self):\n        if not hasattr(self, \"near_credentials\") or not self.near_credentials:\n            return None\n        try:\n            credentials_str = SecretStr(self.near_credentials).get_secret_value()\n            credentials_json = json.loads(credentials_str)\n    \n            # ✅ Correct extraction o\n            return json.dumps(credentials_json[\"auth\"])\n        except Exception as e:\n            print(f\"[get_credentials_api_key] Failed: {e}\")\n            return None\n\n    def build_model(self) -> LanguageModel:\n        api_key = self.get_credentials_api_key()\n    \n        # Ensure we have models\n        if not self.__class__._openai_models:\n            print(\"[build_model] _openai_models is empty — calling fetch_openai_models() manually...\")\n            self.__class__.fetch_openai_models(api_key=api_key, base_url=self.nearai_api_base)\n    \n        model_name = self.model_name\n        print(f\"[build_model] self.model_name (dropdown selected): {model_name}\")\n    \n        if not self.__class__._model_display_map:\n            print(\"[build_model] _model_display_map is empty. Rebuilding from _openai_models...\")\n            print(f\"[build_model] _openai_models: {self.__class__._openai_models}\")\n            self.__class__._model_display_map = {\n                self.__class__.format_model_display_name(m): m\n                for m in self.__class__._openai_models\n            }\n    \n        print(f\"[build_model] available model keys: {list(self.__class__._model_display_map.keys())}\")\n    \n        resolved = self.__class__._model_display_map.get(model_name, model_name)\n        print(f\"[build_model] resolved model_name: {resolved}\")\n        if resolved == model_name:\n            print(f\"[build_model] WARNING: '{model_name}' was not mapped — using it directly.\")\n    \n        return ChatOpenAI(\n            model=resolved,\n            api_key=api_key,\n            base_url=self.nearai_api_base,\n            temperature=self.temperature or 0.1,\n            max_tokens=self.max_tokens or None,\n            model_kwargs=self.model_kwargs or {},\n            max_retries=self.max_retries,\n            request_timeout=self.timeout,\n        ).bind(response_format={\"type\": \"json_object\"}) if self.json_mode else ChatOpenAI(\n            model=resolved,\n            api_key=api_key,\n            base_url=self.nearai_api_base,\n            temperature=self.temperature or 0.1,\n            max_tokens=self.max_tokens or None,\n            model_kwargs=self.model_kwargs or {},\n            max_retries=self.max_retries,\n            request_timeout=self.timeout,\n        )\n\n\n\n    def _get_exception_message(self, e: Exception):\n        try:\n            from openai import BadRequestError\n            if isinstance(e, BadRequestError):\n                return e.body.get(\"message\", \"Unknown OpenAI error\")\n        except ImportError:\n            return None\n        return str(e)"
+                "value": "from langchain_openai import ChatOpenAI\nfrom pydantic.v1 import SecretStr\n\nfrom langflow.base.models.model import LCModelComponent\nfrom langflow.base.models.openai_constants import OPENAI_MODEL_NAMES\nfrom langflow.field_typing import LanguageModel\nfrom langflow.field_typing.range_spec import RangeSpec\nfrom langflow.inputs import BoolInput, DictInput, DropdownInput, IntInput, SecretStrInput, SliderInput, StrInput\n\n\nclass OpenAIModelComponent(LCModelComponent):\n    display_name = \"OpenAI\"\n    description = \"Generates text using OpenAI LLMs.\"\n    icon = \"OpenAI\"\n    name = \"OpenAIModel\"\n\n    inputs = [\n        *LCModelComponent._base_inputs,\n        IntInput(\n            name=\"max_tokens\",\n            display_name=\"Max Tokens\",\n            advanced=True,\n            info=\"The maximum number of tokens to generate. Set to 0 for unlimited tokens.\",\n            range_spec=RangeSpec(min=0, max=128000),\n        ),\n        DictInput(\n            name=\"model_kwargs\",\n            display_name=\"Model Kwargs\",\n            advanced=True,\n            info=\"Additional keyword arguments to pass to the model.\",\n        ),\n        BoolInput(\n            name=\"json_mode\",\n            display_name=\"JSON Mode\",\n            advanced=True,\n            info=\"If True, it will output JSON regardless of passing a schema.\",\n        ),\n        DropdownInput(\n            name=\"model_name\",\n            display_name=\"Model Name\",\n            advanced=False,\n            options=OPENAI_MODEL_NAMES,\n            value=OPENAI_MODEL_NAMES[1],\n            combobox=True,\n        ),\n        StrInput(\n            name=\"openai_api_base\",\n            display_name=\"OpenAI API Base\",\n            advanced=True,\n            info=\"The base URL of the OpenAI API. \"\n            \"Defaults to https://api.openai.com/v1. \"\n            \"You can change this to use other APIs like JinaChat, LocalAI and Prem.\",\n        ),\n        SecretStrInput(\n            name=\"api_key\",\n            display_name=\"OpenAI API Key\",\n            info=\"The OpenAI API Key to use for the OpenAI model.\",\n            advanced=False,\n            value=\"OPENAI_API_KEY\",\n            required=True,\n        ),\n        SliderInput(\n            name=\"temperature\",\n            display_name=\"Temperature\",\n            value=0.1,\n            range_spec=RangeSpec(min=0, max=1, step=0.01),\n            advanced=True,\n        ),\n        IntInput(\n            name=\"seed\",\n            display_name=\"Seed\",\n            info=\"The seed controls the reproducibility of the job.\",\n            advanced=True,\n            value=1,\n        ),\n        IntInput(\n            name=\"max_retries\",\n            display_name=\"Max Retries\",\n            info=\"The maximum number of retries to make when generating.\",\n            advanced=True,\n            value=5,\n        ),\n        IntInput(\n            name=\"timeout\",\n            display_name=\"Timeout\",\n            info=\"The timeout for requests to OpenAI completion API.\",\n            advanced=True,\n            value=700,\n        ),\n    ]\n\n    def build_model(self) -> LanguageModel:  # type: ignore[type-var]\n        openai_api_key = self.api_key\n        temperature = self.temperature\n        model_name: str = self.model_name\n        max_tokens = self.max_tokens\n        model_kwargs = self.model_kwargs or {}\n        openai_api_base = self.openai_api_base or \"https://api.openai.com/v1\"\n        json_mode = self.json_mode\n        seed = self.seed\n        max_retries = self.max_retries\n        timeout = self.timeout\n\n        api_key = SecretStr(openai_api_key).get_secret_value() if openai_api_key else None\n        output = ChatOpenAI(\n            max_tokens=max_tokens or None,\n            model_kwargs=model_kwargs,\n            model=model_name,\n            base_url=openai_api_base,\n            api_key=api_key,\n            temperature=temperature if temperature is not None else 0.1,\n            seed=seed,\n            max_retries=max_retries,\n            request_timeout=timeout,\n        )\n        if json_mode:\n            output = output.bind(response_format={\"type\": \"json_object\"})\n\n        return output\n\n    def _get_exception_message(self, e: Exception):\n        \"\"\"Get a message from an OpenAI exception.\n\n        Args:\n            e (Exception): The exception to get the message from.\n\n        Returns:\n            str: The message from the exception.\n        \"\"\"\n        try:\n            from openai import BadRequestError\n        except ImportError:\n            return None\n        if isinstance(e, BadRequestError):\n            message = e.body.get(\"message\")\n            if message:\n                return message\n        return None\n"
               },
               "input_value": {
                 "_input_type": "MessageInput",
@@ -936,9 +910,7 @@
                 "display_name": "Input",
                 "dynamic": false,
                 "info": "",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "list_add_label": "Add More",
                 "load_from_db": false,
@@ -958,7 +930,7 @@
                 "advanced": true,
                 "display_name": "JSON Mode",
                 "dynamic": false,
-                "info": "Force JSON output.",
+                "info": "If True, it will output JSON regardless of passing a schema.",
                 "list": false,
                 "list_add_label": "Add More",
                 "name": "json_mode",
@@ -976,7 +948,7 @@
                 "advanced": true,
                 "display_name": "Max Retries",
                 "dynamic": false,
-                "info": "Retry attempts for generation.",
+                "info": "The maximum number of retries to make when generating.",
                 "list": false,
                 "list_add_label": "Add More",
                 "name": "max_retries",
@@ -994,7 +966,7 @@
                 "advanced": true,
                 "display_name": "Max Tokens",
                 "dynamic": false,
-                "info": "Maximum tokens to generate.",
+                "info": "The maximum number of tokens to generate. Set to 0 for unlimited tokens.",
                 "list": false,
                 "list_add_label": "Add More",
                 "name": "max_tokens",
@@ -1018,7 +990,7 @@
                 "advanced": true,
                 "display_name": "Model Kwargs",
                 "dynamic": false,
-                "info": "Additional kwargs for the model.",
+                "info": "Additional keyword arguments to pass to the model.",
                 "list": false,
                 "list_add_label": "Add More",
                 "name": "model_kwargs",
@@ -1034,55 +1006,41 @@
               "model_name": {
                 "_input_type": "DropdownInput",
                 "advanced": false,
-                "combobox": false,
+                "combobox": true,
                 "dialog_inputs": {},
-                "display_name": "Model Name 📏",
+                "display_name": "Model Name",
                 "dynamic": false,
                 "info": "",
-                "load_from_db": false,
                 "name": "model_name",
-                "options": [],
+                "options": [
+                  "gpt-4o-mini",
+                  "gpt-4o",
+                  "gpt-4.5-preview",
+                  "gpt-4-turbo",
+                  "gpt-4-turbo-preview",
+                  "gpt-4",
+                  "gpt-3.5-turbo"
+                ],
                 "options_metadata": [],
                 "placeholder": "",
-                "real_time_refresh": true,
-                "refresh_button": true,
                 "required": false,
                 "show": true,
                 "title_case": false,
                 "tool_mode": false,
                 "trace_as_metadata": true,
                 "type": "str",
-                "value": "fireworks - deepseek-v3"
+                "value": "gpt-4o-mini"
               },
-              "near_credentials": {
-                "_input_type": "SecretStrInput",
-                "advanced": false,
-                "display_name": "NEAR Credentials",
-                "dynamic": false,
-                "info": "Credential JSON (must include `auth.api_key`).",
-                "input_types": [
-                  "Message"
-                ],
-                "load_from_db": true,
-                "name": "near_credentials",
-                "password": true,
-                "placeholder": "",
-                "required": true,
-                "show": true,
-                "title_case": false,
-                "type": "str",
-                "value": "NEAR"
-              },
-              "nearai_api_base": {
+              "openai_api_base": {
                 "_input_type": "StrInput",
                 "advanced": true,
-                "display_name": "NearAI API Base",
+                "display_name": "OpenAI API Base",
                 "dynamic": false,
-                "info": "Base URL of the NearAI API.",
+                "info": "The base URL of the OpenAI API. Defaults to https://api.openai.com/v1. You can change this to use other APIs like JinaChat, LocalAI and Prem.",
                 "list": false,
                 "list_add_label": "Add More",
                 "load_from_db": false,
-                "name": "nearai_api_base",
+                "name": "openai_api_base",
                 "placeholder": "",
                 "required": false,
                 "show": true,
@@ -1090,14 +1048,14 @@
                 "tool_mode": false,
                 "trace_as_metadata": true,
                 "type": "str",
-                "value": "https://api.near.ai/v1"
+                "value": ""
               },
               "seed": {
                 "_input_type": "IntInput",
                 "advanced": true,
                 "display_name": "Seed",
                 "dynamic": false,
-                "info": "Controls reproducibility.",
+                "info": "The seed controls the reproducibility of the job.",
                 "list": false,
                 "list_add_label": "Add More",
                 "name": "seed",
@@ -1131,13 +1089,10 @@
               "system_message": {
                 "_input_type": "MultilineInput",
                 "advanced": false,
-                "copy_field": false,
                 "display_name": "System Message",
                 "dynamic": false,
                 "info": "System message to pass to the model.",
-                "input_types": [
-                  "Message"
-                ],
+                "input_types": ["Message"],
                 "list": false,
                 "list_add_label": "Add More",
                 "load_from_db": false,
@@ -1155,10 +1110,11 @@
               },
               "temperature": {
                 "_input_type": "SliderInput",
-                "advanced": false,
+                "advanced": true,
                 "display_name": "Temperature",
                 "dynamic": false,
                 "info": "",
+                "load_from_db": false,
                 "max_label": "",
                 "max_label_icon": "",
                 "min_label": "",
@@ -1186,7 +1142,7 @@
                 "advanced": true,
                 "display_name": "Timeout",
                 "dynamic": false,
-                "info": "Request timeout in seconds.",
+                "info": "The timeout for requests to OpenAI completion API.",
                 "list": false,
                 "list_add_label": "Add More",
                 "name": "timeout",
@@ -1203,43 +1159,35 @@
             "tool_mode": false
           },
           "showNode": true,
-          "type": "NearAIModel"
+          "type": "OpenAIModel"
         },
         "dragging": false,
-        "id": "NearAIModel-N9jzB",
+        "id": "OpenAIModel-OcXkl",
         "measured": {
-          "height": 611,
-          "width": 320
+          "height": 734,
+          "width": 360
         },
         "position": {
-          "x": 1098.3388384853738,
-          "y": 716.7104293143093
+          "x": 1071.3015591664102,
+          "y": 724.6650363109242
         },
         "selected": false,
         "type": "genericNode"
       }
     ],
     "viewport": {
-      "x": -246.0472719855436,
-      "y": -611.7423675980413,
-      "zoom": 1.0176574168908943
+      "x": -37.61270157375441,
+      "y": -155.91266341888854,
+      "zoom": 0.7575251406952855
     }
   },
-  "description": "Perform basic prompting with a NearAI served model.",
+  "description": "Perform basic prompting with an OpenAI model.",
   "endpoint_name": null,
-  "folder_id": "63a2920d-ad81-49f9-b99f-95452558186f",
-  "fs_path": null,
   "gradient": "2",
   "icon": "Braces",
-  "icon_bg_color": null,
-  "id": "21983760-cf9c-4948-84ae-893291875c91",
+  "id": "1511c230-d446-43a7-bfc3-539e69ce05b8",
   "is_component": false,
-  "locked": false,
-  "name": "Basic Prompting",
-  "tags": [
-    "chatbots"
-  ],
-  "updated_at": "2025-04-13T13:36:33+00:00",
-  "user_id": "7f2c7441-40b7-467f-b371-651e7f3aa3f8",
-  "webhook": false
+  "last_tested_version": "1.0.19.post2",
+  "name": "Basic OpenAI Prompting",
+  "tags": ["chatbots"]
 }

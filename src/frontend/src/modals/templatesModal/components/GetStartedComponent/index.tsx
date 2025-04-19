@@ -12,7 +12,7 @@ import TemplateGetStartedCardComponent from "../TemplateGetStartedCardComponent"
 
 export default function GetStartedComponent() {
   const examples = useFlowsManagerStore((state) => state.examples);
-
+  console.log("examples", examples);
   // Define the card data
   const cardData: CardData[] = [
     {
@@ -34,7 +34,7 @@ export default function GetStartedComponent() {
       bgHorizontalImage: multiAgentHorizontal,
       icon: "Bot",
       category: "Agents",
-      flow: examples.find((example) => example.name === "Simple Agent"),
+      flow: examples.find((example) => example.name === "Simple NearAI Agent"),
     },
   ];
 

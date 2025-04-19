@@ -1,5 +1,5 @@
 from langflow.components.inputs import ChatInput
-from langflow.components.models import OpenAIModelComponent
+from langflow.components.models.nearai import NearAIModelComponent
 from langflow.components.outputs import ChatOutput
 from langflow.components.prompts import PromptComponent
 from langflow.graph import Graph
@@ -19,8 +19,8 @@ Answer:
         template=template,
         user_input=chat_input.message_response,
     )
-
-    openai_component = OpenAIModelComponent()
+    # Use NearAIModelComponent instead of OpenAIModelComponent
+    openai_component = NearAIModelComponent()
     openai_component.set(input_value=prompt_component.build_prompt)
 
     chat_output = ChatOutput()

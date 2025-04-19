@@ -939,9 +939,7 @@
             "lf_version": "1.2.0",
             "metadata": {},
             "minimized": false,
-            "output_types": [
-              "agent"
-            ],
+            "output_types": [],
             "outputs": [
               {
                 "allows_loop": false,
