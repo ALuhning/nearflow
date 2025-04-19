@@ -232,6 +232,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.langflow/
+.langflow
 
 # Spyder project settings
 .spyderproject
