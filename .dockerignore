@@ -1,0 +1,32 @@
+# --- CDK ---
+scripts/aws/cdk.out
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.env
+.venv
+poetry.lock.backup
+
+# --- Node (if any frontend code or tools) ---
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# --- OS / IDE / Editor junk ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.bak
+
+# --- Git ---
+.git/
+.gitignore
