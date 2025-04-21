@@ -3,6 +3,7 @@ from .cassandra import CassandraChatMemory
 from .mem0_chat_memory import Mem0MemoryComponent
 from .redis import RedisIndexChatMemory
 from .zep import ZepChatMemory
+from .nearai_memory import NearAIChatMemory
 
 __all__ = [
     "AstraDBChatMemory",
@@ -10,4 +11,5 @@ __all__ = [
     "Mem0MemoryComponent",
     "RedisIndexChatMemory",
     "ZepChatMemory",
+    "NearAIChatMemory",
 ]
