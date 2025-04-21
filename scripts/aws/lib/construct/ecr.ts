@@ -19,7 +19,7 @@ export class EcrRepository extends Construct {
     super(scope, id)
 
     const imagePlatform = props.arch == ecs.CpuArchitecture.ARM64 ? Platform.LINUX_ARM64 : Platform.LINUX_AMD64
-    const backendPath = path.join(__dirname, "../../../../", "docker")
+    const backendPath = path.join(__dirname, "../../../../")
     const excludeDir = ['node_modules','.git', 'cdk.out']
     const LifecycleRule = {
       tagStatus: ecr.TagStatus.ANY,
@@ -39,7 +39,7 @@ export class EcrRepository extends Construct {
     // Create Docker Image Asset
     const dockerBackEndImageAsset = new DockerImageAsset(this, "DockerBackEndImageAsset", {
       directory: backendPath,
-      file:"cdk.Dockerfile",
+      file:"docker/cdk.Dockerfile",
       exclude: excludeDir,
       platform: imagePlatform,
     });

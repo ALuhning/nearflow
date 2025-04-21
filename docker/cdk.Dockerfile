@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.10-slim
+FROM --platform=linux/amd64 python:3.11-slim
 
 WORKDIR /app
 
@@ -11,15 +11,25 @@ RUN apt-get update \
 RUN curl -sSL https://install.python-poetry.org | python3 -
 # # Add Poetry to PATH
 ENV PATH="${PATH}:/root/.local/bin"
-# # Copy the pyproject.toml and poetry.lock files
-COPY poetry.lock pyproject.toml ./
+
+# Always copy pyproject.toml
+COPY pyproject.toml ./
+
+# Conditionally copy poetry.lock only if it exists
+# Safe fallback for environments that don't support --ignore-missing
+# We don't use COPY here to avoid build error
+# Instead use RUN cp if it exists in the build context
+RUN test -f poetry.lock && cp poetry.lock . || echo "No poetry.lock found, skipping"
+
 # Copy the rest of the application codes
 COPY ./ ./
 
 # Install dependencies
-RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+RUN poetry config virtualenvs.create false && poetry install --no-root --no-interaction --no-ansi
 
-RUN poetry add botocore
 RUN poetry add pymysql
+
+COPY docker/container-cmd-cdk.sh ./container-cmd-cdk.sh
+RUN chmod +x ./container-cmd-cdk.sh
 
 CMD ["sh", "./container-cmd-cdk.sh"]
