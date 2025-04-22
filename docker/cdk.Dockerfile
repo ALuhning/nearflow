@@ -27,7 +27,8 @@ COPY ./ ./
 # Install dependencies
 RUN poetry config virtualenvs.create false && poetry install --no-root --no-interaction --no-ansi
 
-RUN poetry add pymysql
+RUN poetry add asyncmy
+#RUN poetry add pymysql
 
 COPY docker/container-cmd-cdk.sh ./container-cmd-cdk.sh
 RUN chmod +x ./container-cmd-cdk.sh
