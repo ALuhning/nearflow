@@ -1,0 +1,63 @@
+version: "3.9"
+services:
+  langflow:
+    image: ghcr.io/ALuhning/nearflow:latest
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/.langflow
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - langflow-net
+
+  postgres:
+    image: postgres:13
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - langflow-net
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - langflow-net
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - langflow
+    networks:
+      - langflow-net
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: >
+      sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot
+             --email a.luhning@vitalpoint.ai --agree-tos --no-eff-email
+             -d ai.vitalpoint.ai"
+
+volumes:
+  pgdata:
+
+networks:
+  langflow-net:

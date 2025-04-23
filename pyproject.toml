@@ -1,22 +1,20 @@
 
 [project]
-name = "langflow"
-version = "1.3.4"
-description = "A Python package with a built-in web application"
+name = "nearflow"
+version = "1.3.4-vp1" # Indicates it's based on Langflow 1.3.4, VP = Vital Point
+description = "Custom fork of Langflow with NearAI model and deployment support"
 requires-python = ">=3.11,<3.13"
 license = "MIT"
-keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
+keywords = ["ai-agents", "nearai", "langchain", "openai", "gpt", "webapp", "vitalpoint", "multimodal"]
 readme = "README.md"
 maintainers = [
-    { name = "Carlos Coelho", email = "carlos@langflow.org" },
-    { name = "Cristhian Zanforlin", email = "cristhian.lousa@gmail.com" },
-    { name = "Gabriel Almeida", email = "gabriel@langflow.org" },
-    { name = "Igor Carvalho", email = "igorr.ackerman@gmail.com" },
-    { name = "Lucas Eduoli", email = "lucaseduoli@gmail.com" },
-    { name = "Otávio Anovazzi", email = "otavio2204@gmail.com" },
-    { name = "Rodrigo Nader", email = "rodrigo@langflow.org" },
-    { name = "Italo dos Anjos", email = "italojohnnydosanjos@gmail.com" },
+    { name = "Aaron Luhning", email = "aaron@vitalpoint.ai" }
 ]
+
+[project.urls]
+Homepage = "https://ai.vitalpoint.ai"
+Repository = "https://github.com/ALuhning/nearflow"
+
 # Define your main dependencies here
 dependencies = [
     "langflow-base==0.3.4",

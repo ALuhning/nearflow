@@ -1,0 +1,66 @@
+name: Deploy Langflow to Production
+
+on:
+  push:
+    branches:
+      - near-model
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Create .env file
+        run: |
+          cat <<EOF > .env
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          LANGFLOW_SUPERUSER=${{ secrets.LANGFLOW_SUPERUSER }}
+          LANGFLOW_SUPERUSER_PASSWORD=${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
+          LANGFLOW_DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@postgres:5432/${{ secrets.POSTGRES_DB }}
+          LANGFLOW_CACHE_TYPE=redis
+          LANGFLOW_REDIS_HOST=redis
+          LANGFLOW_REDIS_PORT=6379
+          LANGFLOW_REDIS_DB=0
+          LANGFLOW_REDIS_CACHE_EXPIRE=3600
+          LANGFLOW_AUTO_LOGIN=false
+          LANGFLOW_STORE_ENVIRONMENT_VARIABLES=false
+          LANGFLOW_PORT=7860
+          LANGFLOW_HOST=0.0.0.0
+          LANGFLOW_LOG_LEVEL=debug
+          LANGFLOW_REMOVE_API_KEYS=true
+          BACKEND_URL=${{ secrets.BACKEND_URL }}
+          EOF
+
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME .
+
+      - name: Push image to GHCR
+        run: docker push $IMAGE_NAME
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            cd ~/nearflow
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${{ secrets.POSTGRES_USER }}" > .env.tmp
+            echo "${{ secrets.POSTGRES_PASSWORD }}" >> .env.tmp
+            echo "${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}" >> .env.tmp
+            echo "${{ secrets.BACKEND_URL }}" >> .env.tmp
+            rm .env && mv .env.tmp .env
+            docker pull $IMAGE_NAME
+            docker compose -f docker-compose.prod.yml up -d --no-deps --build langflow
