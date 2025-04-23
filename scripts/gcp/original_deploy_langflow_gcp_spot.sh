@@ -1,12 +1,10 @@
-#!/bin/bash
-
 # Set the VM, image, and networking configuration
 VM_NAME="langflow-dev"
 IMAGE_FAMILY="debian-11"
 IMAGE_PROJECT="debian-cloud"
 BOOT_DISK_SIZE="100GB"
-ZONE="northamerica-northeast1-b"
-REGION="northamerica-northeast1"
+ZONE="us-central1-a"
+REGION="us-central1"
 VPC_NAME="default"
 SUBNET_NAME="default"
 SUBNET_RANGE="10.128.0.0/20"
@@ -37,34 +35,21 @@ fi
 # Create a firewall rule to allow IAP traffic
 firewall_iap_exists=$(gcloud compute firewall-rules list --filter="name=allow-iap" --format="value(name)")
 if [[ -z "$firewall_iap_exists" ]]; then
-  gcloud compute firewall-rules create allow-iap --network $VPC_NAME --allow tcp:80,tcp:443,tcp:22,tcp:3389 --source-ranges 35.235.240.0/20 --direction INGRESS
+    gcloud compute firewall-rules create allow-iap --network $VPC_NAME --allow tcp:80,tcp:443,tcp:22,tcp:3389 --source-ranges 35.235.240.0/20 --direction INGRESS
 fi
 
 # Define the startup script as a multiline Bash here-doc
 STARTUP_SCRIPT=$(cat <<'EOF'
 #!/bin/bash
 
-# Update and install dependencies
+# Update and upgrade the system
 apt -y update
 apt -y upgrade
-apt -y install python3-pip git
 
-# Clone the custom Langflow repo and checkout the desired branch
-cd /opt
-git clone https://github.com/ALuhning/nearflow.git
-cd nearflow
-git checkout near-model
-
-# Set up a virtual environment and activate it
-pip install virtualenv
-virtualenv venv
-source venv/bin/activate
-
-# Install Langflow from source
-pip install -e .
-
-# Launch Langflow
-nohup langflow --host 0.0.0.0 --port 7860 > /opt/langflow.log 2>&1 &
+# Install Python 3 pip, Langflow, and Nginx
+apt -y install python3-pip
+pip install langflow
+langflow --host 0.0.0.0 --port 7860
 EOF
 )
 
@@ -72,4 +57,17 @@ EOF
 tempfile=$(mktemp)
 echo "$STARTUP_SCRIPT" > $tempfile
 
-# Create the VM instance with the specified configuration and
+# Create the VM instance with the specified configuration and startup script
+gcloud compute instances create $VM_NAME \
+  --image-family $IMAGE_FAMILY \
+  --image-project $IMAGE_PROJECT \
+  --boot-disk-size $BOOT_DISK_SIZE \
+  --machine-type=n1-standard-4 \
+  --metadata-from-file startup-script=$tempfile \
+  --zone $ZONE \
+  --network $VPC_NAME \
+  --subnet $SUBNET_NAME \
+  --preemptible
+
+# Remove the temporary file after the VM is created
+rm $tempfile
