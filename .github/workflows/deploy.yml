@@ -1,18 +1,19 @@
-name: Deploy Nearflow Infrastructure
+
+name: Terraform Deploy to AWS
 
 on:
   push:
     branches:
-      - near-model  # Change if using a different deployment branch
+      - main
+  workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Terraform Deploy to AWS
+  terraform:
+    name: Terraform Plan & Apply
     runs-on: ubuntu-latest
-    environment: production
 
     permissions:
-      id-token: write     # For OIDC to AWS
+      id-token: write
       contents: read
 
     steps:
@@ -22,45 +23,44 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6
+          terraform_version: 1.5.7
 
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::985063132719:role/nearflow-deploy-role
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/nearflow-deploy-role
           aws-region: ca-central-1
 
-      - name: Terraform Init
-        run: terraform init
+      - name: Terraform Init (S3 backend)
         working-directory: terraform
+        run: terraform init -reconfigure
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
         working-directory: terraform
+        run: terraform apply -auto-approve
         env:
-          TF_VAR_PROD_SSH_PUB_KEY: ${{ secrets.PROD_SSH_PUB_KEY }}
-          TF_VAR_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          TF_VAR_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          TF_VAR_POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          TF_VAR_LANGFLOW_SUPERUSER: ${{ secrets.LANGFLOW_SUPERUSER }}
+          TF_VAR_PROD_SSH_PUB_KEY:         ${{ secrets.PROD_SSH_PUB_KEY }}
+          TF_VAR_POSTGRES_USER:            ${{ secrets.POSTGRES_USER }}
+          TF_VAR_POSTGRES_PASSWORD:        ${{ secrets.POSTGRES_PASSWORD }}
+          TF_VAR_POSTGRES_DB:              ${{ secrets.POSTGRES_DB }}
+          TF_VAR_LANGFLOW_SUPERUSER:       ${{ secrets.LANGFLOW_SUPERUSER }}
           TF_VAR_LANGFLOW_SUPERUSER_PASSWORD: ${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
-          TF_VAR_BACKEND_URL: ${{ secrets.BACKEND_URL }}
-          TF_VAR_LANGFLOW_AUTO_LOGIN: ${{ secrets.LANGFLOW_AUTO_LOGIN }}
-          TF_VAR_LANGFLOW_CACHE_TYPE: ${{ secrets.LANGFLOW_CACHE_TYPE }}
-          TF_VAR_LANGFLOW_CONFIG_DIR: ${{ secrets.LANGFLOW_CONFIG_DIR }}
-          TF_VAR_LANGFLOW_DATABASE_URL: ${{ secrets.LANGFLOW_DATABASE_URL }}
-          TF_VAR_LANGFLOW_ENV: ${{ secrets.LANGFLOW_ENV }}
-          TF_VAR_LANGFLOW_HOST: ${{ secrets.LANGFLOW_HOST }}
+          TF_VAR_BACKEND_URL:              ${{ secrets.BACKEND_URL }}
+          TF_VAR_LANGFLOW_AUTO_LOGIN:      ${{ secrets.LANGFLOW_AUTO_LOGIN }}
+          TF_VAR_LANGFLOW_CONFIG_DIR:      ${{ secrets.LANGFLOW_CONFIG_DIR }}
+          TF_VAR_LANGFLOW_DATABASE_URL:    ${{ secrets.LANGFLOW_DATABASE_URL }}
+          TF_VAR_LANGFLOW_PORT:            ${{ secrets.LANGFLOW_PORT }}
+          TF_VAR_LANGFLOW_ENV:             ${{ secrets.LANGFLOW_ENV }}
+          TF_VAR_LANGFLOW_CACHE_TYPE:      ${{ secrets.LANGFLOW_CACHE_TYPE }}
+          TF_VAR_LANGFLOW_LOG_FILE:        ${{ secrets.LANGFLOW_LOG_FILE }}
+          TF_VAR_LANGFLOW_LOG_LEVEL:       ${{ secrets.LANGFLOW_LOG_LEVEL }}
           TF_VAR_LANGFLOW_LANGCHAIN_CACHE: ${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
-          TF_VAR_LANGFLOW_LOG_LEVEL: ${{ secrets.LANGFLOW_LOG_LEVEL }}
-          TF_VAR_LANGFLOW_LOG_FILE: ${{ secrets.LANGFLOW_LOG_FILE }}
-          TF_VAR_LANGFLOW_OPEN_BROWSER: ${{ secrets.LANGFLOW_OPEN_BROWSER }}
-          TF_VAR_LANGFLOW_PORT: ${{ secrets.LANGFLOW_PORT }}
+          TF_VAR_LANGFLOW_OPEN_BROWSER:    ${{ secrets.LANGFLOW_OPEN_BROWSER }}
           TF_VAR_LANGFLOW_REDIS_CACHE_EXPIRE: ${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
-          TF_VAR_LANGFLOW_REDIS_HOST: ${{ secrets.LANGFLOW_REDIS_HOST }}
-          TF_VAR_LANGFLOW_REDIS_PORT: ${{ secrets.LANGFLOW_REDIS_PORT }}
-          TF_VAR_LANGFLOW_REDIS_DB: ${{ secrets.LANGFLOW_REDIS_DB }}
+          TF_VAR_LANGFLOW_REDIS_DB:        ${{ secrets.LANGFLOW_REDIS_DB }}
+          TF_VAR_LANGFLOW_REDIS_HOST:      ${{ secrets.LANGFLOW_REDIS_HOST }}
+          TF_VAR_LANGFLOW_REDIS_PORT:      ${{ secrets.LANGFLOW_REDIS_PORT }}
           TF_VAR_LANGFLOW_REMOVE_API_KEYS: ${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
           TF_VAR_LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
           TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
-          TF_VAR_LANGFLOW_WORKERS: ${{ secrets.LANGFLOW_WORKERS }}
+          TF_VAR_LANGFLOW_WORKERS:         ${{ secrets.LANGFLOW_WORKERS }}

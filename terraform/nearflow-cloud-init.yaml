@@ -13,18 +13,18 @@ runcmd:
   - systemctl enable --now docker
   - usermod -aG docker ubuntu
   - |
-    until docker info > /dev/null 2>&1; do
-      echo "Waiting for Docker to be available..."
-      sleep 3
-    done
+      until docker info > /dev/null 2>&1; do
+        echo "Waiting for Docker to be available..."
+        sleep 3
+      done
   - curl -fsSL https://get.docker.com -o get-docker.sh
   - sh get-docker.sh
   - pip3 install docker-compose
   - |
-    until [ -e /dev/xvdf ]; do
-      echo "Waiting for EBS volume /dev/xvdf to be available..."
-      sleep 5
-    done
+      until [ -e /dev/xvdf ]; do
+        echo "Waiting for EBS volume /dev/xvdf to be available..."
+        sleep 5
+      done
   - mkfs.xfs -f /dev/xvdf
   - mkdir -p /opt/nearflow-data
   - echo "/dev/xvdf /opt/nearflow-data xfs defaults,nofail 0 2" >> /etc/fstab
@@ -40,37 +40,35 @@ runcmd:
   - su - ubuntu -c "git clone https://github.com/ALuhning/nearflow.git /opt/nearflow"
   - su - ubuntu -c "cd /opt/nearflow && git checkout near-model"
   - |
-    cat <<EOF > /opt/nearflow/docker-compose.override.yml
-    version: "3.9"
-    services:
-      langflow:
-        environment:
-          POSTGRES_USER: ${POSTGRES_USER}
-          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-          POSTGRES_DB: ${POSTGRES_DB}
-          LANGFLOW_SUPERUSER: ${LANGFLOW_SUPERUSER}
-          LANGFLOW_SUPERUSER_PASSWORD: ${LANGFLOW_SUPERUSER_PASSWORD}
-          BACKEND_URL: ${BACKEND_URL}
-          LANGFLOW_AUTO_LOGIN: ${LANGFLOW_AUTO_LOGIN}
-          LANGFLOW_CACHE_TYPE: ${LANGFLOW_CACHE_TYPE}
-          LANGFLOW_CONFIG_DIR: ${LANGFLOW_CONFIG_DIR}
-          LANGFLOW_DATABASE_URL: ${LANGFLOW_DATABASE_URL}
-          LANGFLOW_ENV: ${LANGFLOW_ENV}
-          LANGFLOW_HOST: ${LANGFLOW_HOST}
-          LANGFLOW_LANGCHAIN_CACHE: ${LANGFLOW_LANGCHAIN_CACHE}
-          LANGFLOW_LOG_LEVEL: ${LANGFLOW_LOG_LEVEL}
-          LANGFLOW_LOG_FILE: ${LANGFLOW_LOG_FILE}
-          LANGFLOW_OPEN_BROWSER: ${LANGFLOW_OPEN_BROWSER}
-          LANGFLOW_PORT: ${LANGFLOW_PORT}
-          LANGFLOW_REDIS_CACHE_EXPIRE: ${LANGFLOW_REDIS_CACHE_EXPIRE}
-          LANGFLOW_REDIS_HOST: ${LANGFLOW_REDIS_HOST}
-          LANGFLOW_REDIS_PORT: ${LANGFLOW_REDIS_PORT}
-          LANGFLOW_REDIS_DB: ${LANGFLOW_REDIS_DB}
-          LANGFLOW_REMOVE_API_KEYS: ${LANGFLOW_REMOVE_API_KEYS}
-          LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${LANGFLOW_SAVE_DB_IN_CONFIG_DIR}
-          LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${LANGFLOW_STORE_ENVIRONMENT_VARIABLES}
-          LANGFLOW_WORKERS: ${LANGFLOW_WORKERS}
-          
-    EOF
+      cat <<EOF > /opt/nearflow/docker-compose.override.yml
+version: "3.9"
+services:
+  langflow:
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      LANGFLOW_SUPERUSER: "${LANGFLOW_SUPERUSER}"
+      LANGFLOW_SUPERUSER_PASSWORD: "${LANGFLOW_SUPERUSER_PASSWORD}"
+      BACKEND_URL: "${BACKEND_URL}"
+      LANGFLOW_AUTO_LOGIN: "${LANGFLOW_AUTO_LOGIN}"
+      LANGFLOW_CACHE_TYPE: "${LANGFLOW_CACHE_TYPE}"
+      LANGFLOW_CONFIG_DIR: "${LANGFLOW_CONFIG_DIR}"
+      LANGFLOW_DATABASE_URL: "${LANGFLOW_DATABASE_URL}"
+      LANGFLOW_ENV: "${LANGFLOW_ENV}"
+      LANGFLOW_HOST: "${LANGFLOW_HOST}"
+      LANGFLOW_LANGCHAIN_CACHE: "${LANGFLOW_LANGCHAIN_CACHE}"
+      LANGFLOW_LOG_LEVEL: "${LANGFLOW_LOG_LEVEL}"
+      LANGFLOW_LOG_FILE: "${LANGFLOW_LOG_FILE}"
+      LANGFLOW_OPEN_BROWSER: "${LANGFLOW_OPEN_BROWSER}"
+      LANGFLOW_PORT: "${LANGFLOW_PORT}"
+      LANGFLOW_REDIS_CACHE_EXPIRE: "${LANGFLOW_REDIS_CACHE_EXPIRE}"
+      LANGFLOW_REDIS_HOST: "${LANGFLOW_REDIS_HOST}"
+      LANGFLOW_REDIS_PORT: "${LANGFLOW_REDIS_PORT}"
+      LANGFLOW_REDIS_DB: "${LANGFLOW_REDIS_DB}"
+      LANGFLOW_REMOVE_API_KEYS: "${LANGFLOW_REMOVE_API_KEYS}"
+      LANGFLOW_SAVE_DB_IN_CONFIG_DIR: "${LANGFLOW_SAVE_DB_IN_CONFIG_DIR}"
+      LANGFLOW_STORE_ENVIRONMENT_VARIABLES: "${LANGFLOW_STORE_ENVIRONMENT_VARIABLES}"
+      LANGFLOW_WORKERS: "${LANGFLOW_WORKERS}"
+EOF
   - su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod-with-storage.yml -f /opt/nearflow/docker-compose.override.yml up -d"
-
