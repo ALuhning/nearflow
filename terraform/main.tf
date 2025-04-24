@@ -30,7 +30,7 @@ resource "aws_instance" "nearflow_instance" {
   key_name               = module.key_pair.key_name
   vpc_security_group_ids = [module.security_group.id]
   availability_zone      = "ca-central-1a"
-  user_data              = templatefile("nearflow-cloud-init.yaml", {
+  user_data              = templatefile("${path.module}/nearflow-cloud-init.yaml", {
     POSTGRES_USER                        = var.POSTGRES_USER,
     POSTGRES_PASSWORD                    = var.POSTGRES_PASSWORD,
     POSTGRES_DB                          = var.POSTGRES_DB,
