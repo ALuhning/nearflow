@@ -57,6 +57,9 @@ resource "aws_instance" "nearflow_instance" {
     LANGFLOW_STORE_ENVIRONMENT_VARIABLES = var.LANGFLOW_STORE_ENVIRONMENT_VARIABLES,
     LANGFLOW_WORKERS                     = var.LANGFLOW_WORKERS,
     GHCR_PAT                             = var.GHCR_PAT,
+    PROD_SSH_HOST                        = var.PROD_SSH_HOST,
+    PROD_SSH_KEY                         = var.PROD.SSH_KEY,
+    PROD_SSH_PUB_KEY                     = var.PROD_SSH_PUB_KEY,
   })
 
   tags = {
