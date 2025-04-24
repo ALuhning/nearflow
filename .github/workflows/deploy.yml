@@ -64,3 +64,16 @@ jobs:
           TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
           TF_VAR_LANGFLOW_WORKERS:         ${{ secrets.LANGFLOW_WORKERS }}
           TF_VAR_LANGFLOW_HOST:            ${{ secrets.LANGFLOW_HOST }}
+
+      - name: SSH to EC2 and pull latest code
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ubuntu
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            cd /opt/nearflow
+            git checkout near-model
+            git pull origin near-model
+            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml pull
+            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml up -d
