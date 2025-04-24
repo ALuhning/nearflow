@@ -38,7 +38,6 @@ jobs:
         working-directory: terraform
         run: terraform apply -auto-approve
         env:
-          TF_VAR_PROD_SSH_PUB_KEY:         ${{ secrets.PROD_SSH_PUB_KEY }}
           TF_VAR_POSTGRES_USER:            ${{ secrets.POSTGRES_USER }}
           TF_VAR_POSTGRES_PASSWORD:        ${{ secrets.POSTGRES_PASSWORD }}
           TF_VAR_POSTGRES_DB:              ${{ secrets.POSTGRES_DB }}
