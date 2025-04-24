@@ -84,7 +84,7 @@ The GitHub Actions workflow:
 > The complete pipeline is defined in:  
 > `.github/workflows/deploy.yml`
 
-### 🛠 Secrets You Must Add in GitHub
+### 🛠 Secrets You Must Add in GitHub 
 
 Add these in your repo under  
 **Settings → Secrets and variables → Actions → Secrets**:
