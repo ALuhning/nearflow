@@ -72,3 +72,9 @@ services:
       LANGFLOW_WORKERS: "${LANGFLOW_WORKERS}"
 EOF
   - su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod.yml -f /opt/nearflow/docker-compose.override.yml up -d"
+  - |
+    if [ -f /opt/nearflow/docker-compose.override.yml ]; then
+      su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod.yml -f /opt/nearflow/docker-compose.override.yml up -d"
+    else
+      echo "Override file not found, skipping Docker Compose startup."
+    fi
