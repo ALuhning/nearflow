@@ -151,6 +151,16 @@ variable "PROD_SSH_PUB_KEY" {
   type        = string
 }
 
+variable "PROD_SSH_HOST" {
+  description = "host for EC2 key pair"
+  type        = string
+}
+
+variable "PROD_SSH_KEY" {
+  description = "Private key for EC2 key pair"
+  type        = string
+}
+
 variable "GHCR_PAT" {
   type        = string
   description = "GitHub Container Registry Personal Access Token"
