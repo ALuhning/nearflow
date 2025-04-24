@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  terraform:
+  terraform-deploy:
     name: Terraform Plan & Apply
     runs-on: ubuntu-latest
 
@@ -38,6 +38,7 @@ jobs:
         working-directory: terraform
         run: terraform apply -auto-approve
         env:
+          TF_VAR_PROD_SSH_PUB_KEY:         ${{ secrets.PROD_SSH_PUB_KEY }}
           TF_VAR_POSTGRES_USER:            ${{ secrets.POSTGRES_USER }}
           TF_VAR_POSTGRES_PASSWORD:        ${{ secrets.POSTGRES_PASSWORD }}
           TF_VAR_POSTGRES_DB:              ${{ secrets.POSTGRES_DB }}
@@ -63,12 +64,15 @@ jobs:
           TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
           TF_VAR_LANGFLOW_WORKERS:         ${{ secrets.LANGFLOW_WORKERS }}
           TF_VAR_LANGFLOW_HOST:            ${{ secrets.LANGFLOW_HOST }}
-          TF_VAR_GHCR_PAT:                 ${{ secrets.GHCR_PAT }}
-          TF_VAR_PROD_SSH_HOST:            ${{ secrets.PROD_SSH_HOST }}
-          TF_VAR_PROD_SSH_KEY:             ${{ secrets.PROD_SSH_KEY }}
-          TF_VAR_PROD_SSH_PUB_KEY:         ${{ secrets.PROD_SSH_PUB_KEY }}
+          TF_VAR_GHCP_PAT:                 ${{ secrets.GHCP_PAT }}
 
-      - name: SSH to EC2 and pull latest code
+  docker-update:
+    name: Pull & Restart Docker Compose
+    runs-on: ubuntu-latest
+    needs: terraform-deploy
+
+    steps:
+      - name: Run commands on EC2 via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.PROD_SSH_HOST }}
@@ -78,5 +82,6 @@ jobs:
             cd /opt/nearflow
             git checkout near-model
             git pull origin near-model
-            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml pull
-            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml up -d
+            echo "${{ secrets.GHCP_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d

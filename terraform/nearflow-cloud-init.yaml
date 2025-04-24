@@ -77,10 +77,7 @@ LANGFLOW_SAVE_DB_IN_CONFIG_DIR=${LANGFLOW_SAVE_DB_IN_CONFIG_DIR}
 LANGFLOW_STORE_ENVIRONMENT_VARIABLES=${LANGFLOW_STORE_ENVIRONMENT_VARIABLES}
 LANGFLOW_WORKERS=${LANGFLOW_WORKERS}
 LANGFLOW_HOST=${LANGFLOW_HOST}
+GHCR_PAT=${GHCR_PAT}
 EOF
       chown ubuntu:ubuntu /opt/nearflow/.env
-
-  - |
-      su - ubuntu -c "cd /opt/nearflow && docker compose -f docker-compose.prod.yml --env-file .env pull"
-  - |
-      su - ubuntu -c "cd /opt/nearflow && docker compose -f docker-compose.prod.yml --env-file .env up -d"
+  - su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod.yml up -d"
