@@ -1,89 +1,78 @@
-name: Terraform Deploy to AWS
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - git
+  - docker.io
+  - docker-compose
+  - ufw
+  - python3-pip
+  - xfsprogs
 
-on:
-  push:
-    branches:
-      - near-model
-  workflow_dispatch:
-
-jobs:
-  terraform-deploy:
-    name: Terraform Plan & Apply
-    runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-      contents: read
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.5.7
-
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/nearflow-deploy-role
-          aws-region: ca-central-1
-
-      - name: Terraform Init (S3 backend)
-        working-directory: terraform
-        run: terraform init -reconfigure
-
-      - name: Terraform Apply
-        working-directory: terraform
-        run: terraform apply -auto-approve
-        env:
-          TF_VAR_POSTGRES_USER:            ${{ secrets.POSTGRES_USER }}
-          TF_VAR_POSTGRES_PASSWORD:        ${{ secrets.POSTGRES_PASSWORD }}
-          TF_VAR_POSTGRES_DB:              ${{ secrets.POSTGRES_DB }}
-          TF_VAR_LANGFLOW_SUPERUSER:       ${{ secrets.LANGFLOW_SUPERUSER }}
-          TF_VAR_LANGFLOW_SUPERUSER_PASSWORD: ${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
-          TF_VAR_BACKEND_URL:              ${{ secrets.BACKEND_URL }}
-          TF_VAR_LANGFLOW_AUTO_LOGIN:      ${{ secrets.LANGFLOW_AUTO_LOGIN }}
-          TF_VAR_LANGFLOW_CONFIG_DIR:      ${{ secrets.LANGFLOW_CONFIG_DIR }}
-          TF_VAR_LANGFLOW_DATABASE_URL:    ${{ secrets.LANGFLOW_DATABASE_URL }}
-          TF_VAR_LANGFLOW_PORT:            ${{ secrets.LANGFLOW_PORT }}
-          TF_VAR_LANGFLOW_ENV:             ${{ secrets.LANGFLOW_ENV }}
-          TF_VAR_LANGFLOW_CACHE_TYPE:      ${{ secrets.LANGFLOW_CACHE_TYPE }}
-          TF_VAR_LANGFLOW_LOG_FILE:        ${{ secrets.LANGFLOW_LOG_FILE }}
-          TF_VAR_LANGFLOW_LOG_LEVEL:       ${{ secrets.LANGFLOW_LOG_LEVEL }}
-          TF_VAR_LANGFLOW_LANGCHAIN_CACHE: ${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
-          TF_VAR_LANGFLOW_OPEN_BROWSER:    ${{ secrets.LANGFLOW_OPEN_BROWSER }}
-          TF_VAR_LANGFLOW_REDIS_CACHE_EXPIRE: ${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
-          TF_VAR_LANGFLOW_REDIS_DB:        ${{ secrets.LANGFLOW_REDIS_DB }}
-          TF_VAR_LANGFLOW_REDIS_HOST:      ${{ secrets.LANGFLOW_REDIS_HOST }}
-          TF_VAR_LANGFLOW_REDIS_PORT:      ${{ secrets.LANGFLOW_REDIS_PORT }}
-          TF_VAR_LANGFLOW_REMOVE_API_KEYS: ${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
-          TF_VAR_LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
-          TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
-          TF_VAR_LANGFLOW_WORKERS:         ${{ secrets.LANGFLOW_WORKERS }}
-          TF_VAR_LANGFLOW_HOST:            ${{ secrets.LANGFLOW_HOST }}
-          TF_VAR_GHCR_PAT:                 ${{ secrets.GHCR_PAT }}
-          TF_VAR_PROD_SSH_HOST:            ${{ secrets.PROD_SSH_HOST }}
-          TF_VAR_PROD_SSH_KEY:             ${{ secrets.PROD_SSH_KEY }}
-          TF_VAR_PROD_SSH_PUB_KEY:         ${{ secrets.PROD_SSH_PUB_KEY }}
-
-  docker-update:
-    name: Pull & Restart Docker Compose
-    runs-on: ubuntu-latest
-    needs: terraform-deploy
-
-    steps:
-      - name: Run commands on EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.PROD_SSH_HOST }}
-          username: ubuntu
-          key: ${{ secrets.PROD_SSH_KEY }}
-          script: |
-            cd /opt/nearflow
-            git checkout near-model
-            git pull origin near-model
-            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
-            docker compose -f docker-compose.prod.yml pull
-            docker compose -f docker-compose.prod.yml up -d
+runcmd:
+  - systemctl enable --now docker
+  - usermod -aG docker ubuntu
+  - |
+      until docker info > /dev/null 2>&1; do
+        echo "Waiting for Docker to be available..."
+        sleep 3
+      done
+  - curl -fsSL https://get.docker.com -o get-docker.sh
+  - sh get-docker.sh
+  - pip3 install docker-compose
+  - echo "${GITHUB_TOKEN}" | docker login ghcr.io -u ALuhning --password-stdin
+  - |
+      until [ -e /dev/xvdf ]; do
+        echo "Waiting for EBS volume /dev/xvdf to be available..."
+        sleep 5
+      done
+  - mkfs.xfs -f /dev/xvdf
+  - mkdir -p /opt/nearflow-data
+  - echo "/dev/xvdf /opt/nearflow-data xfs defaults,nofail 0 2" >> /etc/fstab
+  - mount -a
+  - chown -R ubuntu:ubuntu /opt/nearflow-data
+  - ufw allow 22
+  - ufw allow 80
+  - ufw allow 443
+  - ufw allow 7860
+  - ufw --force enable
+  - mkdir -p /opt/nearflow
+  - chown ubuntu:ubuntu /opt/nearflow
+  - su - ubuntu -c "git clone https://github.com/ALuhning/nearflow.git /opt/nearflow"
+  - su - ubuntu -c "cd /opt/nearflow && git checkout near-model"
+  - su - ubuntu -c "cd /opt/nearflow && docker build -t ghcr.io/aluhning/nearflow:latest ."
+  - su - ubuntu -c "echo '${GHCR_PAT}' | docker login ghcr.io -u ALuhning --password-stdin"
+  - su - ubuntu -c "docker push ghcr.io/aluhning/nearflow:latest"
+  - |
+      cat <<EOF > /opt/nearflow/.env
+POSTGRES_USER=${POSTGRES_USER}
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+POSTGRES_DB=${POSTGRES_DB}
+LANGFLOW_SUPERUSER=${LANGFLOW_SUPERUSER}
+LANGFLOW_SUPERUSER_PASSWORD=${LANGFLOW_SUPERUSER_PASSWORD}
+BACKEND_URL=${BACKEND_URL}
+LANGFLOW_AUTO_LOGIN=${LANGFLOW_AUTO_LOGIN}
+LANGFLOW_CONFIG_DIR=${LANGFLOW_CONFIG_DIR}
+LANGFLOW_DATABASE_URL=${LANGFLOW_DATABASE_URL}
+LANGFLOW_PORT=${LANGFLOW_PORT}
+LANGFLOW_ENV=${LANGFLOW_ENV}
+LANGFLOW_CACHE_TYPE=${LANGFLOW_CACHE_TYPE}
+LANGFLOW_LOG_FILE=${LANGFLOW_LOG_FILE}
+LANGFLOW_LOG_LEVEL=${LANGFLOW_LOG_LEVEL}
+LANGFLOW_LANGCHAIN_CACHE=${LANGFLOW_LANGCHAIN_CACHE}
+LANGFLOW_OPEN_BROWSER=${LANGFLOW_OPEN_BROWSER}
+LANGFLOW_REDIS_CACHE_EXPIRE=${LANGFLOW_REDIS_CACHE_EXPIRE}
+LANGFLOW_REDIS_DB=${LANGFLOW_REDIS_DB}
+LANGFLOW_REDIS_HOST=${LANGFLOW_REDIS_HOST}
+LANGFLOW_REDIS_PORT=${LANGFLOW_REDIS_PORT}
+LANGFLOW_REMOVE_API_KEYS=${LANGFLOW_REMOVE_API_KEYS}
+LANGFLOW_SAVE_DB_IN_CONFIG_DIR=${LANGFLOW_SAVE_DB_IN_CONFIG_DIR}
+LANGFLOW_STORE_ENVIRONMENT_VARIABLES=${LANGFLOW_STORE_ENVIRONMENT_VARIABLES}
+LANGFLOW_WORKERS=${LANGFLOW_WORKERS}
+LANGFLOW_HOST=${LANGFLOW_HOST}
+GHCR_PAT=${GHCR_PAT}
+PROD_SSH_HOST=${PROD_SSH_HOST}
+PROD_SSH_KEY=${PROD_SSH_KEY}
+PROD_SSH_PUB_KEY=${PROD_SSH_PUB_KEY}
+EOF
+  - su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod.yml up -d"
