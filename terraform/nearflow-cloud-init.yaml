@@ -71,4 +71,4 @@ services:
       LANGFLOW_STORE_ENVIRONMENT_VARIABLES: "${LANGFLOW_STORE_ENVIRONMENT_VARIABLES}"
       LANGFLOW_WORKERS: "${LANGFLOW_WORKERS}"
 EOF
-  - su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod-with-storage.yml -f /opt/nearflow/docker-compose.override.yml up -d"
+  - su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod.yml -f /opt/nearflow/docker-compose.override.yml up -d"
