@@ -322,3 +322,26 @@ pgdata/
 
 # Local volumes and build outputs
 data/
+
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfstate*
+terraform/.terraform.lock.hcl
+terraform/.terraform.tfstate.backup
+
+# Crash logs
+crash.log
+
+# Sensitive override files (optional)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Cloud-init or user-data files (if you template them at runtime)
+*.rendered.yaml
+
+# SSH keys (never commit these)
+*.pem
+*.key
+id_rsa*

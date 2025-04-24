@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   langflow:
-    image: ghcr.io/ALuhning/nearflow:latest
+    image: ghcr.io/aluhning/nearflow:latest
     env_file:
       - .env
     volumes:

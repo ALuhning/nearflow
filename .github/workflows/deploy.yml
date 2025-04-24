@@ -1,66 +1,65 @@
-name: Deploy Langflow to Production
+name: Deploy Nearflow Infrastructure
 
 on:
   push:
     branches:
-      - near-model
-
-env:
-  IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
+      - near-model  # Change if using a different deployment branch
 
 jobs:
-  build-and-deploy:
+  deploy:
+    name: Terraform Deploy to AWS
     runs-on: ubuntu-latest
+    environment: production
+
+    permissions:
+      id-token: write     # For OIDC to AWS
+      contents: read
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Log in to GHCR
-        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Create .env file
-        run: |
-          cat <<EOF > .env
-          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-          LANGFLOW_SUPERUSER=${{ secrets.LANGFLOW_SUPERUSER }}
-          LANGFLOW_SUPERUSER_PASSWORD=${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
-          LANGFLOW_DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@postgres:5432/${{ secrets.POSTGRES_DB }}
-          LANGFLOW_CACHE_TYPE=redis
-          LANGFLOW_REDIS_HOST=redis
-          LANGFLOW_REDIS_PORT=6379
-          LANGFLOW_REDIS_DB=0
-          LANGFLOW_REDIS_CACHE_EXPIRE=3600
-          LANGFLOW_AUTO_LOGIN=false
-          LANGFLOW_STORE_ENVIRONMENT_VARIABLES=false
-          LANGFLOW_PORT=7860
-          LANGFLOW_HOST=0.0.0.0
-          LANGFLOW_LOG_LEVEL=debug
-          LANGFLOW_REMOVE_API_KEYS=true
-          BACKEND_URL=${{ secrets.BACKEND_URL }}
-          EOF
-
-      - name: Build Docker image
-        run: docker build -t $IMAGE_NAME .
-
-      - name: Push image to GHCR
-        run: docker push $IMAGE_NAME
-
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v0.1.10
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
         with:
-          host: ${{ secrets.PROD_SSH_HOST }}
-          username: ${{ secrets.PROD_SSH_USER }}
-          key: ${{ secrets.PROD_SSH_KEY }}
-          script: |
-            cd ~/nearflow
-            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            echo "${{ secrets.POSTGRES_USER }}" > .env.tmp
-            echo "${{ secrets.POSTGRES_PASSWORD }}" >> .env.tmp
-            echo "${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}" >> .env.tmp
-            echo "${{ secrets.BACKEND_URL }}" >> .env.tmp
-            rm .env && mv .env.tmp .env
-            docker pull $IMAGE_NAME
-            docker compose -f docker-compose.prod.yml up -d --no-deps --build langflow
+          terraform_version: 1.5.6
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::985063132719:role/<nearflow-deploy-role>
+          aws-region: ca-central-1
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: terraform
+        env:
+          TF_VAR_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          TF_VAR_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          TF_VAR_POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          TF_VAR_LANGFLOW_SUPERUSER: ${{ secrets.LANGFLOW_SUPERUSER }}
+          TF_VAR_LANGFLOW_SUPERUSER_PASSWORD: ${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
+          TF_VAR_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          TF_VAR_LANGFLOW_AUTO_LOGIN: ${{ secrets.LANGFLOW_AUTO_LOGIN }}
+          TF_VAR_LANGFLOW_CACHE_TYPE: ${{ secrets.LANGFLOW_CACHE_TYPE }}
+          TF_VAR_LANGFLOW_CONFIG_DIR: ${{ secrets.LANGFLOW_CONFIG_DIR }}
+          TF_VAR_LANGFLOW_DATABASE_URL: ${{ secrets.LANGFLOW_DATABASE_URL }}
+          TF_VAR_LANGFLOW_ENV: ${{ secrets.LANGFLOW_ENV }}
+          TF_VAR_LANGFLOW_HOST: ${{ secrets.LANGFLOW_HOST }}
+          TF_VAR_LANGFLOW_LANGCHAIN_CACHE: ${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
+          TF_VAR_LANGFLOW_LOG_LEVEL: ${{ secrets.LANGFLOW_LOG_LEVEL }}
+          TF_VAR_LANGFLOW_LOG_FILE: ${{ secrets.LANGFLOW_LOG_FILE }}
+          TF_VAR_LANGFLOW_OPEN_BROWSER: ${{ secrets.LANGFLOW_OPEN_BROWSER }}
+          TF_VAR_LANGFLOW_PORT: ${{ secrets.LANGFLOW_PORT }}
+          TF_VAR_LANGFLOW_REDIS_CACHE_EXPIRE: ${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
+          TF_VAR_LANGFLOW_REDIS_HOST: ${{ secrets.LANGFLOW_REDIS_HOST }}
+          TF_VAR_LANGFLOW_REDIS_PORT: ${{ secrets.LANGFLOW_REDIS_PORT }}
+          TF_VAR_LANGFLOW_REDIS_DB: ${{ secrets.LANGFLOW_REDIS_DB }}
+          TF_VAR_LANGFLOW_REMOVE_API_KEYS: ${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
+          TF_VAR_LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
+          TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
+          TF_VAR_LANGFLOW_WORKERS: ${{ secrets.LANGFLOW_WORKERS }}
