@@ -3,7 +3,7 @@ name: Terraform Deploy to AWS
 on:
   push:
     branches:
-      - main
+      - near-model
   workflow_dispatch:
 
 jobs:
