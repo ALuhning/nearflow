@@ -1,4 +1,3 @@
-
 variable "name" {
   type        = string
   description = "Name of the security group"
@@ -9,9 +8,15 @@ variable "description" {
   description = "Description of the security group"
 }
 
+variable "vpc_id" {
+  type        = string
+  description = "ID of the VPC to associate with the security group"
+}
+
 resource "aws_security_group" "this" {
   name        = var.name
   description = var.description
+  vpc_id = var.vpc_id
 
   ingress = [
     {
@@ -76,7 +81,7 @@ resource "aws_security_group" "this" {
 
   lifecycle {
     create_before_destroy = true
-    prevent_destroy        = true
+    prevent_destroy       = true
   }
 }
 

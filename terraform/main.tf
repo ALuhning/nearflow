@@ -12,6 +12,7 @@ module "security_group" {
   source      = "./modules/security_group"
   name        = "nearflow-sg"
   description = "Allow access to Nearflow and system services"
+  vpc_id      = "vpc-d3a346bb"
 }
 
 resource "aws_ebs_volume" "nearflow_volume" {
