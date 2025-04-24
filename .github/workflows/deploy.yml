@@ -65,7 +65,7 @@ jobs:
           TF_VAR_LANGFLOW_WORKERS:         ${{ secrets.LANGFLOW_WORKERS }}
           TF_VAR_LANGFLOW_HOST:            ${{ secrets.LANGFLOW_HOST }}
           TF_VAR_GHCR_PAT:                 ${{ secrets.GHCR_PAT }}
-          TF_VAR_PROD_SSH_HOST:             ${{ secrets.PROD_SSH_HOST }}
+          TF_VAR_PROD_SSH_HOST:            ${{ secrets.PROD_SSH_HOST }}
           TF_VAR_PROD_SSH_KEY:             ${{ secrets.PROD_SSH_KEY }}
           TF_VAR_PROD_SSH_PUB_KEY:         ${{ secrets.PROD_SSH_PUB_KEY }}
 
