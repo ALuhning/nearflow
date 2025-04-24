@@ -92,7 +92,7 @@ variable "LANGFLOW_OPEN_BROWSER" {
   sensitive   = true
 }
 
-variable "LANGFLOW PORT" {
+variable "LANGFLOW_PORT" {
   description = "Langflow port"
   type        = string
   sensitive   = true
