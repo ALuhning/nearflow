@@ -145,3 +145,8 @@ variable "LANGFLOW_WORKERS" {
   type        = string
   sensitive   = true
 }
+
+variable "PROD_SSH_PUB_KEY" {
+  description = "Public key for EC2 key pair"
+  type        = string
+}

@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_key_pair" "nearflow_key" {
   key_name   = "nearflow-key"
-  public_key = file("~/.ssh/nearflow-prod.pub")
+  public_key = var.PROD_SSH_PUB_KEY
 }
 
 resource "aws_security_group" "nearflow_sg" {
