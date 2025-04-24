@@ -2,85 +2,16 @@ provider "aws" {
   region = "ca-central-1"
 }
 
-resource "aws_key_pair" "nearflow_key" {
-  key_name   = "nearflow-key"
-  public_key = var.PROD_SSH_PUB_KEY
-
-  lifecycle {
-    ignore_changes  = [public_key]
-    prevent_destroy = true
-  }
+module "key_pair" {
+  source   = "./modules/key_pair"
+  key_name = "nearflow-key"
+  pub_key  = var.PROD_SSH_PUB_KEY
 }
 
-resource "aws_security_group" "nearflow_sg" {
+module "security_group" {
+  source      = "./modules/security_group"
   name        = "nearflow-sg"
   description = "Allow access to Nearflow and system services"
-
-  ingress = [
-    {
-      description      = "SSH"
-      from_port        = 22
-      to_port          = 22
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      security_groups  = []
-      self             = false
-    },
-    {
-      description      = "HTTP"
-      from_port        = 80
-      to_port          = 80
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      security_groups  = []
-      self             = false
-    },
-    {
-      description      = "HTTPS"
-      from_port        = 443
-      to_port          = 443
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      security_groups  = []
-      self             = false
-    },
-    {
-      description      = "Langflow UI"
-      from_port        = 7860
-      to_port          = 7860
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      security_groups  = []
-      self             = false
-    }
-  ]
-
-  egress = [
-    {
-      description      = "Allow all outbound"
-      from_port        = 0
-      to_port          = 0
-      protocol         = "-1"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      security_groups  = []
-      self             = false
-    }
-  ]
-
-  lifecycle {
-    create_before_destroy = true
-    prevent_destroy        = true
-  }
 }
 
 resource "aws_ebs_volume" "nearflow_volume" {
@@ -95,9 +26,9 @@ resource "aws_ebs_volume" "nearflow_volume" {
 resource "aws_instance" "nearflow_instance" {
   ami                    = "ami-00a8f8ec53d00a658"
   instance_type          = "t3.large"
-  key_name               = aws_key_pair.nearflow_key.key_name
+  key_name               = module.key_pair.key_name
+  vpc_security_group_ids = [module.security_group.id]
   availability_zone      = "ca-central-1a"
-  vpc_security_group_ids = [aws_security_group.nearflow_sg.id]
   user_data              = templatefile("nearflow-cloud-init.yaml", {
     POSTGRES_USER                        = var.POSTGRES_USER,
     POSTGRES_PASSWORD                    = var.POSTGRES_PASSWORD,
