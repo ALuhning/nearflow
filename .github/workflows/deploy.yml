@@ -64,6 +64,7 @@ jobs:
           TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
           TF_VAR_LANGFLOW_WORKERS:         ${{ secrets.LANGFLOW_WORKERS }}
           TF_VAR_LANGFLOW_HOST:            ${{ secrets.LANGFLOW_HOST }}
+          TF_VAR_GHCR_PAT:                 ${{ secrets.GHCR_PAT }}
 
       - name: SSH to EC2 and pull latest code
         uses: appleboy/ssh-action@v1.0.0

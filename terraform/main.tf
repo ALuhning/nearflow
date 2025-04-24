@@ -55,7 +55,8 @@ resource "aws_instance" "nearflow_instance" {
     LANGFLOW_REMOVE_API_KEYS             = var.LANGFLOW_REMOVE_API_KEYS,
     LANGFLOW_SAVE_DB_IN_CONFIG_DIR       = var.LANGFLOW_SAVE_DB_IN_CONFIG_DIR,
     LANGFLOW_STORE_ENVIRONMENT_VARIABLES = var.LANGFLOW_STORE_ENVIRONMENT_VARIABLES,
-    LANGFLOW_WORKERS                     = var.LANGFLOW_WORKERS
+    LANGFLOW_WORKERS                     = var.LANGFLOW_WORKERS,
+    GHCR_PAT                             = var.GHCR_PAT,
   })
 
   tags = {
