@@ -1,7 +1,7 @@
 
 [project]
 name = "nearflow"
-version = "1.3.4+vp1" # Indicates it's based on Langflow 1.3.4, VP = Vital Point
+version = "1.3.4.vp1" # Indicates it's based on Langflow 1.3.4, VP = Vital Point
 description = "Custom fork of Langflow with NearAI model and deployment support"
 requires-python = ">=3.11,<3.13"
 license = "MIT"
