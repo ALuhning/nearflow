@@ -14,6 +14,7 @@ maintainers = [
 [project.urls]
 Homepage = "https://ai.vitalpoint.ai"
 Repository = "https://github.com/ALuhning/nearflow"
+Documentation = "https://docs.langflow.org"
 
 # Define your main dependencies here
 dependencies = [
@@ -181,10 +182,6 @@ members = ["src/backend/base", "."]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/backend/langflow"]
-
-[project.urls]
-Repository = "https://github.com/langflow-ai/langflow"
-Documentation = "https://docs.langflow.org"
 
 [project.optional-dependencies]
 deploy = [
