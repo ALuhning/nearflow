@@ -27,7 +27,7 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::985063132719:role/<nearflow-deploy-role>
+          role-to-assume: arn:aws:iam::985063132719:role/nearflow-deploy-role
           aws-region: ca-central-1
 
       - name: Terraform Init
