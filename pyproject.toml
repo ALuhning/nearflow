@@ -10,11 +10,6 @@ maintainers = [
     { name = "Aaron Luhning", email = "aaron@vitalpoint.ai" }
 ]
 
-[project.urls]
-Homepage = "https://ai.vitalpoint.ai"
-Repository = "https://github.com/ALuhning/nearflow"
-Documentation = "https://docs.langflow.org"
-
 # Define your main dependencies here
 dependencies = [
     "langflow-base==0.3.4",
@@ -123,6 +118,11 @@ dependencies = [
     "openai>=1.68.2",
     "near-ai-agent>=1.0.0a4",
 ]
+
+[project.urls]
+Homepage = "https://ai.vitalpoint.ai"
+Repository = "https://github.com/ALuhning/nearflow"
+Documentation = "https://docs.langflow.org"
 
 [dependency-groups]
 dev = [
