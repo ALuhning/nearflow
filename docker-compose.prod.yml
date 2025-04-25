@@ -2,6 +2,11 @@ services:
   langflow:
     image: ghcr.io/aluhning/nearflow:latest
     env_file: .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"         # Maximum size of each log file before it is rotated (e.g., 50 MB)
+        max-file: "3"           # Number of log files to keep before older ones are removed
     volumes:
       - ./data:/app/.langflow
     depends_on:
