@@ -16,12 +16,11 @@ RUN pip install -e . --no-deps
 
 RUN pip install uv
 
-# Install frontend dependencies and build frontend
-RUN make install_frontend
-RUN make build_frontend
-
 # Install backend dependencies
-RUN make install_backend
+RUN make backend
+
+# Install frontend dependencies and build frontend
+RUN make frontend
 
 # Expose default Langflow port
 EXPOSE 7860
