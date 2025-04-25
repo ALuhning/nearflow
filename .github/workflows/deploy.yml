@@ -120,7 +120,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
           source: "./nearflow_env_upload.env"
-          target: "/tmp/"
+          target: "/tmp/nearflow_env_upload.env"
 
       - name: Authenticate with GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
@@ -140,17 +140,8 @@ jobs:
           script: |
             set -e
 
-            echo "=== Cleanup any old files ==="
-            rm -f /tmp/nearflow_env_upload.env/nearflow_env_upload.env
-            rm -f /tmp/nearflow_env_upload.env
-            rm -rf /tmp/deploy_env
-            mkdir -p /tmp/deploy_env
-
-            echo "=== Extract uploaded archive ==="
-            tar --overwrite -xzf /tmp/pHVGsczVOQ.tar.gz -C /tmp/deploy_env
-
-            echo "=== Move new .env into place ==="
-            sudo mv /tmp/deploy_env/nearflow_env_upload.env /opt/nearflow/.env
+            echo "=== Move .env into place ==="
+            sudo mv -f /tmp/nearflow_env_upload.env /opt/nearflow/.env
 
             cd /opt/nearflow
             git checkout near-model
@@ -160,9 +151,5 @@ jobs:
             echo "Running docker-compose..."
             docker compose --env-file .env -f docker-compose.prod.yml pull
             docker compose --env-file .env -f docker-compose.prod.yml up -d
-
-            echo "=== Cleanup ==="
-            rm -f /tmp/pHVGsczVOQ.tar.gz
-            rm -rf /tmp/deploy_env
 
             echo "✅ Deployment complete"
