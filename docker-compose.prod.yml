@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   langflow:
     image: ghcr.io/aluhning/nearflow:latest

@@ -14,6 +14,7 @@ COPY . .
 # Install Langflow in editable mode with all extras
 RUN pip install -e . --no-deps
 RUN pip install gunicorn
+RUN pip install uvicorn
 # Expose default Langflow port
 EXPOSE 7860
 
