@@ -38,72 +38,41 @@ jobs:
         working-directory: terraform
         run: terraform apply -auto-approve
         env:
-          TF_VAR_POSTGRES_USER:            ${{ secrets.POSTGRES_USER }}
-          TF_VAR_POSTGRES_PASSWORD:        ${{ secrets.POSTGRES_PASSWORD }}
-          TF_VAR_POSTGRES_DB:              ${{ secrets.POSTGRES_DB }}
-          TF_VAR_LANGFLOW_SUPERUSER:       ${{ secrets.LANGFLOW_SUPERUSER }}
+          TF_VAR_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          TF_VAR_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          TF_VAR_POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          TF_VAR_LANGFLOW_SUPERUSER: ${{ secrets.LANGFLOW_SUPERUSER }}
           TF_VAR_LANGFLOW_SUPERUSER_PASSWORD: ${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
-          TF_VAR_BACKEND_URL:              ${{ secrets.BACKEND_URL }}
-          TF_VAR_LANGFLOW_AUTO_LOGIN:      ${{ secrets.LANGFLOW_AUTO_LOGIN }}
-          TF_VAR_LANGFLOW_CONFIG_DIR:      ${{ secrets.LANGFLOW_CONFIG_DIR }}
-          TF_VAR_LANGFLOW_DATABASE_URL:    ${{ secrets.LANGFLOW_DATABASE_URL }}
-          TF_VAR_LANGFLOW_PORT:            ${{ secrets.LANGFLOW_PORT }}
-          TF_VAR_LANGFLOW_ENV:             ${{ secrets.LANGFLOW_ENV }}
-          TF_VAR_LANGFLOW_CACHE_TYPE:      ${{ secrets.LANGFLOW_CACHE_TYPE }}
-          TF_VAR_LANGFLOW_LOG_FILE:        ${{ secrets.LANGFLOW_LOG_FILE }}
-          TF_VAR_LANGFLOW_LOG_LEVEL:       ${{ secrets.LANGFLOW_LOG_LEVEL }}
+          TF_VAR_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          TF_VAR_LANGFLOW_AUTO_LOGIN: ${{ secrets.LANGFLOW_AUTO_LOGIN }}
+          TF_VAR_LANGFLOW_CONFIG_DIR: ${{ secrets.LANGFLOW_CONFIG_DIR }}
+          TF_VAR_LANGFLOW_DATABASE_URL: ${{ secrets.LANGFLOW_DATABASE_URL }}
+          TF_VAR_LANGFLOW_PORT: ${{ secrets.LANGFLOW_PORT }}
+          TF_VAR_LANGFLOW_ENV: ${{ secrets.LANGFLOW_ENV }}
+          TF_VAR_LANGFLOW_CACHE_TYPE: ${{ secrets.LANGFLOW_CACHE_TYPE }}
+          TF_VAR_LANGFLOW_LOG_FILE: ${{ secrets.LANGFLOW_LOG_FILE }}
+          TF_VAR_LANGFLOW_LOG_LEVEL: ${{ secrets.LANGFLOW_LOG_LEVEL }}
           TF_VAR_LANGFLOW_LANGCHAIN_CACHE: ${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
-          TF_VAR_LANGFLOW_OPEN_BROWSER:    ${{ secrets.LANGFLOW_OPEN_BROWSER }}
+          TF_VAR_LANGFLOW_OPEN_BROWSER: ${{ secrets.LANGFLOW_OPEN_BROWSER }}
           TF_VAR_LANGFLOW_REDIS_CACHE_EXPIRE: ${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
-          TF_VAR_LANGFLOW_REDIS_DB:        ${{ secrets.LANGFLOW_REDIS_DB }}
-          TF_VAR_LANGFLOW_REDIS_HOST:      ${{ secrets.LANGFLOW_REDIS_HOST }}
-          TF_VAR_LANGFLOW_REDIS_PORT:      ${{ secrets.LANGFLOW_REDIS_PORT }}
+          TF_VAR_LANGFLOW_REDIS_DB: ${{ secrets.LANGFLOW_REDIS_DB }}
+          TF_VAR_LANGFLOW_REDIS_HOST: ${{ secrets.LANGFLOW_REDIS_HOST }}
+          TF_VAR_LANGFLOW_REDIS_PORT: ${{ secrets.LANGFLOW_REDIS_PORT }}
           TF_VAR_LANGFLOW_REMOVE_API_KEYS: ${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
           TF_VAR_LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
           TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
-          TF_VAR_LANGFLOW_WORKERS:         ${{ secrets.LANGFLOW_WORKERS }}
-          TF_VAR_LANGFLOW_HOST:            ${{ secrets.LANGFLOW_HOST }}
-          TF_VAR_GHCR_PAT:                 ${{ secrets.GHCR_PAT }}
-          TF_VAR_PROD_SSH_HOST:            ${{ secrets.PROD_SSH_HOST }}
-          TF_VAR_PROD_SSH_KEY:             ${{ secrets.PROD_SSH_KEY }}
-          TF_VAR_PROD_SSH_PUB_KEY:         ${{ secrets.PROD_SSH_PUB_KEY }}
+          TF_VAR_LANGFLOW_WORKERS: ${{ secrets.LANGFLOW_WORKERS }}
+          TF_VAR_LANGFLOW_HOST: ${{ secrets.LANGFLOW_HOST }}
+          TF_VAR_GHCR_PAT: ${{ secrets.GHCR_PAT }}
+          TF_VAR_PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+          TF_VAR_PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+          TF_VAR_PROD_SSH_PUB_KEY: ${{ secrets.PROD_SSH_PUB_KEY }}
 
   build-and-deploy:
     name: Build and Deploy Docker Image
     runs-on: ubuntu-latest
     needs: terraform-deploy
     environment: nearflow-env
-
-    env:
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      LANGFLOW_SUPERUSER: ${{ secrets.LANGFLOW_SUPERUSER }}
-      LANGFLOW_SUPERUSER_PASSWORD: ${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
-      BACKEND_URL: ${{ secrets.BACKEND_URL }}
-      LANGFLOW_AUTO_LOGIN: ${{ secrets.LANGFLOW_AUTO_LOGIN }}
-      LANGFLOW_CONFIG_DIR: ${{ secrets.LANGFLOW_CONFIG_DIR }}
-      LANGFLOW_DATABASE_URL: ${{ secrets.LANGFLOW_DATABASE_URL }}
-      LANGFLOW_PORT: ${{ secrets.LANGFLOW_PORT }}
-      LANGFLOW_ENV: ${{ secrets.LANGFLOW_ENV }}
-      LANGFLOW_CACHE_TYPE: ${{ secrets.LANGFLOW_CACHE_TYPE }}
-      LANGFLOW_LOG_FILE: ${{ secrets.LANGFLOW_LOG_FILE }}
-      LANGFLOW_LOG_LEVEL: ${{ secrets.LANGFLOW_LOG_LEVEL }}
-      LANGFLOW_LANGCHAIN_CACHE: ${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
-      LANGFLOW_OPEN_BROWSER: ${{ secrets.LANGFLOW_OPEN_BROWSER }}
-      LANGFLOW_REDIS_CACHE_EXPIRE: ${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
-      LANGFLOW_REDIS_DB: ${{ secrets.LANGFLOW_REDIS_DB }}
-      LANGFLOW_REDIS_HOST: ${{ secrets.LANGFLOW_REDIS_HOST }}
-      LANGFLOW_REDIS_PORT: ${{ secrets.LANGFLOW_REDIS_PORT }}
-      LANGFLOW_REMOVE_API_KEYS: ${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
-      LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
-      LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
-      LANGFLOW_WORKERS: ${{ secrets.LANGFLOW_WORKERS }}
-      LANGFLOW_HOST: ${{ secrets.LANGFLOW_HOST }}
-      GHCR_PAT: ${{ secrets.GHCR_PAT }}
-      PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
-      PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
-      PROD_SSH_PUB_KEY: ${{ secrets.PROD_SSH_PUB_KEY }}
 
     steps:
       - name: Checkout code
@@ -125,71 +94,71 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
           envs: |
-            POSTGRES_USER: ""
-            POSTGRES_PASSWORD: ""
-            POSTGRES_DB: ""
-            LANGFLOW_SUPERUSER: ""
-            LANGFLOW_SUPERUSER_PASSWORD: ""
-            BACKEND_URL: ""
-            LANGFLOW_AUTO_LOGIN: ""
-            LANGFLOW_CONFIG_DIR: ""
-            LANGFLOW_DATABASE_URL: ""
-            LANGFLOW_PORT: ""
-            LANGFLOW_ENV: ""
-            LANGFLOW_CACHE_TYPE: ""
-            LANGFLOW_LOG_FILE: ""
-            LANGFLOW_LOG_LEVEL: ""
-            LANGFLOW_LANGCHAIN_CACHE: ""
-            LANGFLOW_OPEN_BROWSER: ""
-            LANGFLOW_REDIS_CACHE_EXPIRE: ""
-            LANGFLOW_REDIS_DB: ""
-            LANGFLOW_REDIS_HOST: ""
-            LANGFLOW_REDIS_PORT: ""
-            LANGFLOW_REMOVE_API_KEYS: ""
-            LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ""
-            LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ""
-            LANGFLOW_WORKERS: ""
-            LANGFLOW_HOST: ""
-            GHCR_PAT: ""
-            PROD_SSH_HOST: ""
-            PROD_SSH_KEY: ""
-            PROD_SSH_PUB_KEY: ""
-            script: |
-              cd /opt/nearflow
-              git checkout near-model
-              git pull origin near-model
+            POSTGRES_USER
+            POSTGRES_PASSWORD
+            POSTGRES_DB
+            LANGFLOW_SUPERUSER
+            LANGFLOW_SUPERUSER_PASSWORD
+            BACKEND_URL
+            LANGFLOW_AUTO_LOGIN
+            LANGFLOW_CONFIG_DIR
+            LANGFLOW_DATABASE_URL
+            LANGFLOW_PORT
+            LANGFLOW_ENV
+            LANGFLOW_CACHE_TYPE
+            LANGFLOW_LOG_FILE
+            LANGFLOW_LOG_LEVEL
+            LANGFLOW_LANGCHAIN_CACHE
+            LANGFLOW_OPEN_BROWSER
+            LANGFLOW_REDIS_CACHE_EXPIRE
+            LANGFLOW_REDIS_DB
+            LANGFLOW_REDIS_HOST
+            LANGFLOW_REDIS_PORT
+            LANGFLOW_REMOVE_API_KEYS
+            LANGFLOW_SAVE_DB_IN_CONFIG_DIR
+            LANGFLOW_STORE_ENVIRONMENT_VARIABLES
+            LANGFLOW_WORKERS
+            LANGFLOW_HOST
+            GHCR_PAT
+            PROD_SSH_HOST
+            PROD_SSH_KEY
+            PROD_SSH_PUB_KEY
+          script: |
+            cd /opt/nearflow
+            git checkout near-model
+            git pull origin near-model
 
-              bash -c 'cat > .env <<EOF
-            POSTGRES_USER="${POSTGRES_USER}"
-            POSTGRES_PASSWORD="${POSTGRES_PASSWORD}"
-            POSTGRES_DB="${POSTGRES_DB}"
-            LANGFLOW_SUPERUSER="${LANGFLOW_SUPERUSER}"
-            LANGFLOW_SUPERUSER_PASSWORD="${LANGFLOW_SUPERUSER_PASSWORD}"
-            BACKEND_URL="${BACKEND_URL}"
-            LANGFLOW_AUTO_LOGIN="${LANGFLOW_AUTO_LOGIN}"
-            LANGFLOW_CONFIG_DIR="${LANGFLOW_CONFIG_DIR}"
-            LANGFLOW_DATABASE_URL="${LANGFLOW_DATABASE_URL}"
-            LANGFLOW_PORT="${LANGFLOW_PORT}"
-            LANGFLOW_ENV="${LANGFLOW_ENV}"
-            LANGFLOW_CACHE_TYPE="${LANGFLOW_CACHE_TYPE}"
-            LANGFLOW_LOG_FILE="${LANGFLOW_LOG_FILE}"
-            LANGFLOW_LOG_LEVEL="${LANGFLOW_LOG_LEVEL}"
-            LANGFLOW_LANGCHAIN_CACHE="${LANGFLOW_LANGCHAIN_CACHE}"
-            LANGFLOW_OPEN_BROWSER="${LANGFLOW_OPEN_BROWSER}"
-            LANGFLOW_REDIS_CACHE_EXPIRE="${LANGFLOW_REDIS_CACHE_EXPIRE}"
-            LANGFLOW_REDIS_DB="${LANGFLOW_REDIS_DB}"
-            LANGFLOW_REDIS_HOST="${LANGFLOW_REDIS_HOST}"
-            LANGFLOW_REDIS_PORT="${LANGFLOW_REDIS_PORT}"
-            LANGFLOW_REMOVE_API_KEYS="${LANGFLOW_REMOVE_API_KEYS}"
-            LANGFLOW_SAVE_DB_IN_CONFIG_DIR="${LANGFLOW_SAVE_DB_IN_CONFIG_DIR}"
-            LANGFLOW_STORE_ENVIRONMENT_VARIABLES="${LANGFLOW_STORE_ENVIRONMENT_VARIABLES}"
-            LANGFLOW_WORKERS="${LANGFLOW_WORKERS}"
-            LANGFLOW_HOST="${LANGFLOW_HOST}"
-            GHCR_PAT="${GHCR_PAT}"
-            PROD_SSH_HOST="${PROD_SSH_HOST}"
-            PROD_SSH_KEY="${PROD_SSH_KEY}"
-            PROD_SSH_PUB_KEY="${PROD_SSH_PUB_KEY}"
-            EOF'
+            cat > .env <<EOF
+            POSTGRES_USER="$POSTGRES_USER"
+            POSTGRES_PASSWORD="$POSTGRES_PASSWORD"
+            POSTGRES_DB="$POSTGRES_DB"
+            LANGFLOW_SUPERUSER="$LANGFLOW_SUPERUSER"
+            LANGFLOW_SUPERUSER_PASSWORD="$LANGFLOW_SUPERUSER_PASSWORD"
+            BACKEND_URL="$BACKEND_URL"
+            LANGFLOW_AUTO_LOGIN="$LANGFLOW_AUTO_LOGIN"
+            LANGFLOW_CONFIG_DIR="$LANGFLOW_CONFIG_DIR"
+            LANGFLOW_DATABASE_URL="$LANGFLOW_DATABASE_URL"
+            LANGFLOW_PORT="$LANGFLOW_PORT"
+            LANGFLOW_ENV="$LANGFLOW_ENV"
+            LANGFLOW_CACHE_TYPE="$LANGFLOW_CACHE_TYPE"
+            LANGFLOW_LOG_FILE="$LANGFLOW_LOG_FILE"
+            LANGFLOW_LOG_LEVEL="$LANGFLOW_LOG_LEVEL"
+            LANGFLOW_LANGCHAIN_CACHE="$LANGFLOW_LANGCHAIN_CACHE"
+            LANGFLOW_OPEN_BROWSER="$LANGFLOW_OPEN_BROWSER"
+            LANGFLOW_REDIS_CACHE_EXPIRE="$LANGFLOW_REDIS_CACHE_EXPIRE"
+            LANGFLOW_REDIS_DB="$LANGFLOW_REDIS_DB"
+            LANGFLOW_REDIS_HOST="$LANGFLOW_REDIS_HOST"
+            LANGFLOW_REDIS_PORT="$LANGFLOW_REDIS_PORT"
+            LANGFLOW_REMOVE_API_KEYS="$LANGFLOW_REMOVE_API_KEYS"
+            LANGFLOW_SAVE_DB_IN_CONFIG_DIR="$LANGFLOW_SAVE_DB_IN_CONFIG_DIR"
+            LANGFLOW_STORE_ENVIRONMENT_VARIABLES="$LANGFLOW_STORE_ENVIRONMENT_VARIABLES"
+            LANGFLOW_WORKERS="$LANGFLOW_WORKERS"
+            LANGFLOW_HOST="$LANGFLOW_HOST"
+            GHCR_PAT="$GHCR_PAT"
+            PROD_SSH_HOST="$PROD_SSH_HOST"
+            PROD_SSH_KEY="$PROD_SSH_KEY"
+            PROD_SSH_PUB_KEY="$PROD_SSH_PUB_KEY"
+            EOF
 
             echo "$GHCR_PAT" | docker login ghcr.io -u ALuhning --password-stdin
             docker compose --env-file .env -f docker-compose.prod.yml pull
