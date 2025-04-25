@@ -22,13 +22,11 @@ RUN pip install uv
 # Install system dependencies for frontend (Node.js and npm)
 RUN apt-get update && apt-get install -y nodejs npm
 
-# Install frontend dependencies and build frontend
-RUN make install_frontend
-RUN make build_frontend
-
 # Expose default Langflow port
 EXPOSE 7860
 
+RUN make init
+
 # Use uv to run Langflow in the container
-CMD ["uv", "run", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
+#CMD ["uv", "run", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
 
