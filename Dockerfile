@@ -4,7 +4,7 @@ FROM python:3.12-slim
 RUN apt-get update && apt-get install -y build-essential git
 
 # Build docker image
-RUN make docker_build
+RUN docker build -f docker_nearflow/build_and_push.Dockerfile -t ghcr.io/aluhning/nearflow:latest .
 
 
 
