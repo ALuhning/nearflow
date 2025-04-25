@@ -1,0 +1,44 @@
+services:
+  langflow:
+    image: ghcr.io/aluhning/nearflow:latest
+    pull_policy: always
+    ports:
+      - "7860:7860"
+    env_file: ../.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"         
+        max-file: "3" 
+    volumes:
+      - langflow-data:/app/langflow
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - langflow-net
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    env_file: ../.env
+    volumes:
+      - langflow-postgres:/var/lib/postgresql/data
+    networks:
+      - langflow-net
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    env_file: ../.env
+    networks:
+      - langflow-net
+
+volumes:
+  langflow-postgres:
+  langflow-data:
+
+networks:
+  langflow-net:
