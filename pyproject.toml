@@ -218,7 +218,7 @@ postgresql = [
 ]
 
 [project.scripts]
-nearflow = "nearflow.__main__:main"
+langflow = "langflow.__main__:main"
 
 [tool.codespell]
 skip = '.git,*.pdf,*.svg,*.pdf,*.yaml,*.ipynb,poetry.lock,*.min.js,*.css,package-lock.json,*.trig.,**/node_modules/**,./stuff/*,*.csv'
