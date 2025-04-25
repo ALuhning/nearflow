@@ -120,7 +120,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
           source: "./nearflow_env_upload.env"
-          target: "/tmp/nearflow_env_upload.env"
+          target: "/tmp/"
 
       - name: Authenticate with GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
