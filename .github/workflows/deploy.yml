@@ -78,6 +78,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create .env file locally
+        run: |
+          cat <<EOF > nearflow.env
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          LANGFLOW_SUPERUSER=${{ secrets.LANGFLOW_SUPERUSER }}
+          LANGFLOW_SUPERUSER_PASSWORD=${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
+          BACKEND_URL=${{ secrets.BACKEND_URL }}
+          LANGFLOW_AUTO_LOGIN=${{ secrets.LANGFLOW_AUTO_LOGIN }}
+          LANGFLOW_CONFIG_DIR=${{ secrets.LANGFLOW_CONFIG_DIR }}
+          LANGFLOW_DATABASE_URL=${{ secrets.LANGFLOW_DATABASE_URL }}
+          LANGFLOW_PORT=${{ secrets.LANGFLOW_PORT }}
+          LANGFLOW_ENV=${{ secrets.LANGFLOW_ENV }}
+          LANGFLOW_CACHE_TYPE=${{ secrets.LANGFLOW_CACHE_TYPE }}
+          LANGFLOW_LOG_FILE=${{ secrets.LANGFLOW_LOG_FILE }}
+          LANGFLOW_LOG_LEVEL=${{ secrets.LANGFLOW_LOG_LEVEL }}
+          LANGFLOW_LANGCHAIN_CACHE=${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
+          LANGFLOW_OPEN_BROWSER=${{ secrets.LANGFLOW_OPEN_BROWSER }}
+          LANGFLOW_REDIS_CACHE_EXPIRE=${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
+          LANGFLOW_REDIS_DB=${{ secrets.LANGFLOW_REDIS_DB }}
+          LANGFLOW_REDIS_HOST=${{ secrets.LANGFLOW_REDIS_HOST }}
+          LANGFLOW_REDIS_PORT=${{ secrets.LANGFLOW_REDIS_PORT }}
+          LANGFLOW_REMOVE_API_KEYS=${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
+          LANGFLOW_SAVE_DB_IN_CONFIG_DIR=${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
+          LANGFLOW_STORE_ENVIRONMENT_VARIABLES=${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
+          LANGFLOW_WORKERS=${{ secrets.LANGFLOW_WORKERS }}
+          LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}
+          GHCR_PAT=${{ secrets.GHCR_PAT }}
+          EOF
+
+      - name: Upload .env to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ubuntu
+          key: ${{ secrets.PROD_SSH_KEY }}
+          source: "nearflow.env"
+          target: "/opt/nearflow/.env"
+
       - name: Authenticate with GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
 
@@ -93,65 +133,10 @@ jobs:
           host: ${{ secrets.PROD_SSH_HOST }}
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
-          envs: |
-            POSTGRES_USER
-            POSTGRES_PASSWORD
-            POSTGRES_DB
-            LANGFLOW_SUPERUSER
-            LANGFLOW_SUPERUSER_PASSWORD
-            BACKEND_URL
-            LANGFLOW_AUTO_LOGIN
-            LANGFLOW_CONFIG_DIR
-            LANGFLOW_DATABASE_URL
-            LANGFLOW_PORT
-            LANGFLOW_ENV
-            LANGFLOW_CACHE_TYPE
-            LANGFLOW_LOG_FILE
-            LANGFLOW_LOG_LEVEL
-            LANGFLOW_LANGCHAIN_CACHE
-            LANGFLOW_OPEN_BROWSER
-            LANGFLOW_REDIS_CACHE_EXPIRE
-            LANGFLOW_REDIS_DB
-            LANGFLOW_REDIS_HOST
-            LANGFLOW_REDIS_PORT
-            LANGFLOW_REMOVE_API_KEYS
-            LANGFLOW_SAVE_DB_IN_CONFIG_DIR
-            LANGFLOW_STORE_ENVIRONMENT_VARIABLES
-            LANGFLOW_WORKERS
-            LANGFLOW_HOST
-            GHCR_PAT
           script: |
             cd /opt/nearflow
             git checkout near-model
             git pull origin near-model
-
-            echo "Creating .env file..."
-            echo "POSTGRES_USER=$POSTGRES_USER" > .env
-            echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
-            echo "POSTGRES_DB=$POSTGRES_DB" >> .env
-            echo "LANGFLOW_SUPERUSER=$LANGFLOW_SUPERUSER" >> .env
-            echo "LANGFLOW_SUPERUSER_PASSWORD=$LANGFLOW_SUPERUSER_PASSWORD" >> .env
-            echo "BACKEND_URL=$BACKEND_URL" >> .env
-            echo "LANGFLOW_AUTO_LOGIN=$LANGFLOW_AUTO_LOGIN" >> .env
-            echo "LANGFLOW_CONFIG_DIR=$LANGFLOW_CONFIG_DIR" >> .env
-            echo "LANGFLOW_DATABASE_URL=$LANGFLOW_DATABASE_URL" >> .env
-            echo "LANGFLOW_PORT=$LANGFLOW_PORT" >> .env
-            echo "LANGFLOW_ENV=$LANGFLOW_ENV" >> .env
-            echo "LANGFLOW_CACHE_TYPE=$LANGFLOW_CACHE_TYPE" >> .env
-            echo "LANGFLOW_LOG_FILE=$LANGFLOW_LOG_FILE" >> .env
-            echo "LANGFLOW_LOG_LEVEL=$LANGFLOW_LOG_LEVEL" >> .env
-            echo "LANGFLOW_LANGCHAIN_CACHE=$LANGFLOW_LANGCHAIN_CACHE" >> .env
-            echo "LANGFLOW_OPEN_BROWSER=$LANGFLOW_OPEN_BROWSER" >> .env
-            echo "LANGFLOW_REDIS_CACHE_EXPIRE=$LANGFLOW_REDIS_CACHE_EXPIRE" >> .env
-            echo "LANGFLOW_REDIS_DB=$LANGFLOW_REDIS_DB" >> .env
-            echo "LANGFLOW_REDIS_HOST=$LANGFLOW_REDIS_HOST" >> .env
-            echo "LANGFLOW_REDIS_PORT=$LANGFLOW_REDIS_PORT" >> .env
-            echo "LANGFLOW_REMOVE_API_KEYS=$LANGFLOW_REMOVE_API_KEYS" >> .env
-            echo "LANGFLOW_SAVE_DB_IN_CONFIG_DIR=$LANGFLOW_SAVE_DB_IN_CONFIG_DIR" >> .env
-            echo "LANGFLOW_STORE_ENVIRONMENT_VARIABLES=$LANGFLOW_STORE_ENVIRONMENT_VARIABLES" >> .env
-            echo "LANGFLOW_WORKERS=$LANGFLOW_WORKERS" >> .env
-            echo "LANGFLOW_HOST=$LANGFLOW_HOST" >> .env
-            echo "GHCR_PAT=$GHCR_PAT" >> .env
 
             echo "Running docker-compose..."
             docker compose --env-file .env -f docker-compose.prod.yml pull
