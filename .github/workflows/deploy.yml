@@ -73,6 +73,37 @@ jobs:
     runs-on: ubuntu-latest
     needs: terraform-deploy
 
+    env:
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      LANGFLOW_SUPERUSER: ${{ secrets.LANGFLOW_SUPERUSER }}
+      LANGFLOW_SUPERUSER_PASSWORD: ${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
+      BACKEND_URL: ${{ secrets.BACKEND_URL }}
+      LANGFLOW_AUTO_LOGIN: ${{ secrets.LANGFLOW_AUTO_LOGIN }}
+      LANGFLOW_CONFIG_DIR: ${{ secrets.LANGFLOW_CONFIG_DIR }}
+      LANGFLOW_DATABASE_URL: ${{ secrets.LANGFLOW_DATABASE_URL }}
+      LANGFLOW_PORT: ${{ secrets.LANGFLOW_PORT }}
+      LANGFLOW_ENV: ${{ secrets.LANGFLOW_ENV }}
+      LANGFLOW_CACHE_TYPE: ${{ secrets.LANGFLOW_CACHE_TYPE }}
+      LANGFLOW_LOG_FILE: ${{ secrets.LANGFLOW_LOG_FILE }}
+      LANGFLOW_LOG_LEVEL: ${{ secrets.LANGFLOW_LOG_LEVEL }}
+      LANGFLOW_LANGCHAIN_CACHE: ${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
+      LANGFLOW_OPEN_BROWSER: ${{ secrets.LANGFLOW_OPEN_BROWSER }}
+      LANGFLOW_REDIS_CACHE_EXPIRE: ${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
+      LANGFLOW_REDIS_DB: ${{ secrets.LANGFLOW_REDIS_DB }}
+      LANGFLOW_REDIS_HOST: ${{ secrets.LANGFLOW_REDIS_HOST }}
+      LANGFLOW_REDIS_PORT: ${{ secrets.LANGFLOW_REDIS_PORT }}
+      LANGFLOW_REMOVE_API_KEYS: ${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
+      LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
+      LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
+      LANGFLOW_WORKERS: ${{ secrets.LANGFLOW_WORKERS }}
+      LANGFLOW_HOST: ${{ secrets.LANGFLOW_HOST }}
+      GHCR_PAT: ${{ secrets.GHCR_PAT }}
+      PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+      PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+      PROD_SSH_PUB_KEY: ${{ secrets.PROD_SSH_PUB_KEY }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
