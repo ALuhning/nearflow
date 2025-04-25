@@ -12,7 +12,7 @@ RUN pip install --upgrade pip
 COPY . .
 
 # Install Langflow in editable mode with all extras
-RUN pip install -e .[dev]
+RUN pip install -e . --no-deps
 
 # Expose default Langflow port
 EXPOSE 7860
