@@ -20,5 +20,5 @@ RUN pip install uvicorn
 EXPOSE 7860
 
 # Production entrypoint using Gunicorn + Uvicorn worker
-CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "nearflow.main:app", "-b", "0.0.0.0:7860"]
+CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "langflow", "-b", "0.0.0.0:7860"]
 
