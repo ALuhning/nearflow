@@ -110,7 +110,7 @@ jobs:
           EOF
 
       - name: Rename .env for scp
-        run: mv nearflow.env nearflow_env_upload
+        run: mv nearflow.env nearflow_env_upload.env
 
       - name: Upload .env to EC2
         uses: appleboy/scp-action@v0.1.4
@@ -118,8 +118,8 @@ jobs:
           host: ${{ secrets.PROD_SSH_HOST }}
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
-          source: "nearflow_env_upload"
-          target: "/tmp/nearflow_env_upload"
+          source: "nearflow_env_upload.env"
+          target: "/tmp/nearflow_env_upload.env"
 
       - name: Authenticate with GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
@@ -137,11 +137,11 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            sudo mv /tmp/nearflow_env_upload /opt/nearflow/.env
+            sudo mv /tmp/nearflow_env_upload.env /opt/nearflow/.env
             cd /opt/nearflow
             git checkout near-model
             git pull origin near-model
-            
+
             echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
             echo "Running docker-compose..."
             docker compose --env-file .env -f docker-compose.prod.yml pull
