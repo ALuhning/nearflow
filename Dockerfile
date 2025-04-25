@@ -14,11 +14,12 @@ COPY . .
 # Install Langflow in editable mode with all extras
 RUN pip install -e . --no-deps
 
-RUN pip install uv
+# RUN pip install uv
 
 # Expose default Langflow port
 EXPOSE 7860
 
 # Use uv to run Langflow in the container
-CMD ["uv", "run", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
+#CMD ["uv", "run", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["python", "-m", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
 
