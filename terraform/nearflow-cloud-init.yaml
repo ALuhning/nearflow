@@ -83,4 +83,4 @@ runcmd:
     PROD_SSH_PUB_KEY=${PROD_SSH_PUB_KEY}
     EOF
     chown ubuntu:ubuntu /opt/nearflow/.env
-  - su - ubuntu -c "docker compose -f /opt/nearflow/docker-compose.prod.yml up -d"
+  - su - ubuntu -c "docker compose -f /opt/nearflow/nearflow_docker/docker-compose.yml up -d"
