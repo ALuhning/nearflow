@@ -150,7 +150,7 @@ jobs:
             echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
             echo "Running docker-compose..."
             cd /opt/nearflow/docker_nearflow
-            docker compose --env-file .env -f docker-compose.yml pull
-            docker compose --env-file .env -f docker-compose.yml up -d
+            docker compose --env-file ../.env -f docker-compose.yml pull
+            docker compose --env-file ../.env -f docker-compose.yml up -d
 
             echo "✅ Deployment complete"
