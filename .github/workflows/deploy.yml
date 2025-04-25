@@ -141,6 +141,7 @@ jobs:
             set -e
 
             echo "=== Cleanup any old files ==="
+            rm -f /tmp/nearflow_env_upload.env/nearflow_env_upload.env
             rm -f /tmp/nearflow_env_upload.env
             rm -rf /tmp/deploy_env
             mkdir -p /tmp/deploy_env
@@ -159,3 +160,9 @@ jobs:
             echo "Running docker-compose..."
             docker compose --env-file .env -f docker-compose.prod.yml pull
             docker compose --env-file .env -f docker-compose.prod.yml up -d
+
+            echo "=== Cleanup ==="
+            rm -f /tmp/pHVGsczVOQ.tar.gz
+            rm -rf /tmp/deploy_env
+
+            echo "✅ Deployment complete"
