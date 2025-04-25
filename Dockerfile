@@ -22,7 +22,8 @@ RUN pip install uv
 # Install system dependencies for frontend (Node.js and npm)
 RUN apt-get update && apt-get install -y nodejs npm
 
-RUN make build_and_install
+RUN make backend
+RUN make frontend
 
 # Expose default Langflow port
 EXPOSE 7860
