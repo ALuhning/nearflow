@@ -138,7 +138,19 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            sudo mv /tmp/nearflow_env_upload.env /opt/nearflow/.env
+            set -e
+
+            echo "=== Cleanup any old files ==="
+            rm -f /tmp/nearflow_env_upload.env
+            rm -rf /tmp/deploy_env
+            mkdir -p /tmp/deploy_env
+
+            echo "=== Extract uploaded archive ==="
+            tar --overwrite -xzf /tmp/pHVGsczVOQ.tar.gz -C /tmp/deploy_env
+
+            echo "=== Move new .env into place ==="
+            sudo mv /tmp/deploy_env/nearflow_env_upload.env /opt/nearflow/.env
+
             cd /opt/nearflow
             git checkout near-model
             git pull origin near-model
