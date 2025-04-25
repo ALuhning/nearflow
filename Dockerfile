@@ -23,9 +23,6 @@ RUN apt-get update && apt-get install -y nodejs npm
 RUN make install_frontend
 RUN make build_frontend
 
-# Install backend dependencies using Makefile
-RUN make install_backend
-
 # Expose default Langflow port
 EXPOSE 7860
 
