@@ -128,7 +128,7 @@ jobs:
             git checkout near-model
             git pull origin near-model
 
-            bash -c 'cat > .env <<EOF
+            cat > .env <<EOF
 POSTGRES_USER="${POSTGRES_USER}"
 POSTGRES_PASSWORD="${POSTGRES_PASSWORD}"
 POSTGRES_DB="${POSTGRES_DB}"
@@ -158,7 +158,7 @@ GHCR_PAT="${GHCR_PAT}"
 PROD_SSH_HOST="${PROD_SSH_HOST}"
 PROD_SSH_KEY="${PROD_SSH_KEY}"
 PROD_SSH_PUB_KEY="${PROD_SSH_PUB_KEY}"
-EOF'
+EOF
 
             echo "${GHCR_PAT}" | docker login ghcr.io -u ALuhning --password-stdin
             docker compose --env-file .env -f docker-compose.prod.yml pull
