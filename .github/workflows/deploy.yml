@@ -126,7 +126,7 @@ jobs:
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
 
       - name: Build Docker image
-        run: docker build -f docker_nearflow/build_and_push.Dockerfile -t ghcr.io/aluhning/nearflow:latest .
+        run: docker build -f docker/build_and_push.Dockerfile -t ghcr.io/aluhning/nearflow:latest .
 
       - name: Push Docker image
         run: docker push ghcr.io/aluhning/nearflow:latest
