@@ -78,36 +78,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create .env file locally
+      - name: Create .env file with secrets
         run: |
-          cat <<EOF > nearflow.env
-          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-          LANGFLOW_SUPERUSER=${{ secrets.LANGFLOW_SUPERUSER }}
-          LANGFLOW_SUPERUSER_PASSWORD=${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}
-          BACKEND_URL=${{ secrets.BACKEND_URL }}
-          LANGFLOW_AUTO_LOGIN=${{ secrets.LANGFLOW_AUTO_LOGIN }}
-          LANGFLOW_CONFIG_DIR=${{ secrets.LANGFLOW_CONFIG_DIR }}
-          LANGFLOW_DATABASE_URL=${{ secrets.LANGFLOW_DATABASE_URL }}
-          LANGFLOW_PORT=${{ secrets.LANGFLOW_PORT }}
-          LANGFLOW_ENV=${{ secrets.LANGFLOW_ENV }}
-          LANGFLOW_CACHE_TYPE=${{ secrets.LANGFLOW_CACHE_TYPE }}
-          LANGFLOW_LOG_FILE=${{ secrets.LANGFLOW_LOG_FILE }}
-          LANGFLOW_LOG_LEVEL=${{ secrets.LANGFLOW_LOG_LEVEL }}
-          LANGFLOW_LANGCHAIN_CACHE=${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}
-          LANGFLOW_OPEN_BROWSER=${{ secrets.LANGFLOW_OPEN_BROWSER }}
-          LANGFLOW_REDIS_CACHE_EXPIRE=${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}
-          LANGFLOW_REDIS_DB=${{ secrets.LANGFLOW_REDIS_DB }}
-          LANGFLOW_REDIS_HOST=${{ secrets.LANGFLOW_REDIS_HOST }}
-          LANGFLOW_REDIS_PORT=${{ secrets.LANGFLOW_REDIS_PORT }}
-          LANGFLOW_REMOVE_API_KEYS=${{ secrets.LANGFLOW_REMOVE_API_KEYS }}
-          LANGFLOW_SAVE_DB_IN_CONFIG_DIR=${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}
-          LANGFLOW_STORE_ENVIRONMENT_VARIABLES=${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
-          LANGFLOW_WORKERS=${{ secrets.LANGFLOW_WORKERS }}
-          LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}
-          GHCR_PAT=${{ secrets.GHCR_PAT }}
-          EOF
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> nearflow.env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> nearflow.env
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> nearflow.env
+          echo "LANGFLOW_SUPERUSER=${{ secrets.LANGFLOW_SUPERUSER }}" >> nearflow.env
+          echo "LANGFLOW_SUPERUSER_PASSWORD=${{ secrets.LANGFLOW_SUPERUSER_PASSWORD }}" >> nearflow.env
+          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> nearflow.env
+          echo "LANGFLOW_AUTO_LOGIN=${{ secrets.LANGFLOW_AUTO_LOGIN }}" >> nearflow.env
+          echo "LANGFLOW_CONFIG_DIR=${{ secrets.LANGFLOW_CONFIG_DIR }}" >> nearflow.env
+          echo "LANGFLOW_DATABASE_URL=${{ secrets.LANGFLOW_DATABASE_URL }}" >> nearflow.env
+          echo "LANGFLOW_PORT=${{ secrets.LANGFLOW_PORT }}" >> nearflow.env
+          echo "LANGFLOW_ENV=${{ secrets.LANGFLOW_ENV }}" >> nearflow.env
+          echo "LANGFLOW_CACHE_TYPE=${{ secrets.LANGFLOW_CACHE_TYPE }}" >> nearflow.env
+          echo "LANGFLOW_LOG_FILE=${{ secrets.LANGFLOW_LOG_FILE }}" >> nearflow.env
+          echo "LANGFLOW_LOG_LEVEL=${{ secrets.LANGFLOW_LOG_LEVEL }}" >> nearflow.env
+          echo "LANGFLOW_LANGCHAIN_CACHE=${{ secrets.LANGFLOW_LANGCHAIN_CACHE }}" >> nearflow.env
+          echo "LANGFLOW_OPEN_BROWSER=${{ secrets.LANGFLOW_OPEN_BROWSER }}" >> nearflow.env
+          echo "LANGFLOW_REDIS_CACHE_EXPIRE=${{ secrets.LANGFLOW_REDIS_CACHE_EXPIRE }}" >> nearflow.env
+          echo "LANGFLOW_REDIS_DB=${{ secrets.LANGFLOW_REDIS_DB }}" >> nearflow.env
+          echo "LANGFLOW_REDIS_HOST=${{ secrets.LANGFLOW_REDIS_HOST }}" >> nearflow.env
+          echo "LANGFLOW_REDIS_PORT=${{ secrets.LANGFLOW_REDIS_PORT }}" >> nearflow.env
+          echo "LANGFLOW_REMOVE_API_KEYS=${{ secrets.LANGFLOW_REMOVE_API_KEYS }}" >> nearflow.env
+          echo "LANGFLOW_SAVE_DB_IN_CONFIG_DIR=${{ secrets.LANGFLOW_SAVE_DB_IN_CONFIG_DIR }}" >> nearflow.env
+          echo "LANGFLOW_STORE_ENVIRONMENT_VARIABLES=${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}" >> nearflow.env
+          echo "LANGFLOW_WORKERS=${{ secrets.LANGFLOW_WORKERS }}" >> nearflow.env
+          echo "LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}" >> nearflow.env
+          echo "GHCR_PAT=${{ secrets.GHCR_PAT }}" >> nearflow.env
+
+      - name: Print .env contents (DEBUG ONLY – remove in production)
+        run: cat nearflow.env | grep POSTGRES
 
       - name: Rename .env for scp
         run: mv nearflow.env nearflow_env_upload.env
