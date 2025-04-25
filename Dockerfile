@@ -13,12 +13,12 @@ COPY . .
 
 # Install Langflow in editable mode with all extras
 RUN pip install -e . --no-deps
-RUN pip install gunicorn
-RUN pip install uvicorn
+
+RUN pip install uv
 
 # Expose default Langflow port
 EXPOSE 7860
 
-# Production entrypoint using Gunicorn + Uvicorn worker
-CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "langflow", "-b", "0.0.0.0:7860"]
+# Use uv to run Langflow in the container
+CMD ["uv", "run", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
 
