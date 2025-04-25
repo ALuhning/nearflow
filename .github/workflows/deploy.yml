@@ -141,7 +141,8 @@ jobs:
             cd /opt/nearflow
             git checkout near-model
             git pull origin near-model
-
+            
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
             echo "Running docker-compose..."
             docker compose --env-file .env -f docker-compose.prod.yml pull
             docker compose --env-file .env -f docker-compose.prod.yml up -d
