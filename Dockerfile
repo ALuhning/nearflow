@@ -18,5 +18,7 @@ RUN pip install uvicorn
 # Expose default Langflow port
 EXPOSE 7860
 
+CMD ["python", "-m", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
+
 # Production entrypoint using Gunicorn + Uvicorn worker
-CMD ["gunicorn", "langflow.main:app", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:7860", "--workers=1"]
+# CMD ["gunicorn", "langflow.main:app", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:7860", "--workers=1"]
