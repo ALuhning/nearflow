@@ -16,15 +16,16 @@ RUN pip install -e . --no-deps
 
 RUN pip install uv
 
-# Install backend dependencies
-RUN make backend
-
 # Install frontend dependencies and build frontend
-RUN make frontend
+RUN make install_frontend
+RUN make build_frontend
+
+# Install backend dependencies using Makefile
+RUN make install_backend
 
 # Expose default Langflow port
 EXPOSE 7860
 
 # Use uv to run Langflow in the container
-CMD ["uv", "run", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uv", "run", "nearflow", "run", "--host", "0.0.0.0", "--port", "7860"]
 
