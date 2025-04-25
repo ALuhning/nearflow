@@ -5,6 +5,9 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y build-essential git
 
+# Install psycopg2 (PostgreSQL adapter for Python)
+RUN pip install psycopg2
+
 # Upgrade pip and install project dependencies
 RUN pip install --upgrade pip
 
