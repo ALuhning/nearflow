@@ -22,8 +22,8 @@ LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.url=https://github.com/langflow-ai/langflow
 LABEL org.opencontainers.image.source=https://github.com/langflow-ai/langflow
 
-COPY --from=builder-base --chown=nginx /frontend/build /usr/share/nginx/html
-COPY --chown=nginx ./docker/frontend/start-nginx.sh /start-nginx.sh
-COPY --chown=nginx ./docker/frontend/default.conf.template /etc/nginx/conf.d/default.conf.template
-RUN chmod +x /start-nginx.sh
-ENTRYPOINT ["/start-nginx.sh"]
+# COPY --from=builder-base --chown=nginx /frontend/build /usr/share/nginx/html
+# COPY --chown=nginx ./docker/frontend/start-nginx.sh /start-nginx.sh
+# COPY --chown=nginx ./docker/frontend/default.conf.template /etc/nginx/conf.d/default.conf.template
+# RUN chmod +x /start-nginx.sh
+# ENTRYPOINT ["/start-nginx.sh"]
