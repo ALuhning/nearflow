@@ -1,5 +1,5 @@
 [project]
-name = "nearflow"
+name = "langflow"
 version = "1.3.4.dev1"  # PEP 440-compliant fork version
 description = "Custom fork of Langflow with NearAI model and deployment support"
 requires-python = ">=3.11,<3.13"
