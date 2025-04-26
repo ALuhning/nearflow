@@ -138,21 +138,21 @@ export const AccountMenu = () => {
             ) : (
               <HeaderMenuItemLink
                 newPage
-                href="https://github.com/langflow-ai/langflow/discussions"
+                href="https://github.com/ALuhning/nearflow/discussions"
               >
                 <span data-testid="menu_github_button" id="menu_github_button">
                   Share Feedback on Github
                 </span>
               </HeaderMenuItemLink>
             )}
-            <HeaderMenuItemLink newPage href="https://twitter.com/langflow_ai">
+            <HeaderMenuItemLink newPage href="https://twitter.com/VitalPoint_AI">
               <span data-testid="menu_twitter_button" id="menu_twitter_button">
-                Follow Langflow on X
+                Follow VitalPoint on X
               </span>
             </HeaderMenuItemLink>
-            <HeaderMenuItemLink newPage href="https://discord.gg/EqksyE2EX9">
+            <HeaderMenuItemLink newPage href="https://discord.gg/xCQzwpcCea">
               <span data-testid="menu_discord_button" id="menu_discord_button">
-                Join the Langflow Discord
+                Join the VitalPoint Discord
               </span>
             </HeaderMenuItemLink>
           </HeaderMenuItemsSection>
