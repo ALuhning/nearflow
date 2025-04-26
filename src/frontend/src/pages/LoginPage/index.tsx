@@ -71,7 +71,10 @@ export default function LoginPage(): JSX.Element {
             className="mb-4 h-10 w-10 scale-[1.5]"
           />
           <span className="mb-6 text-2xl font-semibold text-primary">
-            Sign in to Langflow
+            Sign in to Nearflow
+          </span>
+          <span className="mb-6 text-sm font-medium text-primary">
+            (built on Langflow)
           </span>
           <div className="mb-3 w-full">
             <Form.Field name="username">
