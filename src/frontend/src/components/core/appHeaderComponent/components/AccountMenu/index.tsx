@@ -117,11 +117,18 @@ export const AccountMenu = () => {
                 />
               </>
             ) : (
-              <HeaderMenuItemLink newPage href="https://docs.langflow.org">
+              <>
+              <HeaderMenuItemLink newPage href="https://vitalpoint.ai/academy">
                 <span data-testid="menu_docs_button" id="menu_docs_button">
-                  Docs
+                  VitalPoint Academy
                 </span>
               </HeaderMenuItemLink>
+              <HeaderMenuItemLink newPage href="https://docs.langflow.org">
+                <span data-testid="menu_docs_button" id="menu_docs_button">
+                  Langflow Docs
+                </span>
+              </HeaderMenuItemLink>
+              </>
             )}
           </HeaderMenuItemsSection>
           <HeaderMenuItemsSection>

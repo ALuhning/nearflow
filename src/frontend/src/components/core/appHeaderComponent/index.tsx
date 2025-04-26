@@ -92,7 +92,7 @@ export default function AppHeader(): JSX.Element {
               unstyled
               className="hidden items-center whitespace-nowrap pr-2 2xl:inline"
               onClick={() =>
-                window.open("https://github.com/langflow-ai/langflow", "_blank")
+                window.open("https://github.com/ALuhning/nearflow", "_blank")
               }
             >
               <GithubStarComponent />
@@ -139,7 +139,7 @@ export default function AppHeader(): JSX.Element {
         {!ENABLE_DATASTAX_LANGFLOW && (
           <>
             <ShadTooltip
-              content="Go to Langflow Store"
+              content="Go to VitalPoint Market"
               side="bottom"
               styleClasses="z-10"
             >
@@ -147,7 +147,7 @@ export default function AppHeader(): JSX.Element {
                 variant="ghost"
                 className={` ${lastPath === "store" ? "bg-accent text-accent-foreground" : ""} z-50`}
                 onClick={() => {
-                  navigate("/store");
+                  window.open("https://vitalpoint.ai/market", "_blank")
                 }}
                 data-testid="button-store"
               >
