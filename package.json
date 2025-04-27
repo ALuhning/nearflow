@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@near-wallet-selector/react-hook": "^8.10.2"
+  }
+}
