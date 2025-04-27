@@ -16,7 +16,7 @@ import type {
   
   import { useNearStore } from './near';
   
-  type WalletStore = {
+  export type WalletStore = {
     account: AccountState | null;
     hasResolved: boolean;
     modal: WalletSelectorModal | null;

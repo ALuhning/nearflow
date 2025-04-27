@@ -69,7 +69,7 @@ install_backend: ## install the backend dependencies
 
 install_frontend: ## install the frontend dependencies
 	@echo 'Installing frontend dependencies'
-	@cd src/frontend && npm install > /dev/null 2>&1
+	@cd src/frontend && pnpm install > /dev/null 2>&1
 
 build_frontend: ## build the frontend static files
 	@echo '==== Starting frontend build ===='
@@ -77,7 +77,7 @@ build_frontend: ## build the frontend static files
 	@echo 'Checking if src/frontend exists...'
 	@ls -la src/frontend || true
 	@echo 'Building frontend static files...'
-	@cd src/frontend && CI='' npm run build 2>&1 || { echo "\nBuild failed! Error output above ☝️"; exit 1; }
+	@cd src/frontend && CI='' pnpm run build 2>&1 || { echo "\nBuild failed! Error output above ☝️"; exit 1; }
 	@echo 'Clearing destination directory...'
 	$(call CLEAR_DIRS,src/backend/base/langflow/frontend)
 	@echo 'Copying build files...'
@@ -202,7 +202,7 @@ format_backend: ## backend code formatters
 	@uv run ruff format . --config pyproject.toml
 
 format_frontend: ## frontend code formatters
-	@cd src/frontend && npm run format
+	@cd src/frontend && pnpm run format
 
 format: format_backend format_frontend ## run code formatters
 
@@ -213,14 +213,14 @@ lint: install_backend ## run linters
 	@uv run mypy --namespace-packages -p "langflow"
 
 install_frontendci:
-	@cd src/frontend && npm ci > /dev/null 2>&1
+	@cd src/frontend && pnpm ci > /dev/null 2>&1
 
 install_frontendc:
-	@cd src/frontend && $(call CLEAR_DIRS,node_modules) && rm -f package-lock.json && npm install > /dev/null 2>&1
+	@cd src/frontend && $(call CLEAR_DIRS,node_modules) && rm -f package-lock.json && pnpm install > /dev/null 2>&1
 
 run_frontend: ## run the frontend
 	@-kill -9 `lsof -t -i:3000`
-	@cd src/frontend && npm start $(if $(FRONTEND_START_FLAGS),-- $(FRONTEND_START_FLAGS))
+	@cd src/frontend && pnpm start $(if $(FRONTEND_START_FLAGS),-- $(FRONTEND_START_FLAGS))
 
 tests_frontend: ## run frontend tests
 ifeq ($(UI), true)

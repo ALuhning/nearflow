@@ -41,23 +41,42 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        buffer: path.resolve(__dirname, 'node_modules', 'buffer'), // Correct way to resolve path for buffer
+        process: 'process/browser',
+        buffer: path.resolve(__dirname, 'node_modules', 'buffer'),
+        http: 'http-browserify',
+        stream: 'stream-browserify',
+        util: 'util/',
+        https: 'https-browserify',
       },
     },
     define: {
-      // Provide the buffer polyfill
-      "global.Buffer": JSON.stringify(Buffer),
+      global: 'globalThis',
+      "global.Buffer": JSON.stringify(Buffer),  
+      'process.env': {},  // Ensure process.env is properly defined
+      'process': 'globalThis.process',  // Directly assign process to globalThis
       "process.env.BACKEND_URL": JSON.stringify(envLangflow.BACKEND_URL ?? "http://127.0.0.1:7860"),
       "process.env.ACCESS_TOKEN_EXPIRE_SECONDS": JSON.stringify(envLangflow.ACCESS_TOKEN_EXPIRE_SECONDS ?? 60),
       "process.env.CI": JSON.stringify(envLangflow.CI ?? false),
       "process.env.LANGFLOW_AUTO_LOGIN": JSON.stringify(envLangflow.LANGFLOW_AUTO_LOGIN ?? true),
     },
-    plugins: [react(), svgr(), tsconfigPaths()],
+    plugins: [
+      react(), 
+      svgr(), 
+      tsconfigPaths()
+    ],
+    optimizeDeps: {
+      esbuildOptions: {
+        define: {
+          global: 'globalThis',
+        },
+      },
+    },
     server: {
       port: port,
       proxy: {
         ...proxyTargets,
       },
     },
+    logLevel: 'debug',
   };
 });

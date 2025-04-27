@@ -77,6 +77,7 @@ const router = createBrowserRouter(
             <Route path="" element={<AppAuthenticatedPage />}>
               <Route path="" element={<DashboardWrapperPage />}>
                 <Route path="" element={<CollectionPage />}>
+                  
                   <Route
                     index
                     element={<CustomNavigate replace to={"flows"} />}
@@ -111,6 +112,10 @@ const router = createBrowserRouter(
                       element={<HomePage key="flows" type="flows" />}
                     />
                   </Route>
+                  <Route 
+                    path="donations" 
+                    element={<DonationsHome />} 
+                  />
                 </Route>
                 <Route path="settings" element={<SettingsPage />}>
                   <Route
@@ -133,7 +138,6 @@ const router = createBrowserRouter(
                   <Route path="shortcuts" element={<ShortcutsPage />} />
                   <Route path="messages" element={<MessagesPage />} />
                   <Route path="store" element={<StoreApiKeyPage />} />
-                  <Route path="donations" element={<DonationsHome />} />
                 </Route>
                 <Route
                   path="store"
