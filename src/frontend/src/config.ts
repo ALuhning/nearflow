@@ -3,6 +3,9 @@ const contractPerNetwork = {
   };
   
   export const NetworkId = "mainnet";
+  export const nodeUrl = "https://rpc.mainnet.near.org";
+  export const walletUrl = "https://app.mynearwallet.com";
+  export const helperUrl = "https://helper.mainnet.near.org";
   export const DonationNearContract = contractPerNetwork[NetworkId];
   
   // Chains for EVM Wallets

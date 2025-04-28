@@ -1,3 +1,6 @@
+import { Buffer } from 'buffer';
+(window as any).Buffer = Buffer;// Set global Buffer for the entire window
+
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 

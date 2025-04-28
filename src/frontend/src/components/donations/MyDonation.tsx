@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { utils } from "near-api-js";
+import { utils, connect, keyStores, WalletConnection, providers } from "near-api-js";
 import { useWalletSelector } from "@near-wallet-selector/react-hook";
 import { DonationNearContract } from "@/config";
+import axios from "axios";
 
 interface Donation {
     account_id: string;
@@ -9,7 +10,7 @@ interface Donation {
 }
 
 const MyDonation = ({ myDonation }) => {
-  const { signedAccountId, viewFunction } = useWalletSelector();
+  const { signedAccountId, viewFunction, wallet } = useWalletSelector();
   const [donation, setDonation] = useState<number>(0);
   
   // Update donation amount when `myDonation` changes
@@ -20,23 +21,22 @@ const MyDonation = ({ myDonation }) => {
   }, [myDonation]);
 
   useEffect(() => {
-    if (!signedAccountId) return;
-  
     const getMyDonations = async () => {
-      if (signedAccountId.trim() === "") return;
-      console.log("Getting donations for account: ", signedAccountId);
-  
+      if (wallet && signedAccountId) {
       try {
         // Fetch donations for the given account
+        if (!signedAccountId || signedAccountId.trim() === "") {
+          console.error("Invalid signedAccountId");
+          return;
+        }
+        
         const loadedDonation = await viewFunction({
           contractId: DonationNearContract,
           method: "get_donation_for_account",
           args: {
-            account_id: signedAccountId,
+            "account_id": signedAccountId,
           },
-        });
-  
-        console.log("Loaded donation data: ", loadedDonation); // Log the response
+        }) as Donation;
   
         // Ensure loadedDonation is valid and has total_amount
         if (!loadedDonation || !loadedDonation.total_amount) {
@@ -52,10 +52,12 @@ const MyDonation = ({ myDonation }) => {
         console.error("Error fetching donation data:", error);
         setDonation(0); // Set to 0 in case of error
       }
+    }
     };
-  
+    
     getMyDonations();
   }, [signedAccountId]);
+  
   
   
 

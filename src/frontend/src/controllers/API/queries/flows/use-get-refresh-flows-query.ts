@@ -39,10 +39,14 @@ export const useGetRefreshFlowsQuery: useQueryFunctionType<
   const getFlowsFn = async (
     params: GetFlowsParams,
   ): Promise<FlowType[] | PaginatedFlowsType> => {
+    if (!params) {
+      console.error("Missing params:", params);
+    }
     try {
       const url = addQueryParams(`${getURL("FLOWS")}/`, params);
+      
       const { data: dbDataFlows } = await api.get<FlowType[]>(url);
-
+      
       if (params.components_only) {
         return dbDataFlows;
       }
@@ -76,6 +80,7 @@ export const useGetRefreshFlowsQuery: useQueryFunctionType<
       return [];
     } catch (e) {
       if (e instanceof AxiosError && e.status !== 403) {
+        console.error("API error:", e.response?.data);
         setErrorData({
           title: "Could not load flows from database",
         });

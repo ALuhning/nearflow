@@ -117,6 +117,7 @@ const router = createBrowserRouter(
                     element={<DonationsHome />} 
                   />
                 </Route>
+                
                 <Route path="settings" element={<SettingsPage />}>
                   <Route
                     index
@@ -139,6 +140,7 @@ const router = createBrowserRouter(
                   <Route path="messages" element={<MessagesPage />} />
                   <Route path="store" element={<StoreApiKeyPage />} />
                 </Route>
+                
                 <Route
                   path="store"
                   element={
@@ -167,6 +169,7 @@ const router = createBrowserRouter(
                   }
                 />
               </Route>
+              
               <Route path="flow/:id/">
                 <Route path="" element={<DashboardWrapperPage />}>
                   <Route path="folder/:folderId/" element={<FlowPage />} />

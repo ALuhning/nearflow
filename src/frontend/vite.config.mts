@@ -4,10 +4,8 @@ import path from "path";
 import * as dotenv from "dotenv";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
+import polyfillNode from 'rollup-plugin-polyfill-node';
 import { API_ROUTES, BASENAME, PORT, PROXY_TARGET } from "./src/customization/config-constants";
-
-// Polyfill for buffer
-import { Buffer } from 'buffer';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -42,16 +40,17 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         process: 'process/browser',
-        buffer: path.resolve(__dirname, 'node_modules', 'buffer'),
+        buffer: 'buffer',
         http: 'http-browserify',
         stream: 'stream-browserify',
-        util: 'util/',
+        util: 'util',
+        url: 'url',
+        whatwgUrl: 'whatwg-url',
         https: 'https-browserify',
       },
     },
     define: {
-      global: 'globalThis',
-      "global.Buffer": JSON.stringify(Buffer),  
+      global: 'globalThis',  
       'process.env': {},  // Ensure process.env is properly defined
       'process': 'globalThis.process',  // Directly assign process to globalThis
       "process.env.BACKEND_URL": JSON.stringify(envLangflow.BACKEND_URL ?? "http://127.0.0.1:7860"),
@@ -62,7 +61,8 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(), 
       svgr(), 
-      tsconfigPaths()
+      tsconfigPaths(),
+      polyfillNode()
     ],
     optimizeDeps: {
       esbuildOptions: {
@@ -76,7 +76,6 @@ export default defineConfig(({ mode }) => {
       proxy: {
         ...proxyTargets,
       },
-    },
-    logLevel: 'debug',
+    }
   };
 });

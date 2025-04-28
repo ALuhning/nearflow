@@ -32,29 +32,28 @@ const DonationForm = ({ setMyDonation }) => {
       // Update the amount state with the calculated value
       setAmount(rounded_two_decimals);
     } catch (error) {
-      console.error("Error in donation calculation:", error.message);
+      if (error instanceof Error) {
+        console.error("Error in donation calculation:", error.message);
+      } else {
+        console.error("Unknown error in donation calculation:", error);
+      }
       setAmount(0); // Fallback to 0 on error
     }
   };
   
-  
-
-
   const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    let deposit = utils.format.parseNearAmount(amount.toString()) ?? "0";
-
-    callFunction({
+    // event.preventDefault();
+    let deposit = utils.format.parseNearAmount(amount.toString()) || "0";
+    let response = await callFunction({
         contractId: DonationNearContract,
         method: "donate",
         deposit,
       })
-      .catch(() => {
-        setMyDonation(-Number(amount));
-      });
-    
-    setMyDonation(amount);
+    if(response) {
+      setMyDonation(amount);
+    } else {
+      setMyDonation(-Number(amount));
+    }
   };
   
   return (
@@ -74,7 +73,7 @@ const DonationForm = ({ setMyDonation }) => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      
         <div className="mb-4">
           <label htmlFor="donation" className="block text-sm font-medium text-gray-700">
             Donation amount (in Ⓝ)
@@ -94,12 +93,12 @@ const DonationForm = ({ setMyDonation }) => {
         </div>
 
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="w-full px-4 py-2 bg-[#1A1D2E] text-white rounded hover:bg-[#141828]"
         >
           Donate
         </button>
-      </form>
+     
     </>
   );
 };
