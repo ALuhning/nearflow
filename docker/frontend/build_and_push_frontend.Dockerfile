@@ -9,7 +9,7 @@
 FROM --platform=$BUILDPLATFORM node:lts-bookworm-slim AS builder-base
 COPY src/frontend /frontend
 
-RUN cd /frontend && npm install && npm run build
+RUN cd /frontend && npm install --legacy-peer-deps && npm run build
 
 ################################
 # RUNTIME
