@@ -49,7 +49,7 @@ COPY ./src /app/src
 COPY src/frontend /tmp/src/frontend
 WORKDIR /tmp/src/frontend
 RUN --mount=type=cache,target=/root/.pnpm \
-    pnpm install --strict-peer-deps=false \
+    pnpm install \
     && pnpm run build \
     && cp -r build /app/src/backend/langflow/frontend \
     && rm -rf /tmp/src/frontend
