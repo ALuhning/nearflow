@@ -2,7 +2,7 @@ import { LoadingComponentProps } from "../../../types/components";
 
 export default function LoadingComponent({
   remSize,
-}: LoadingComponentProps) {
+}: LoadingComponentProps): JSX.Element {
   return (
     <div role="status" className="flex flex-col items-center justify-center">
       <svg
