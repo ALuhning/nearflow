@@ -22,52 +22,52 @@ importers:
         version: 4.1.1
       '@million/lint':
         specifier: ^1.0.0-rc.26
-        version: 1.0.14(bufferutil@4.0.9)(encoding@0.1.13)(rollup@4.40.1)(utf-8-validate@5.0.10)
+        version: 1.0.14(bufferutil@4.0.9)(rollup@4.40.1)(utf-8-validate@5.0.10)
       '@near-wallet-selector/bitte-wallet':
         specifier: ^8.10.2
-        version: 8.10.2(encoding@0.1.13)
+        version: 8.10.2
       '@near-wallet-selector/core':
         specifier: ^8.10.2
-        version: 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
+        version: 8.10.2(near-api-js@5.1.1)
       '@near-wallet-selector/ethereum-wallets':
         specifier: ^8.10.2
-        version: 8.10.2(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+        version: 8.10.2(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@near-wallet-selector/here-wallet':
         specifier: ^8.10.2
-        version: 8.10.2(bn.js@5.2.2)(borsh@2.0.0)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))
+        version: 8.10.2(bn.js@5.2.2)(borsh@2.0.0)(near-api-js@5.1.1)
       '@near-wallet-selector/hot-wallet':
         specifier: ^8.10.2
-        version: 8.10.2(bufferutil@4.0.9)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))(typescript@5.8.3)(utf-8-validate@5.0.10)
+        version: 8.10.2(bufferutil@4.0.9)(near-api-js@5.1.1)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@near-wallet-selector/ledger':
         specifier: ^8.10.2
-        version: 8.10.2(encoding@0.1.13)(typescript@5.8.3)
+        version: 8.10.2(typescript@5.8.3)
       '@near-wallet-selector/meteor-wallet':
         specifier: ^8.10.2
-        version: 8.10.2(encoding@0.1.13)
+        version: 8.10.2
       '@near-wallet-selector/meteor-wallet-app':
         specifier: ^8.10.2
-        version: 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
+        version: 8.10.2(near-api-js@5.1.1)
       '@near-wallet-selector/modal-ui':
         specifier: ^8.10.2
-        version: 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
+        version: 8.10.2(near-api-js@5.1.1)
       '@near-wallet-selector/my-near-wallet':
         specifier: ^8.10.2
-        version: 8.10.2(encoding@0.1.13)
+        version: 8.10.2
       '@near-wallet-selector/near-mobile-wallet':
         specifier: ^8.10.2
-        version: 8.10.2(@swc/helpers@0.5.17)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))(postcss@8.5.3)(typescript@5.8.3)
+        version: 8.10.2(@swc/helpers@0.5.17)(near-api-js@5.1.1)(postcss@8.5.3)(typescript@5.8.3)
       '@near-wallet-selector/nightly':
         specifier: ^8.10.2
-        version: 8.10.2(encoding@0.1.13)
+        version: 8.10.2
       '@near-wallet-selector/react-hook':
         specifier: ^8.10.2
-        version: 8.10.2(@near-wallet-selector/core@8.10.2(near-api-js@5.1.1(encoding@0.1.13)))(@near-wallet-selector/modal-ui@8.10.2(near-api-js@5.1.1(encoding@0.1.13)))(near-api-js@5.1.1(encoding@0.1.13))(react@18.3.1)
+        version: 8.10.2(@near-wallet-selector/core@8.10.2(near-api-js@5.1.1))(@near-wallet-selector/modal-ui@8.10.2(near-api-js@5.1.1))(near-api-js@5.1.1)(react@18.3.1)
       '@near-wallet-selector/sender':
         specifier: ^8.10.2
-        version: 8.10.2(encoding@0.1.13)
+        version: 8.10.2
       '@near-wallet-selector/welldone-wallet':
         specifier: ^8.10.2
-        version: 8.10.2(encoding@0.1.13)
+        version: 8.10.2
       '@radix-ui/react-accordion':
         specifier: ^1.1.2
         version: 1.2.8(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -130,7 +130,7 @@ importers:
         version: 0.14.4
       '@web3modal/wagmi':
         specifier: ^5.1.11
-        version: 5.1.11(5yrjfcnlxm7agzkxp2sipe35sy)
+        version: 5.1.11(t7e7fgtb72ezcp6i6hcml6zt7m)
       '@xyflow/react':
         specifier: ^12.3.6
         version: 12.6.0(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -220,7 +220,7 @@ importers:
         version: 0.5.48
       near-api-js:
         specifier: ^5.1.1
-        version: 5.1.1(encoding@0.1.13)
+        version: 5.1.1
       openseadragon:
         specifier: ^4.1.1
         version: 4.1.1
@@ -237,7 +237,7 @@ importers:
         specifier: ^9.1.0
         version: 9.2.0
       react:
-        specifier: ^18.3.1
+        specifier: ^18
         version: 18.3.1
       react-ace:
         specifier: ^11.0.1
@@ -246,7 +246,7 @@ importers:
         specifier: ^7.1.4
         version: 7.2.2(react@18.3.1)
       react-dom:
-        specifier: ^18.3.1
+        specifier: ^18
         version: 18.3.1(react@18.3.1)
       react-error-boundary:
         specifier: ^4.0.13
@@ -334,7 +334,7 @@ importers:
         version: 4.3.2(typescript@5.8.3)(vite@5.4.18(@types/node@20.17.32)(lightningcss@1.29.3))
       wagmi:
         specifier: ^2.15.0
-        version: 2.15.0(@tanstack/query-core@5.74.7)(@tanstack/react-query@5.74.7(react@18.3.1))(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
+        version: 2.15.0(@tanstack/query-core@5.74.7)(@tanstack/react-query@5.74.7(react@18.3.1))(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
       web-vitals:
         specifier: ^4.1.1
         version: 4.2.4
@@ -394,7 +394,7 @@ importers:
         specifier: ^9.0.8
         version: 9.0.8
       '@vitejs/plugin-react-swc':
-        specifier: ^3.7.0
+        specifier: ^3.9.0
         version: 3.9.0(@swc/helpers@0.5.17)(vite@5.4.18(@types/node@20.17.32)(lightningcss@1.29.3))
       autoprefixer:
         specifier: ^10.4.19
@@ -4613,9 +4613,6 @@ packages:
 
   encode-utf8@1.0.3:
     resolution: {integrity: sha512-ucAnuBEhUK4boH2HjVYG5Q2mQyPorvv0u/ocS+zhdw0S8AlHYY+GOFhP1Gio5z4icpP2ivFSvhtFjQi8+T9ppw==}
-
-  encoding@0.1.13:
-    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
 
   end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
@@ -8840,9 +8837,9 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       use-sync-external-store: 1.5.0(react@18.3.1)
 
-  '@here-wallet/core@3.4.0(bn.js@5.2.2)(borsh@2.0.0)(encoding@0.1.13)':
+  '@here-wallet/core@3.4.0(bn.js@5.2.2)(borsh@2.0.0)':
     dependencies:
-      '@near-js/accounts': 1.4.1(encoding@0.1.13)
+      '@near-js/accounts': 1.4.1
       '@near-js/crypto': 1.4.2
       '@near-js/types': 0.2.1
       '@near-js/utils': 0.2.2
@@ -8862,13 +8859,13 @@ snapshots:
     dependencies:
       react-hook-form: 7.56.1(react@18.3.1)
 
-  '@hot-wallet/sdk@1.0.8(bufferutil@4.0.9)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))(typescript@5.8.3)(utf-8-validate@5.0.10)':
+  '@hot-wallet/sdk@1.0.8(bufferutil@4.0.9)(near-api-js@5.1.1)(typescript@5.8.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@near-js/crypto': 1.4.2
       '@near-js/utils': 1.1.0
-      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
-      '@solana/wallet-adapter-base': 0.9.26(@solana/web3.js@1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10))
-      '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1)
+      '@solana/wallet-adapter-base': 0.9.26(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))
+      '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       borsh: 2.0.0
       js-sha256: 0.11.0
       sha1: 1.1.1
@@ -9094,10 +9091,10 @@ snapshots:
 
   '@metamask/safe-event-emitter@3.1.2': {}
 
-  '@metamask/sdk-communication-layer@0.32.0(cross-fetch@4.1.0(encoding@0.1.13))(eciesjs@0.4.14)(eventemitter2@6.4.9)(readable-stream@3.6.2)(socket.io-client@4.8.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))':
+  '@metamask/sdk-communication-layer@0.32.0(cross-fetch@4.1.0)(eciesjs@0.4.14)(eventemitter2@6.4.9)(readable-stream@3.6.2)(socket.io-client@4.8.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))':
     dependencies:
       bufferutil: 4.0.9
-      cross-fetch: 4.1.0(encoding@0.1.13)
+      cross-fetch: 4.1.0
       date-fns: 2.30.0
       debug: 4.4.0
       eciesjs: 0.4.14
@@ -9113,16 +9110,16 @@ snapshots:
     dependencies:
       '@paulmillr/qr': 0.2.1
 
-  '@metamask/sdk@0.32.0(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@metamask/sdk@0.32.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/runtime': 7.27.0
       '@metamask/onboarding': 1.0.1
       '@metamask/providers': 16.1.0
-      '@metamask/sdk-communication-layer': 0.32.0(cross-fetch@4.1.0(encoding@0.1.13))(eciesjs@0.4.14)(eventemitter2@6.4.9)(readable-stream@3.6.2)(socket.io-client@4.8.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))
+      '@metamask/sdk-communication-layer': 0.32.0(cross-fetch@4.1.0)(eciesjs@0.4.14)(eventemitter2@6.4.9)(readable-stream@3.6.2)(socket.io-client@4.8.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))
       '@metamask/sdk-install-modal-web': 0.32.0
       '@paulmillr/qr': 0.2.1
       bowser: 2.11.0
-      cross-fetch: 4.1.0(encoding@0.1.13)
+      cross-fetch: 4.1.0
       debug: 4.4.0
       eciesjs: 0.4.14
       eth-rpc-errors: 4.0.3
@@ -9180,11 +9177,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@meteorwallet/sdk@1.0.9(near-api-js@4.0.3(encoding@0.1.13))':
+  '@meteorwallet/sdk@1.0.9(near-api-js@4.0.3)':
     dependencies:
       borsh: 0.7.0
       nanoid: 3.3.6
-      near-api-js: 4.0.3(encoding@0.1.13)
+      near-api-js: 4.0.3
       query-string: 7.1.3
 
   '@million/install@1.0.14':
@@ -9202,7 +9199,7 @@ snapshots:
       recast: 0.23.11
       xycolors: 0.1.2
 
-  '@million/lint@1.0.14(bufferutil@4.0.9)(encoding@0.1.13)(rollup@4.40.1)(utf-8-validate@5.0.10)':
+  '@million/lint@1.0.14(bufferutil@4.0.9)(rollup@4.40.1)(utf-8-validate@5.0.10)':
     dependencies:
       '@axiomhq/js': 1.0.0-rc.3
       '@babel/core': 7.26.0
@@ -9216,7 +9213,7 @@ snapshots:
       esbuild: 0.20.2
       faster-babel-types: 0.1.0(@babel/types@7.26.0)
       hono: 4.7.8
-      isomorphic-fetch: 3.0.0(encoding@0.1.13)
+      isomorphic-fetch: 3.0.0
       nanoid: 5.1.5
       ohash: 1.1.6
       pako: 2.1.0
@@ -9231,7 +9228,7 @@ snapshots:
       socket.io-client: 4.8.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       tmp: 0.2.3
       unplugin: 1.16.1
-      update-notifier-cjs: 5.1.7(encoding@0.1.13)
+      update-notifier-cjs: 5.1.7
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -9239,11 +9236,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@mintbase-js/wallet@0.6.1(encoding@0.1.13)':
+  '@mintbase-js/wallet@0.6.1':
     dependencies:
-      '@near-wallet-selector/core': 8.9.12(encoding@0.1.13)
-      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.4(encoding@0.1.13))
-      near-api-js: 4.0.4(encoding@0.1.13)
+      '@near-wallet-selector/core': 8.9.12
+      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.4)
+      near-api-js: 4.0.4
     transitivePeerDependencies:
       - encoding
 
@@ -9384,10 +9381,10 @@ snapshots:
       '@napi-rs/nice-win32-x64-msvc': 1.0.1
     optional: true
 
-  '@near-js/accounts@1.2.1(encoding@0.1.13)':
+  '@near-js/accounts@1.2.1':
     dependencies:
       '@near-js/crypto': 1.2.4
-      '@near-js/providers': 0.2.2(encoding@0.1.13)
+      '@near-js/providers': 0.2.2
       '@near-js/signers': 0.1.4
       '@near-js/transactions': 1.2.2
       '@near-js/types': 0.2.1
@@ -9400,10 +9397,10 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@near-js/accounts@1.2.2(encoding@0.1.13)':
+  '@near-js/accounts@1.2.2':
     dependencies:
       '@near-js/crypto': 1.3.0
-      '@near-js/providers': 0.2.3(encoding@0.1.13)
+      '@near-js/providers': 0.2.3
       '@near-js/signers': 0.1.5
       '@near-js/transactions': 1.2.3
       '@near-js/types': 0.2.1
@@ -9416,10 +9413,10 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@near-js/accounts@1.4.1(encoding@0.1.13)':
+  '@near-js/accounts@1.4.1':
     dependencies:
       '@near-js/crypto': 1.4.2
-      '@near-js/providers': 1.0.3(encoding@0.1.13)
+      '@near-js/providers': 1.0.3
       '@near-js/signers': 0.2.2
       '@near-js/transactions': 1.3.3
       '@near-js/types': 0.3.1
@@ -9504,7 +9501,7 @@ snapshots:
       '@near-js/crypto': 1.4.2
       '@near-js/types': 0.3.1
 
-  '@near-js/providers@0.2.2(encoding@0.1.13)':
+  '@near-js/providers@0.2.2':
     dependencies:
       '@near-js/transactions': 1.2.2
       '@near-js/types': 0.2.1
@@ -9512,11 +9509,11 @@ snapshots:
       borsh: 1.0.0
       http-errors: 1.7.2
     optionalDependencies:
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
 
-  '@near-js/providers@0.2.3(encoding@0.1.13)':
+  '@near-js/providers@0.2.3':
     dependencies:
       '@near-js/transactions': 1.2.3
       '@near-js/types': 0.2.1
@@ -9524,11 +9521,11 @@ snapshots:
       borsh: 1.0.0
       http-errors: 1.7.2
     optionalDependencies:
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
 
-  '@near-js/providers@1.0.3(encoding@0.1.13)':
+  '@near-js/providers@1.0.3':
     dependencies:
       '@near-js/transactions': 1.3.3
       '@near-js/types': 0.3.1
@@ -9536,7 +9533,7 @@ snapshots:
       borsh: 1.0.0
       exponential-backoff: 3.1.2
     optionalDependencies:
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
 
@@ -9610,12 +9607,12 @@ snapshots:
       depd: 2.0.0
       mustache: 4.0.0
 
-  '@near-js/wallet-account@1.2.2(encoding@0.1.13)':
+  '@near-js/wallet-account@1.2.2':
     dependencies:
-      '@near-js/accounts': 1.2.1(encoding@0.1.13)
+      '@near-js/accounts': 1.2.1
       '@near-js/crypto': 1.2.4
       '@near-js/keystores': 0.0.12
-      '@near-js/providers': 0.2.2(encoding@0.1.13)
+      '@near-js/providers': 0.2.2
       '@near-js/signers': 0.1.4
       '@near-js/transactions': 1.2.2
       '@near-js/types': 0.2.1
@@ -9624,12 +9621,12 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@near-js/wallet-account@1.2.3(encoding@0.1.13)':
+  '@near-js/wallet-account@1.2.3':
     dependencies:
-      '@near-js/accounts': 1.2.2(encoding@0.1.13)
+      '@near-js/accounts': 1.2.2
       '@near-js/crypto': 1.3.0
       '@near-js/keystores': 0.1.0
-      '@near-js/providers': 0.2.3(encoding@0.1.13)
+      '@near-js/providers': 0.2.3
       '@near-js/signers': 0.1.5
       '@near-js/transactions': 1.2.3
       '@near-js/types': 0.2.1
@@ -9638,12 +9635,12 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@near-js/wallet-account@1.3.3(encoding@0.1.13)':
+  '@near-js/wallet-account@1.3.3':
     dependencies:
-      '@near-js/accounts': 1.4.1(encoding@0.1.13)
+      '@near-js/accounts': 1.4.1
       '@near-js/crypto': 1.4.2
       '@near-js/keystores': 0.2.2
-      '@near-js/providers': 1.0.3(encoding@0.1.13)
+      '@near-js/providers': 1.0.3
       '@near-js/signers': 0.2.2
       '@near-js/transactions': 1.3.3
       '@near-js/types': 0.3.1
@@ -9652,54 +9649,54 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/bitte-wallet@8.10.2(encoding@0.1.13)':
+  '@near-wallet-selector/bitte-wallet@8.10.2':
     dependencies:
-      '@mintbase-js/wallet': 0.6.1(encoding@0.1.13)
+      '@mintbase-js/wallet': 0.6.1
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/core@8.10.2(near-api-js@4.0.3(encoding@0.1.13))':
+  '@near-wallet-selector/core@8.10.2(near-api-js@4.0.3)':
     dependencies:
       borsh: 1.0.0
       events: 3.3.0
       js-sha256: 0.9.0
-      near-api-js: 4.0.3(encoding@0.1.13)
+      near-api-js: 4.0.3
       rxjs: 7.8.1
 
-  '@near-wallet-selector/core@8.10.2(near-api-js@4.0.4(encoding@0.1.13))':
+  '@near-wallet-selector/core@8.10.2(near-api-js@4.0.4)':
     dependencies:
       borsh: 1.0.0
       events: 3.3.0
       js-sha256: 0.9.0
-      near-api-js: 4.0.4(encoding@0.1.13)
+      near-api-js: 4.0.4
       rxjs: 7.8.1
 
-  '@near-wallet-selector/core@8.10.2(near-api-js@5.1.1(encoding@0.1.13))':
+  '@near-wallet-selector/core@8.10.2(near-api-js@5.1.1)':
     dependencies:
       borsh: 1.0.0
       events: 3.3.0
       js-sha256: 0.9.0
-      near-api-js: 5.1.1(encoding@0.1.13)
+      near-api-js: 5.1.1
       rxjs: 7.8.1
 
-  '@near-wallet-selector/core@8.9.12(encoding@0.1.13)':
+  '@near-wallet-selector/core@8.9.12':
     dependencies:
-      '@near-js/providers': 0.2.2(encoding@0.1.13)
+      '@near-js/providers': 0.2.2
       borsh: 0.7.0
       events: 3.3.0
       js-sha256: 0.9.0
-      near-api-js: 4.0.3(encoding@0.1.13)
+      near-api-js: 4.0.3
       rxjs: 7.8.1
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/ethereum-wallets@8.10.2(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@near-wallet-selector/ethereum-wallets@8.10.2(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
+      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3)
       '@wagmi/core': 2.11.6(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
       bs58: 5.0.0
-      near-api-js: 4.0.3(encoding@0.1.13)
+      near-api-js: 4.0.3
       viem: 2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
     transitivePeerDependencies:
       - '@tanstack/query-core'
@@ -9712,20 +9709,20 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@near-wallet-selector/here-wallet@8.10.2(bn.js@5.2.2)(borsh@2.0.0)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))':
+  '@near-wallet-selector/here-wallet@8.10.2(bn.js@5.2.2)(borsh@2.0.0)(near-api-js@5.1.1)':
     dependencies:
-      '@here-wallet/core': 3.4.0(bn.js@5.2.2)(borsh@2.0.0)(encoding@0.1.13)
-      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
+      '@here-wallet/core': 3.4.0(bn.js@5.2.2)(borsh@2.0.0)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1)
     transitivePeerDependencies:
       - bn.js
       - borsh
       - encoding
       - near-api-js
 
-  '@near-wallet-selector/hot-wallet@8.10.2(bufferutil@4.0.9)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))(typescript@5.8.3)(utf-8-validate@5.0.10)':
+  '@near-wallet-selector/hot-wallet@8.10.2(bufferutil@4.0.9)(near-api-js@5.1.1)(typescript@5.8.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@hot-wallet/sdk': 1.0.8(bufferutil@4.0.9)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))(typescript@5.8.3)(utf-8-validate@5.0.10)
-      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
+      '@hot-wallet/sdk': 1.0.8(bufferutil@4.0.9)(near-api-js@5.1.1)(typescript@5.8.3)(utf-8-validate@5.0.10)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -9733,37 +9730,37 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@near-wallet-selector/ledger@8.10.2(encoding@0.1.13)(typescript@5.8.3)':
+  '@near-wallet-selector/ledger@8.10.2(typescript@5.8.3)':
     dependencies:
       '@ledgerhq/hw-transport': 6.30.3
       '@ledgerhq/hw-transport-webhid': 6.29.4
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
+      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3)
       borsh: 1.0.0
       is-mobile: 4.0.0
-      near-api-js: 4.0.3(encoding@0.1.13)
+      near-api-js: 4.0.3
       ts-essentials: 7.0.3(typescript@5.8.3)
     transitivePeerDependencies:
       - encoding
       - typescript
 
-  '@near-wallet-selector/meteor-wallet-app@8.10.2(near-api-js@5.1.1(encoding@0.1.13))':
+  '@near-wallet-selector/meteor-wallet-app@8.10.2(near-api-js@5.1.1)':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
+      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1)
     transitivePeerDependencies:
       - near-api-js
 
-  '@near-wallet-selector/meteor-wallet@8.10.2(encoding@0.1.13)':
+  '@near-wallet-selector/meteor-wallet@8.10.2':
     dependencies:
-      '@meteorwallet/sdk': 1.0.9(near-api-js@4.0.3(encoding@0.1.13))
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      near-api-js: 4.0.3(encoding@0.1.13)
+      '@meteorwallet/sdk': 1.0.9(near-api-js@4.0.3)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
+      near-api-js: 4.0.3
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/modal-ui@8.10.2(near-api-js@5.1.1(encoding@0.1.13))':
+  '@near-wallet-selector/modal-ui@8.10.2(near-api-js@5.1.1)':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
+      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1)
       copy-to-clipboard: 3.3.3
       qrcode: 1.5.4
       react: 18.2.0
@@ -9771,18 +9768,18 @@ snapshots:
     transitivePeerDependencies:
       - near-api-js
 
-  '@near-wallet-selector/my-near-wallet@8.10.2(encoding@0.1.13)':
+  '@near-wallet-selector/my-near-wallet@8.10.2':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      near-api-js: 4.0.3(encoding@0.1.13)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
+      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3)
+      near-api-js: 4.0.3
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/near-mobile-wallet@8.10.2(@swc/helpers@0.5.17)(encoding@0.1.13)(near-api-js@5.1.1(encoding@0.1.13))(postcss@8.5.3)(typescript@5.8.3)':
+  '@near-wallet-selector/near-mobile-wallet@8.10.2(@swc/helpers@0.5.17)(near-api-js@5.1.1)(postcss@8.5.3)(typescript@5.8.3)':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
-      '@peersyst/near-mobile-signer': 1.1.4(@swc/helpers@0.5.17)(encoding@0.1.13)(postcss@8.5.3)(typescript@5.8.3)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1)
+      '@peersyst/near-mobile-signer': 1.1.4(@swc/helpers@0.5.17)(postcss@8.5.3)(typescript@5.8.3)
     transitivePeerDependencies:
       - '@swc/helpers'
       - cssnano
@@ -9798,45 +9795,45 @@ snapshots:
       - typescript
       - uncss
 
-  '@near-wallet-selector/nightly@8.10.2(encoding@0.1.13)':
+  '@near-wallet-selector/nightly@8.10.2':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      near-api-js: 4.0.3(encoding@0.1.13)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
+      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3)
+      near-api-js: 4.0.3
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/react-hook@8.10.2(@near-wallet-selector/core@8.10.2(near-api-js@5.1.1(encoding@0.1.13)))(@near-wallet-selector/modal-ui@8.10.2(near-api-js@5.1.1(encoding@0.1.13)))(near-api-js@5.1.1(encoding@0.1.13))(react@18.3.1)':
+  '@near-wallet-selector/react-hook@8.10.2(@near-wallet-selector/core@8.10.2(near-api-js@5.1.1))(@near-wallet-selector/modal-ui@8.10.2(near-api-js@5.1.1))(near-api-js@5.1.1)(react@18.3.1)':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
-      '@near-wallet-selector/modal-ui': 8.10.2(near-api-js@5.1.1(encoding@0.1.13))
-      near-api-js: 5.1.1(encoding@0.1.13)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@5.1.1)
+      '@near-wallet-selector/modal-ui': 8.10.2(near-api-js@5.1.1)
+      near-api-js: 5.1.1
       react: 18.3.1
 
-  '@near-wallet-selector/sender@8.10.2(encoding@0.1.13)':
+  '@near-wallet-selector/sender@8.10.2':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
       is-mobile: 4.0.0
-      near-api-js: 4.0.3(encoding@0.1.13)
+      near-api-js: 4.0.3
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/wallet-utils@8.10.2(near-api-js@4.0.3(encoding@0.1.13))':
+  '@near-wallet-selector/wallet-utils@8.10.2(near-api-js@4.0.3)':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      near-api-js: 4.0.3(encoding@0.1.13)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
+      near-api-js: 4.0.3
 
-  '@near-wallet-selector/wallet-utils@8.10.2(near-api-js@4.0.4(encoding@0.1.13))':
+  '@near-wallet-selector/wallet-utils@8.10.2(near-api-js@4.0.4)':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.4(encoding@0.1.13))
-      near-api-js: 4.0.4(encoding@0.1.13)
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.4)
+      near-api-js: 4.0.4
 
-  '@near-wallet-selector/welldone-wallet@8.10.2(encoding@0.1.13)':
+  '@near-wallet-selector/welldone-wallet@8.10.2':
     dependencies:
-      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
-      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3(encoding@0.1.13))
+      '@near-wallet-selector/core': 8.10.2(near-api-js@4.0.3)
+      '@near-wallet-selector/wallet-utils': 8.10.2(near-api-js@4.0.3)
       is-mobile: 4.0.0
-      near-api-js: 4.0.3(encoding@0.1.13)
+      near-api-js: 4.0.3
     transitivePeerDependencies:
       - encoding
 
@@ -10549,12 +10546,12 @@ snapshots:
 
   '@paulmillr/qr@0.2.1': {}
 
-  '@peersyst/near-mobile-signer@1.1.4(@swc/helpers@0.5.17)(encoding@0.1.13)(postcss@8.5.3)(typescript@5.8.3)':
+  '@peersyst/near-mobile-signer@1.1.4(@swc/helpers@0.5.17)(postcss@8.5.3)(typescript@5.8.3)':
     dependencies:
       bn.js: 5.2.2
       borsh: 0.7.0
       js-sha256: 0.9.0
-      near-api-js: 4.0.4(encoding@0.1.13)
+      near-api-js: 4.0.4
       parcel: 2.14.4(@swc/helpers@0.5.17)(postcss@8.5.3)(typescript@5.8.3)
     transitivePeerDependencies:
       - '@swc/helpers'
@@ -11442,10 +11439,10 @@ snapshots:
       commander: 13.1.0
       typescript: 5.8.3
 
-  '@solana/wallet-adapter-base@0.9.26(@solana/web3.js@1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10))':
+  '@solana/wallet-adapter-base@0.9.26(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))':
     dependencies:
       '@solana/wallet-standard-features': 1.3.0
-      '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10)
+      '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@wallet-standard/base': 1.1.0
       '@wallet-standard/features': 1.1.0
       eventemitter3: 5.0.1
@@ -11455,7 +11452,7 @@ snapshots:
       '@wallet-standard/base': 1.1.0
       '@wallet-standard/features': 1.1.0
 
-  '@solana/web3.js@1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10)':
+  '@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/runtime': 7.27.0
       '@noble/curves': 1.9.0
@@ -11469,7 +11466,7 @@ snapshots:
       buffer: 6.0.3
       fast-stable-stringify: 1.0.0
       jayson: 4.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      node-fetch: 2.7.0(encoding@0.1.13)
+      node-fetch: 2.7.0
       rpc-websockets: 9.1.1
       superstruct: 2.0.2
     transitivePeerDependencies:
@@ -12045,14 +12042,14 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@wagmi/connectors@5.7.13(@types/react@18.3.20)(@wagmi/core@2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)))(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)':
+  '@wagmi/connectors@5.7.13(@types/react@18.3.20)(@wagmi/core@2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)))(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)':
     dependencies:
       '@coinbase/wallet-sdk': 4.3.0
-      '@metamask/sdk': 0.32.0(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@metamask/sdk': 0.32.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@safe-global/safe-apps-provider': 0.18.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@safe-global/safe-apps-sdk': 9.1.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@wagmi/core': 2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))
-      '@walletconnect/ethereum-provider': 2.19.2(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@walletconnect/ethereum-provider': 2.19.2(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       cbw-sdk: '@coinbase/wallet-sdk@3.9.3'
       viem: 2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
     optionalDependencies:
@@ -12209,16 +12206,16 @@ snapshots:
     dependencies:
       tslib: 1.14.1
 
-  '@walletconnect/ethereum-provider@2.16.1(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)':
+  '@walletconnect/ethereum-provider@2.16.1(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(utf-8-validate@5.0.10)':
     dependencies:
-      '@walletconnect/jsonrpc-http-connection': 1.0.8(encoding@0.1.13)
+      '@walletconnect/jsonrpc-http-connection': 1.0.8
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/modal': 2.6.2(@types/react@18.3.20)(react@18.3.1)
       '@walletconnect/sign-client': 2.16.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@walletconnect/types': 2.16.1
-      '@walletconnect/universal-provider': 2.16.1(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@walletconnect/universal-provider': 2.16.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@walletconnect/utils': 2.16.1
       events: 3.3.0
     transitivePeerDependencies:
@@ -12246,9 +12243,9 @@ snapshots:
       - uploadthing
       - utf-8-validate
 
-  '@walletconnect/ethereum-provider@2.19.2(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@walletconnect/ethereum-provider@2.19.2(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
-      '@walletconnect/jsonrpc-http-connection': 1.0.8(encoding@0.1.13)
+      '@walletconnect/jsonrpc-http-connection': 1.0.8
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
@@ -12256,7 +12253,7 @@ snapshots:
       '@walletconnect/modal': 2.7.0(@types/react@18.3.20)(react@18.3.1)
       '@walletconnect/sign-client': 2.19.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@walletconnect/types': 2.19.2
-      '@walletconnect/universal-provider': 2.19.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@walletconnect/universal-provider': 2.19.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       '@walletconnect/utils': 2.19.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
       events: 3.3.0
     transitivePeerDependencies:
@@ -12297,11 +12294,11 @@ snapshots:
       '@walletconnect/time': 1.0.2
       events: 3.3.0
 
-  '@walletconnect/jsonrpc-http-connection@1.0.8(encoding@0.1.13)':
+  '@walletconnect/jsonrpc-http-connection@1.0.8':
     dependencies:
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/safe-json': 1.0.2
-      cross-fetch: 3.2.0(encoding@0.1.13)
+      cross-fetch: 3.2.0
       events: 3.3.0
     transitivePeerDependencies:
       - encoding
@@ -12575,9 +12572,9 @@ snapshots:
       - ioredis
       - uploadthing
 
-  '@walletconnect/universal-provider@2.16.1(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@walletconnect/universal-provider@2.16.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
-      '@walletconnect/jsonrpc-http-connection': 1.0.8(encoding@0.1.13)
+      '@walletconnect/jsonrpc-http-connection': 1.0.8
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
@@ -12609,10 +12606,10 @@ snapshots:
       - uploadthing
       - utf-8-validate
 
-  '@walletconnect/universal-provider@2.19.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
+  '@walletconnect/universal-provider@2.19.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)':
     dependencies:
       '@walletconnect/events': 1.0.1
-      '@walletconnect/jsonrpc-http-connection': 1.0.8(encoding@0.1.13)
+      '@walletconnect/jsonrpc-http-connection': 1.0.8
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
@@ -12871,11 +12868,11 @@ snapshots:
       lit: 3.1.0
       qrcode: 1.5.3
 
-  '@web3modal/wagmi@5.1.11(5yrjfcnlxm7agzkxp2sipe35sy)':
+  '@web3modal/wagmi@5.1.11(t7e7fgtb72ezcp6i6hcml6zt7m)':
     dependencies:
-      '@wagmi/connectors': 5.7.13(@types/react@18.3.20)(@wagmi/core@2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)))(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
+      '@wagmi/connectors': 5.7.13(@types/react@18.3.20)(@wagmi/core@2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)))(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
       '@wagmi/core': 2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))
-      '@walletconnect/ethereum-provider': 2.16.1(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      '@walletconnect/ethereum-provider': 2.16.1(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(utf-8-validate@5.0.10)
       '@walletconnect/utils': 2.16.1
       '@web3modal/base': 5.1.11(@types/react@18.3.20)(react@18.3.1)
       '@web3modal/common': 5.1.11
@@ -12884,7 +12881,7 @@ snapshots:
       '@web3modal/siwe': 5.1.11(@types/react@18.3.20)(react@18.3.1)
       '@web3modal/wallet': 5.1.11
       viem: 2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)
-      wagmi: 2.15.0(@tanstack/query-core@5.74.7)(@tanstack/react-query@5.74.7(react@18.3.1))(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
+      wagmi: 2.15.0(@tanstack/query-core@5.74.7)(@tanstack/react-query@5.74.7(react@18.3.1))(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
     optionalDependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -13567,15 +13564,15 @@ snapshots:
 
   crelt@1.0.6: {}
 
-  cross-fetch@3.2.0(encoding@0.1.13):
+  cross-fetch@3.2.0:
     dependencies:
-      node-fetch: 2.7.0(encoding@0.1.13)
+      node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
 
-  cross-fetch@4.1.0(encoding@0.1.13):
+  cross-fetch@4.1.0:
     dependencies:
-      node-fetch: 2.7.0(encoding@0.1.13)
+      node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
 
@@ -13846,11 +13843,6 @@ snapshots:
   emoji-regex@9.2.2: {}
 
   encode-utf8@1.0.3: {}
-
-  encoding@0.1.13:
-    dependencies:
-      iconv-lite: 0.6.3
-    optional: true
 
   end-of-stream@1.4.4:
     dependencies:
@@ -14753,9 +14745,9 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-fetch@3.0.0(encoding@0.1.13):
+  isomorphic-fetch@3.0.0:
     dependencies:
-      node-fetch: 2.7.0(encoding@0.1.13)
+      node-fetch: 2.7.0
       whatwg-fetch: 3.6.20
     transitivePeerDependencies:
       - encoding
@@ -15779,69 +15771,69 @@ snapshots:
     dependencies:
       '@types/json-schema': 7.0.15
 
-  near-api-js@4.0.3(encoding@0.1.13):
+  near-api-js@4.0.3:
     dependencies:
-      '@near-js/accounts': 1.2.1(encoding@0.1.13)
+      '@near-js/accounts': 1.2.1
       '@near-js/crypto': 1.2.4
       '@near-js/keystores': 0.0.12
       '@near-js/keystores-browser': 0.0.12
       '@near-js/keystores-node': 0.0.12
-      '@near-js/providers': 0.2.2(encoding@0.1.13)
+      '@near-js/providers': 0.2.2
       '@near-js/signers': 0.1.4
       '@near-js/transactions': 1.2.2
       '@near-js/types': 0.2.1
       '@near-js/utils': 0.2.2
-      '@near-js/wallet-account': 1.2.2(encoding@0.1.13)
+      '@near-js/wallet-account': 1.2.2
       '@noble/curves': 1.2.0
       borsh: 1.0.0
       depd: 2.0.0
       http-errors: 1.7.2
       near-abi: 0.1.1
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
 
-  near-api-js@4.0.4(encoding@0.1.13):
+  near-api-js@4.0.4:
     dependencies:
-      '@near-js/accounts': 1.2.2(encoding@0.1.13)
+      '@near-js/accounts': 1.2.2
       '@near-js/crypto': 1.3.0
       '@near-js/keystores': 0.1.0
       '@near-js/keystores-browser': 0.1.0
       '@near-js/keystores-node': 0.0.13
-      '@near-js/providers': 0.2.3(encoding@0.1.13)
+      '@near-js/providers': 0.2.3
       '@near-js/signers': 0.1.5
       '@near-js/transactions': 1.2.3
       '@near-js/types': 0.2.1
       '@near-js/utils': 0.3.0
-      '@near-js/wallet-account': 1.2.3(encoding@0.1.13)
+      '@near-js/wallet-account': 1.2.3
       '@noble/curves': 1.2.0
       borsh: 1.0.0
       depd: 2.0.0
       http-errors: 1.7.2
       near-abi: 0.1.1
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
 
-  near-api-js@5.1.1(encoding@0.1.13):
+  near-api-js@5.1.1:
     dependencies:
-      '@near-js/accounts': 1.4.1(encoding@0.1.13)
+      '@near-js/accounts': 1.4.1
       '@near-js/crypto': 1.4.2
       '@near-js/keystores': 0.2.2
       '@near-js/keystores-browser': 0.2.2
       '@near-js/keystores-node': 0.1.2
-      '@near-js/providers': 1.0.3(encoding@0.1.13)
+      '@near-js/providers': 1.0.3
       '@near-js/signers': 0.2.2
       '@near-js/transactions': 1.3.3
       '@near-js/types': 0.3.1
       '@near-js/utils': 1.1.0
-      '@near-js/wallet-account': 1.3.3(encoding@0.1.13)
+      '@near-js/wallet-account': 1.3.3
       '@noble/curves': 1.8.1
       borsh: 1.0.0
       depd: 2.0.0
       http-errors: 1.7.2
       near-abi: 0.2.0
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
 
@@ -15867,17 +15859,13 @@ snapshots:
 
   node-fetch-native@1.6.6: {}
 
-  node-fetch@2.6.7(encoding@0.1.13):
+  node-fetch@2.6.7:
     dependencies:
       whatwg-url: 5.0.0
-    optionalDependencies:
-      encoding: 0.1.13
 
-  node-fetch@2.7.0(encoding@0.1.13):
+  node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
-    optionalDependencies:
-      encoding: 0.1.13
 
   node-gyp-build-optional-packages@5.1.1:
     dependencies:
@@ -17371,7 +17359,7 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  update-notifier-cjs@5.1.7(encoding@0.1.13):
+  update-notifier-cjs@5.1.7:
     dependencies:
       boxen: 5.1.2
       chalk: 4.1.2
@@ -17382,7 +17370,7 @@ snapshots:
       is-installed-globally: 0.4.0
       is-npm: 5.0.0
       is-yarn-global: 0.3.0
-      isomorphic-fetch: 3.0.0(encoding@0.1.13)
+      isomorphic-fetch: 3.0.0
       pupa: 2.1.1
       registry-auth-token: 5.1.0
       registry-url: 5.1.0
@@ -17635,10 +17623,10 @@ snapshots:
     dependencies:
       xml-name-validator: 4.0.0
 
-  wagmi@2.15.0(@tanstack/query-core@5.74.7)(@tanstack/react-query@5.74.7(react@18.3.1))(@types/react@18.3.20)(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3):
+  wagmi@2.15.0(@tanstack/query-core@5.74.7)(@tanstack/react-query@5.74.7(react@18.3.1))(@types/react@18.3.20)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3):
     dependencies:
       '@tanstack/react-query': 5.74.7(react@18.3.1)
-      '@wagmi/connectors': 5.7.13(@types/react@18.3.20)(@wagmi/core@2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)))(bufferutil@4.0.9)(encoding@0.1.13)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
+      '@wagmi/connectors': 5.7.13(@types/react@18.3.20)(@wagmi/core@2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3)))(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
       '@wagmi/core': 2.17.0(@tanstack/query-core@5.74.7)(@types/react@18.3.20)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.16.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.3))
       react: 18.3.1
       use-sync-external-store: 1.4.0(react@18.3.1)

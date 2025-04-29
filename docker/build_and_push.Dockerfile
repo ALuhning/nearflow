@@ -26,8 +26,8 @@ RUN apt-get update \
     # deps for building python deps
     build-essential \
     git \
-    # npm
-    npm \
+    # pnpm
+    pnpm \
     # gcc
     gcc \
     && apt-get clean \
@@ -46,9 +46,9 @@ COPY ./src /app/src
 
 COPY src/frontend /tmp/src/frontend
 WORKDIR /tmp/src/frontend
-RUN --mount=type=cache,target=/root/.npm \
-    npm ci \
-    && npm run build \
+RUN --mount=type=cache,target=/root/.pnpm \
+    pnpm ci \
+    && pnpm run build \
     && cp -r build /app/src/backend/langflow/frontend \
     && rm -rf /tmp/src/frontend
 

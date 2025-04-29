@@ -44,7 +44,7 @@ patch: ## bump the version in langflow and langflow-base
 # check for required tools
 check_tools:
 	@command -v uv >/dev/null 2>&1 || { echo >&2 "$(RED)uv is not installed. Aborting.$(NC)"; exit 1; }
-	@command -v npm >/dev/null 2>&1 || { echo >&2 "$(RED)NPM is not installed. Aborting.$(NC)"; exit 1; }
+	@command -v pnpm >/dev/null 2>&1 || { echo >&2 "$(RED)PNPM is not installed. Aborting.$(NC)"; exit 1; }
 	@echo "$(GREEN)All required tools are installed.$(NC)"
 
 
@@ -105,11 +105,11 @@ clean_python_cache:
 	@echo "$(GREEN)Python cache cleaned.$(NC)"
 
 clean_npm_cache:
-	@echo "Cleaning npm cache..."
-	cd src/frontend && npm cache clean --force
+	@echo "Cleaning pnpm cache..."
+	cd src/frontend && pnpm store prune --force
 	$(call CLEAR_DIRS,src/frontend/node_modules src/frontend/build src/backend/base/langflow/frontend)
 	rm -f src/frontend/package-lock.json
-	@echo "$(GREEN)NPM cache and frontend directories cleaned.$(NC)"
+	@echo "$(GREEN)PNPM cache and frontend directories cleaned.$(NC)"
 
 clean_all: clean_python_cache clean_npm_cache # clean all caches and temporary directories
 	@echo "$(GREEN)All caches and temporary directories cleaned.$(NC)"
@@ -216,7 +216,7 @@ install_frontendci:
 	@cd src/frontend && pnpm ci > /dev/null 2>&1
 
 install_frontendc:
-	@cd src/frontend && $(call CLEAR_DIRS,node_modules) && rm -f package-lock.json && pnpm install > /dev/null 2>&1
+	@cd src/frontend && $(call CLEAR_DIRS,node_modules) && rm -f package-lock.json && npm install --force > /dev/null 2>&1
 
 run_frontend: ## run the frontend
 	@-kill -9 `lsof -t -i:3000`
