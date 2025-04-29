@@ -26,8 +26,8 @@ RUN apt-get update \
     # deps for building python deps
     build-essential \
     git \
-    # pnpm
-    pnpm \
+    # npm
+    npm \
     # gcc
     gcc \
     && apt-get clean \
