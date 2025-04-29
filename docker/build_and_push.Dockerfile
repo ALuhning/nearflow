@@ -31,6 +31,7 @@ RUN apt-get update \
     # gcc
     gcc \
     && npm install -g pnpm \
+    && npm install -g vite \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
