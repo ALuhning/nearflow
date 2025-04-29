@@ -28,6 +28,7 @@ RUN apt-get update \
     git \
     # npm
     npm \
+    pnpm \
     # gcc
     gcc \
     && apt-get clean \
@@ -48,8 +49,8 @@ COPY src/frontend /tmp/src/frontend
 WORKDIR /tmp/src/frontend
 RUN --mount=type=cache,target=/root/.npm \
     npm ci \
-    && npm install --force \
-    && npm run build \
+    && pnpm install \
+    && pnpm run build \
     && cp -r build /app/src/backend/langflow/frontend \
     && rm -rf /tmp/src/frontend
 
