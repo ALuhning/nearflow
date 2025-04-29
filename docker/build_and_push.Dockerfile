@@ -30,6 +30,7 @@ RUN apt-get update \
     npm \
     # gcc
     gcc \
+    && npm install -g pnpm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
