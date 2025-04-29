@@ -1,4 +1,5 @@
 import hashlib
+import os
 from datetime import datetime, timezone
 from http import HTTPStatus
 from io import BytesIO
@@ -134,6 +135,15 @@ async def download_profile_picture(
         storage_service = get_storage_service()
         extension = file_name.split(".")[-1]
         config_dir = storage_service.settings_service.settings.config_dir
+        # Check if the environment is local and config_dir contains '~'
+        if "LOCAL" in os.environ.get("ENV", "") and "~" in config_dir:
+            # First, expand the '~' in the config_dir to the home directory
+            config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
+
+            # Now, append the project directory (e.g., "nearflow")
+            project_directory = Path(os.getcwd())  # Get the current working directory (project root)
+            config_dir = project_directory / Path(config_dir).relative_to(Path.home())  # Append project dir to home
+
         config_path = Path(config_dir)  # type: ignore[arg-type]
         folder_path = config_path / "profile_pictures" / folder_name
         content_type = build_content_type_from_extension(extension)
@@ -144,22 +154,56 @@ async def download_profile_picture(
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
+# @router.get("/profile_pictures/list")
+# async def list_profile_pictures():
+#     try:
+#         storage_service = get_storage_service()
+#         config_dir = storage_service.settings_service.settings.config_dir
+#         config_path = Path(config_dir)  # type: ignore[arg-type]
+
+#         people_path = config_path / "profile_pictures/People"
+#         space_path = config_path / "profile_pictures/Space"
+
+#         people = await storage_service.list_files(flow_id=people_path)  # type: ignore[arg-type]
+#         space = await storage_service.list_files(flow_id=space_path)  # type: ignore[arg-type]
+
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e)) from e
+
+#     files = [f"People/{i}" for i in people]
+#     files += [f"Space/{i}" for i in space]
+
+#     return {"files": files}
+
+
 @router.get("/profile_pictures/list")
 async def list_profile_pictures():
     try:
         storage_service = get_storage_service()
         config_dir = storage_service.settings_service.settings.config_dir
+
+        # Check if the environment is local and config_dir contains '~'
+        if "LOCAL" in os.environ.get("ENV", "") and "~" in config_dir:
+            # First, expand the '~' in the config_dir to the home directory
+            config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
+
+            # Now, append the project directory (e.g., "nearflow")
+            project_directory = Path(os.getcwd())  # Get the current working directory (project root)
+            config_dir = project_directory / Path(config_dir).relative_to(Path.home())  # Append project dir to home
+
         config_path = Path(config_dir)  # type: ignore[arg-type]
 
         people_path = config_path / "profile_pictures/People"
         space_path = config_path / "profile_pictures/Space"
 
+        # Fetch files from the specified directories
         people = await storage_service.list_files(flow_id=people_path)  # type: ignore[arg-type]
         space = await storage_service.list_files(flow_id=space_path)  # type: ignore[arg-type]
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
+    # Create the list of file paths
     files = [f"People/{i}" for i in people]
     files += [f"Space/{i}" for i in space]
 

@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { AccountMenu } from "./components/AccountMenu";
 import FlowMenu from "./components/FlowMenu";
 import GithubStarComponent from "./components/GithubStarButton";
+import { NearAuthIcon } from "./components/NearAuth";
 
 export default function AppHeader(): JSX.Element {
   const notificationCenter = useAlertStore((state) => state.notificationCenter);
@@ -88,6 +89,7 @@ export default function AppHeader(): JSX.Element {
       >
         {!ENABLE_DATASTAX_LANGFLOW && (
           <>
+            <NearAuthIcon />
             <Button
               unstyled
               className="hidden items-center whitespace-nowrap pr-2 2xl:inline"

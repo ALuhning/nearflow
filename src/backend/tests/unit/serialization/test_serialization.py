@@ -1,5 +1,5 @@
 import math
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import numpy as np
@@ -15,9 +15,7 @@ from pydantic.v1 import BaseModel as PydanticV1BaseModel
 # Comprehensive hypothesis strategies
 text_strategy = st.text(min_size=0, max_size=MAX_TEXT_LENGTH * 3)
 bytes_strategy = st.binary(min_size=0, max_size=MAX_TEXT_LENGTH * 3)
-datetime_strategy = st.datetimes(
-    min_value=datetime.min, max_value=datetime.max, timezones=st.sampled_from([timezone.utc, None])
-)
+datetime_strategy = st.datetimes(min_value=datetime.min, max_value=datetime.max, timezones=st.sampled_from([UTC, None]))
 decimal_strategy = st.decimals(min_value=-1e6, max_value=1e6, allow_nan=False, allow_infinity=False, places=10)
 uuid_strategy = st.uuids()
 list_strategy = st.lists(st.one_of(st.integers(), st.text(), st.floats()), min_size=0, max_size=MAX_ITEMS_LENGTH * 3)
@@ -75,7 +73,7 @@ class TestSerializationHypothesis:
     @given(dt=datetime_strategy)
     def test_datetime_serialization(self, dt: datetime) -> None:
         result: str = serialize(dt)
-        assert result == dt.replace(tzinfo=timezone.utc).isoformat()
+        assert result == dt.replace(tzinfo=UTC).isoformat()
 
     @settings(max_examples=100)
     @given(dec=decimal_strategy)

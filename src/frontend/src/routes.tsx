@@ -35,6 +35,7 @@ import ShortcutsPage from "./pages/SettingsPage/pages/ShortcutsPage";
 import StoreApiKeyPage from "./pages/SettingsPage/pages/StoreApiKeyPage";
 import StorePage from "./pages/StorePage";
 import ViewPage from "./pages/ViewPage";
+import DonationsHome from "./pages/Donations";
 
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 const LoginAdminPage = lazy(() => import("./pages/AdminPage/LoginPage"));
@@ -76,6 +77,7 @@ const router = createBrowserRouter(
             <Route path="" element={<AppAuthenticatedPage />}>
               <Route path="" element={<DashboardWrapperPage />}>
                 <Route path="" element={<CollectionPage />}>
+                  
                   <Route
                     index
                     element={<CustomNavigate replace to={"flows"} />}
@@ -110,7 +112,12 @@ const router = createBrowserRouter(
                       element={<HomePage key="flows" type="flows" />}
                     />
                   </Route>
+                  <Route 
+                    path="donations" 
+                    element={<DonationsHome />} 
+                  />
                 </Route>
+                
                 <Route path="settings" element={<SettingsPage />}>
                   <Route
                     index
@@ -133,6 +140,7 @@ const router = createBrowserRouter(
                   <Route path="messages" element={<MessagesPage />} />
                   <Route path="store" element={<StoreApiKeyPage />} />
                 </Route>
+                
                 <Route
                   path="store"
                   element={
@@ -161,6 +169,7 @@ const router = createBrowserRouter(
                   }
                 />
               </Route>
+              
               <Route path="flow/:id/">
                 <Route path="" element={<DashboardWrapperPage />}>
                   <Route path="folder/:folderId/" element={<FlowPage />} />

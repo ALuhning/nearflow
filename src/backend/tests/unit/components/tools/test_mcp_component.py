@@ -1,4 +1,3 @@
-import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -257,7 +256,7 @@ class TestMCPSseClient:
             patch.object(sse_client, "validate_url", return_value=(True, "")),  # Mock URL validation
             patch.object(sse_client, "_connect_with_timeout") as mock_connect,
         ):
-            mock_connect.side_effect = asyncio.TimeoutError()
+            mock_connect.side_effect = TimeoutError()
 
             # Expect ConnectionError instead of TimeoutError
             with pytest.raises(

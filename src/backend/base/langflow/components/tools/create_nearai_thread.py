@@ -1,10 +1,12 @@
-from langflow.base.langchain_utilities.model import LCToolComponent
-from langflow.inputs import StrInput, SecretStrInput, IntInput
-from langflow.io import Output
-from pydantic import SecretStr
-import httpx
 import json
 import logging
+
+import httpx
+from pydantic import SecretStr
+
+from langflow.base.langchain_utilities.model import LCToolComponent
+from langflow.inputs import IntInput, SecretStrInput, StrInput
+from langflow.io import Output
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +22,7 @@ class CreateNearAIThreadTool(LCToolComponent):
             name="near_credentials",
             display_name="NEAR Credentials",
             required=True,
-            info="JSON string containing NEAR credentials with 'auth'."
+            info="JSON string containing NEAR credentials with 'auth'.",
         ),
         StrInput(
             name="agent_id",
@@ -28,25 +30,23 @@ class CreateNearAIThreadTool(LCToolComponent):
             required=True,
             value=None,  # ✅ absolutely required for port to appear
             tool_mode=True,
-            info="Full NEAR AI agent ID (e.g., ai-aaron.near/my-agent/1.0.0)"
+            info="Full NEAR AI agent ID (e.g., ai-aaron.near/my-agent/1.0.0)",
         ),
         StrInput(
             name="new_message",
             display_name="Init Message",
             value="Initialize memory thread.",
-            info="Initial message to seed the thread."
+            info="Initial message to seed the thread.",
         ),
         IntInput(
             name="max_iterations",
             display_name="Max Iterations",
             value=0,
-            info="Number of iterations to allow the agent to run."
+            info="Number of iterations to allow the agent to run.",
         ),
     ]
 
-    outputs = [
-        Output(name="thread_id", display_name="Thread ID", method="build")
-    ]
+    outputs = [Output(name="thread_id", display_name="Thread ID", method="build")]
 
     async def build(self) -> str:
         try:
@@ -59,24 +59,17 @@ class CreateNearAIThreadTool(LCToolComponent):
         if not self.agent_id:
             raise ValueError("Missing required input: agent_id")
 
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
-        }
+        headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
         payload = {
             "agent_id": self.agent_id.strip(),
             "new_message": self.new_message,
-            "max_iterations": self.max_iterations
+            "max_iterations": self.max_iterations,
         }
 
         async with httpx.AsyncClient(timeout=30.0) as client:
             logger.info(f"[CreateThreadTool] Payload: {payload}")
-            response = await client.post(
-                "https://api.near.ai/v1/threads/runs",
-                headers=headers,
-                json=payload
-            )
+            response = await client.post("https://api.near.ai/v1/threads/runs", headers=headers, json=payload)
 
         if response.status_code != 200:
             raise Exception(f"[NEAR AI] Failed to create thread: {response.status_code} {response.text}")

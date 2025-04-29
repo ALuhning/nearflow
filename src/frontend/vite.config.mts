@@ -1,15 +1,11 @@
-import react from "@vitejs/plugin-react-swc";
-import * as dotenv from "dotenv";
-import path from "path";
 import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import * as dotenv from "dotenv";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
-import {
-  API_ROUTES,
-  BASENAME,
-  PORT,
-  PROXY_TARGET,
-} from "./src/customization/config-constants";
+import polyfillNode from 'rollup-plugin-polyfill-node';
+import { API_ROUTES, BASENAME, PORT, PROXY_TARGET } from "./src/customization/config-constants";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -22,8 +18,7 @@ export default defineConfig(({ mode }) => {
 
   const apiRoutes = API_ROUTES || ["^/api/v1/", "^/api/v2/", "/health"];
 
-  const target =
-    env.VITE_PROXY_TARGET || PROXY_TARGET || "http://127.0.0.1:7860";
+  const target = env.VITE_PROXY_TARGET || PROXY_TARGET || "http://127.0.0.1:7860";
 
   const port = Number(env.VITE_PORT) || PORT || 3000;
 
@@ -42,24 +37,45 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "build",
     },
-    define: {
-      "process.env.BACKEND_URL": JSON.stringify(
-        envLangflow.BACKEND_URL ?? "http://127.0.0.1:7860",
-      ),
-      "process.env.ACCESS_TOKEN_EXPIRE_SECONDS": JSON.stringify(
-        envLangflow.ACCESS_TOKEN_EXPIRE_SECONDS ?? 60,
-      ),
-      "process.env.CI": JSON.stringify(envLangflow.CI ?? false),
-      "process.env.LANGFLOW_AUTO_LOGIN": JSON.stringify(
-        envLangflow.LANGFLOW_AUTO_LOGIN ?? true,
-      ),
+    resolve: {
+      alias: {
+        process: 'process/browser',
+        buffer: 'buffer',
+        http: 'http-browserify',
+        stream: 'stream-browserify',
+        util: 'util',
+        url: 'url',
+        whatwgUrl: 'whatwg-url',
+        https: 'https-browserify',
+      },
     },
-    plugins: [react(), svgr(), tsconfigPaths()],
+    define: {
+      global: 'globalThis',  
+      'process.env': {},  // Ensure process.env is properly defined
+      'process': 'globalThis.process',  // Directly assign process to globalThis
+      "process.env.BACKEND_URL": JSON.stringify(envLangflow.BACKEND_URL ?? "http://127.0.0.1:7860"),
+      "process.env.ACCESS_TOKEN_EXPIRE_SECONDS": JSON.stringify(envLangflow.ACCESS_TOKEN_EXPIRE_SECONDS ?? 60),
+      "process.env.CI": JSON.stringify(envLangflow.CI ?? false),
+      "process.env.LANGFLOW_AUTO_LOGIN": JSON.stringify(envLangflow.LANGFLOW_AUTO_LOGIN ?? true),
+    },
+    plugins: [
+      react(), 
+      svgr(), 
+      tsconfigPaths(),
+      polyfillNode()
+    ],
+    optimizeDeps: {
+      esbuildOptions: {
+        define: {
+          global: 'globalThis',
+        },
+      },
+    },
     server: {
       port: port,
       proxy: {
         ...proxyTargets,
       },
-    },
+    }
   };
 });

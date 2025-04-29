@@ -40,6 +40,7 @@ export const useGetAutoLogin: useQueryFunctionType<undefined, undefined> = (
     try {
       const response = await api.get<Users>(`${getURL("AUTOLOGIN")}`);
       const user = response.data;
+  
       if (user && user["access_token"]) {
         user["refresh_token"] = "auto";
         login(user["access_token"], "auto");
@@ -49,6 +50,7 @@ export const useGetAutoLogin: useQueryFunctionType<undefined, undefined> = (
       }
     } catch (e) {
       const error = e as AxiosError;
+      console.error("Auto-login error:", error.response); // Debugging: log error response
       if (error.name !== "CanceledError") {
         setAutoLogin(false);
         if (!isLoginPage) {
@@ -58,6 +60,8 @@ export const useGetAutoLogin: useQueryFunctionType<undefined, undefined> = (
     }
     return null;
   }
+  
+  
 
   const resetTimer = () => {
     retryCountRef.current = 0;
@@ -68,6 +72,7 @@ export const useGetAutoLogin: useQueryFunctionType<undefined, undefined> = (
   };
 
   const handleAutoLoginError = async () => {
+    
     const manualLoginNotAuthenticated =
       (!isAuthenticated && !IS_AUTO_LOGIN) ||
       (!isAuthenticated && autoLogin !== undefined && !autoLogin);
@@ -85,6 +90,7 @@ export const useGetAutoLogin: useQueryFunctionType<undefined, undefined> = (
           (!isHomePath && !isLoginPage ? "?redirect=" + currentPath : ""),
       );
     } else if (autoLoginNotAuthenticated) {
+      
       const retryCount = retryCountRef.current;
       const delay = Math.min(
         AUTO_LOGIN_RETRY_DELAY * Math.pow(2, retryCount),
@@ -92,18 +98,23 @@ export const useGetAutoLogin: useQueryFunctionType<undefined, undefined> = (
       );
 
       retryCountRef.current += 1;
-
+      
       if (retryTimerRef.current) {
         clearTimeout(retryTimerRef.current);
       }
 
       retryTimerRef.current = setTimeout(() => {
+        
         getAutoLoginFn();
+        
       }, delay);
+      
     } else {
       getUser();
     }
   };
+
+  
 
   const queryResult = query(["useGetAutoLogin"], getAutoLoginFn, {
     refetchOnWindowFocus: false,

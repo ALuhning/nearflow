@@ -1,3 +1,4 @@
+import React from 'react';
 import { LoadingComponentProps } from "../../../types/components";
 
 export default function LoadingComponent({

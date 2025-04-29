@@ -59,6 +59,7 @@ function ApiInterceptor() {
     const interceptor = api.interceptors.response.use(
       (response) => {
         setHealthCheckTimeout(null);
+
         return response;
       },
       async (error: AxiosError) => {

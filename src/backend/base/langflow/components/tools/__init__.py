@@ -6,6 +6,7 @@ from .arxiv import ArXivComponent
 from .bing_search_api import BingSearchAPIComponent
 from .calculator import CalculatorToolComponent
 from .calculator_core import CalculatorComponent
+from .create_nearai_thread import CreateNearAIThreadTool
 from .duck_duck_go_search_run import DuckDuckGoSearchComponent
 from .exa_search import ExaSearchToolkit
 from .glean_search_api import GleanSearchAPIComponent
@@ -17,6 +18,7 @@ from .mcp_component import MCPToolsComponent
 from .python_code_structured_tool import PythonCodeStructuredTool
 from .python_repl import PythonREPLToolComponent
 from .python_repl_core import PythonREPLComponent
+from .register_nearai_agent import RegisterNearAIAgentTool
 from .search import SearchComponent
 from .search_api import SearchAPIComponent
 from .searxng import SearXNGToolComponent
@@ -31,8 +33,6 @@ from .wikipedia_api import WikipediaAPIComponent
 from .wolfram_alpha_api import WolframAlphaAPIComponent
 from .yahoo import YfinanceComponent
 from .yahoo_finance import YfinanceToolComponent
-from .create_nearai_thread import CreateNearAIThreadTool
-from .register_nearai_agent import RegisterNearAIAgentTool
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", LangChainDeprecationWarning)
@@ -46,6 +46,7 @@ __all__ = [
     "BingSearchAPIComponent",
     "CalculatorComponent",
     "CalculatorToolComponent",
+    "CreateNearAIThreadTool",
     "DuckDuckGoSearchComponent",
     "ExaSearchToolkit",
     "GleanSearchAPIComponent",
@@ -57,6 +58,7 @@ __all__ = [
     "PythonCodeStructuredTool",
     "PythonREPLComponent",
     "PythonREPLToolComponent",
+    "RegisterNearAIAgentTool",
     "SearXNGToolComponent",
     "SearchAPIComponent",
     "SearchComponent",
@@ -71,6 +73,4 @@ __all__ = [
     "WolframAlphaAPIComponent",
     "YfinanceComponent",
     "YfinanceToolComponent",
-    "CreateNearAIThreadTool",
-    "RegisterNearAIAgentTool",
 ]
