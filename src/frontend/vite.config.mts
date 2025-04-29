@@ -65,7 +65,9 @@ export default defineConfig(({ mode }) => {
       "process.env.LANGFLOW_AUTO_LOGIN": JSON.stringify(envLangflow.LANGFLOW_AUTO_LOGIN ?? true),
     },
     plugins: [
-      react(), 
+      react({
+        jsxRuntime: 'automatic', // Ensure the automatic JSX runtime is used
+      }),
       svgr(), 
       tsconfigPaths(),
       polyfillNode()
