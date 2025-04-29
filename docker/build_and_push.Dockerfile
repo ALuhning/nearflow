@@ -28,7 +28,6 @@ RUN apt-get update \
     git \
     # npm
     npm \
-    pnpm \
     # gcc
     gcc \
     && apt-get clean \
