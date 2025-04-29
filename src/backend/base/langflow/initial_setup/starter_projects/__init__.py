@@ -4,8 +4,8 @@ from .complex_agent import complex_agent_graph
 from .document_qa import document_qa_graph
 from .hierarchical_tasks_agent import hierarchical_tasks_agent_graph
 from .memory_chatbot import memory_chatbot_graph
-from .sequential_tasks_agent import sequential_tasks_agent_graph
 from .near_vector_store_rag import near_vector_store_rag_graph
+from .sequential_tasks_agent import sequential_tasks_agent_graph
 
 __all__ = [
     "basic_prompting_graph",
@@ -14,6 +14,6 @@ __all__ = [
     "document_qa_graph",
     "hierarchical_tasks_agent_graph",
     "memory_chatbot_graph",
-    "sequential_tasks_agent_graph",
     "near_vector_store_rag_graph",
+    "sequential_tasks_agent_graph",
 ]

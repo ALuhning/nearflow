@@ -186,7 +186,7 @@ async def test_build_flow_polling(client, json_memory_chatbot_no_llm, logged_in_
                     if sleeps > max_sleeps:
                         msg = "Build event polling timed out."
                         raise TimeoutError(msg)
-            except asyncio.TimeoutError as e:
+            except TimeoutError as e:
                 msg = "Build event polling timed out."
                 raise TimeoutError(msg) from e
 

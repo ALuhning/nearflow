@@ -1,4 +1,3 @@
-from .agent import AgentComponent
-from .agent import NearAIAgentComponent
+from .agent import AgentComponent, NearAIAgentComponent
 
 __all__ = ["AgentComponent", "NearAIAgentComponent"]

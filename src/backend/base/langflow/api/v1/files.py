@@ -1,11 +1,11 @@
 import hashlib
+import os
 from datetime import datetime, timezone
 from http import HTTPStatus
 from io import BytesIO
 from pathlib import Path
 from typing import Annotated
 from uuid import UUID
-import os
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
@@ -135,11 +135,11 @@ async def download_profile_picture(
         storage_service = get_storage_service()
         extension = file_name.split(".")[-1]
         config_dir = storage_service.settings_service.settings.config_dir
-         # Check if the environment is local and config_dir contains '~'
+        # Check if the environment is local and config_dir contains '~'
         if "LOCAL" in os.environ.get("ENV", "") and "~" in config_dir:
             # First, expand the '~' in the config_dir to the home directory
             config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
-            
+
             # Now, append the project directory (e.g., "nearflow")
             project_directory = Path(os.getcwd())  # Get the current working directory (project root)
             config_dir = project_directory / Path(config_dir).relative_to(Path.home())  # Append project dir to home
@@ -175,6 +175,7 @@ async def download_profile_picture(
 
 #     return {"files": files}
 
+
 @router.get("/profile_pictures/list")
 async def list_profile_pictures():
     try:
@@ -185,7 +186,7 @@ async def list_profile_pictures():
         if "LOCAL" in os.environ.get("ENV", "") and "~" in config_dir:
             # First, expand the '~' in the config_dir to the home directory
             config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
-            
+
             # Now, append the project directory (e.g., "nearflow")
             project_directory = Path(os.getcwd())  # Get the current working directory (project root)
             config_dir = project_directory / Path(config_dir).relative_to(Path.home())  # Append project dir to home
@@ -207,7 +208,6 @@ async def list_profile_pictures():
     files += [f"Space/{i}" for i in space]
 
     return {"files": files}
-
 
 
 @router.get("/list/{flow_id}")

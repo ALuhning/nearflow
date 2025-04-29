@@ -1,6 +1,6 @@
 import base64
 import shutil
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -157,13 +157,13 @@ def test_message_serialization():
     # Create a timestamp with timezone
     message = Message(text="Test message", sender=MESSAGE_SENDER_USER)
     timestamp_str = message.timestamp
-    timestamp = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S %Z").replace(tzinfo=timezone.utc)
+    timestamp = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S %Z").replace(tzinfo=UTC)
     serialized = message.model_dump()
 
     assert serialized["text"] == "Test message"
     assert serialized["sender"] == MESSAGE_SENDER_USER
     assert serialized["timestamp"] == timestamp
-    assert serialized["timestamp"].tzinfo == timezone.utc
+    assert serialized["timestamp"].tzinfo == UTC
 
 
 def test_message_to_lc_without_sender():
@@ -180,12 +180,12 @@ def test_timestamp_serialization():
     # Test with timezone
     msg1 = Message(text="Test message", sender=MESSAGE_SENDER_USER, timestamp="2023-12-25 15:30:45 UTC")
     serialized1 = msg1.model_dump()
-    assert serialized1["timestamp"].tzinfo == timezone.utc
+    assert serialized1["timestamp"].tzinfo == UTC
 
     # Test without timezone
     msg2 = Message(text="Test message", sender=MESSAGE_SENDER_USER, timestamp="2023-12-25 15:30:45")
     serialized2 = msg2.model_dump()
-    assert serialized2["timestamp"].tzinfo == timezone.utc
+    assert serialized2["timestamp"].tzinfo == UTC
 
     # Test that both formats result in equivalent UTC times when appropriate
     msg_with_tz = Message(text="Test message", sender=MESSAGE_SENDER_USER, timestamp="2023-12-25 15:30:45 UTC")

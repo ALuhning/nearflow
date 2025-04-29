@@ -1,14 +1,17 @@
-import json
 import asyncio
+import json
+
 import httpx
-from pydantic import SecretStr
-from langflow.base.memory.model import LCChatMemoryComponent
-from langflow.inputs import SecretStrInput, StrInput
-from langflow.io import Output
-from langflow.field_typing.constants import Memory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.messages import AIMessage, HumanMessage
+from pydantic import SecretStr
+
+from langflow.base.memory.model import LCChatMemoryComponent
+from langflow.field_typing.constants import Memory
+from langflow.inputs import SecretStrInput, StrInput
+from langflow.io import Output
 from langflow.logging import logger
+
 
 class NearAIChatMemory(LCChatMemoryComponent):
     display_name = "NearAI Chat Memory"
@@ -21,13 +24,13 @@ class NearAIChatMemory(LCChatMemoryComponent):
             name="near_credentials",
             display_name="NEAR Credentials",
             required=True,
-            info="JSON with 'auth' containing token and account_id."
+            info="JSON with 'auth' containing token and account_id.",
         ),
         StrInput(
             name="agent_name",
             display_name="Agent Name",
             required=True,
-            info="Name of the NEAR AI agent to use or register."
+            info="Name of the NEAR AI agent to use or register.",
         ),
         StrInput(
             name="model",
@@ -35,27 +38,21 @@ class NearAIChatMemory(LCChatMemoryComponent):
             value="openai/gpt-3.5-turbo",
             required=False,
             advanced=True,
-            info="Model used if agent needs to be registered."
+            info="Model used if agent needs to be registered.",
         ),
         StrInput(
             name="description",
             display_name="Agent Description",
             value="Langflow-generated memory agent.",
             required=False,
-            advanced=True
+            advanced=True,
         ),
         StrInput(
-            name="base_url",
-            display_name="API Base URL",
-            value="https://api.near.ai/v1",
-            required=True,
-            advanced=True
-        )
+            name="base_url", display_name="API Base URL", value="https://api.near.ai/v1", required=True, advanced=True
+        ),
     ]
 
-    outputs = [
-        Output(name="memory", display_name="Memory", method="build_message_history")
-    ]
+    outputs = [Output(name="memory", display_name="Memory", method="build_message_history")]
 
     def build_message_history(self) -> Memory:
         if not hasattr(self, "_persistent_thread_id"):
@@ -66,8 +63,9 @@ class NearAIChatMemory(LCChatMemoryComponent):
             model=self.model,
             description=self.description,
             base_url=self.base_url,
-            thread_id=self._persistent_thread_id  # ✅ supply it if it exists
+            thread_id=self._persistent_thread_id,  # ✅ supply it if it exists
         )
+
 
 class NearAIChatMessageHistory(BaseChatMessageHistory):
     def __init__(self, near_credentials, agent_name, model, description, base_url, thread_id=None):
@@ -76,14 +74,11 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
         self.description = description or "Langflow auto-generated agent"
         self.base_url = base_url.rstrip("/")
         self.credentials = json.loads(SecretStr(near_credentials).get_secret_value())
-    
+
         self.token = self._get_token()
         self.owner_id = self._get_owner_id()
-        self.headers = {
-            "Authorization": f"Bearer {self.token}",
-            "Content-Type": "application/json"
-        }
-    
+        self.headers = {"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
+
         self.thread_id = thread_id
 
     def _get_token(self):
@@ -102,10 +97,7 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
             await self.ensure_agent_and_thread()
 
         async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
-            resp = await client.get(
-                f"{self.base_url}/threads/{self.thread_id}/messages",
-                headers=self.headers
-            )
+            resp = await client.get(f"{self.base_url}/threads/{self.thread_id}/messages", headers=self.headers)
             resp.raise_for_status()
             data = resp.json()
 
@@ -123,25 +115,21 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
         if not self.thread_id:
             await self.ensure_agent_and_thread()
 
-        payload = {
-            "role": "user" if isinstance(message, HumanMessage) else "assistant",
-            "content": message.content
-        }
+        payload = {"role": "user" if isinstance(message, HumanMessage) else "assistant", "content": message.content}
         async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
             resp = await client.post(
-                f"{self.base_url}/threads/{self.thread_id}/messages",
-                headers=self.headers,
-                json=payload
+                f"{self.base_url}/threads/{self.thread_id}/messages", headers=self.headers, json=payload
             )
             resp.raise_for_status()
 
     async def ensure_agent_and_thread(self):
         if self.thread_id:
             return
+
         def safe_get_agents(resp_json):
             if isinstance(resp_json, dict):
                 return resp_json.get("data", [])
-            elif isinstance(resp_json, list):
+            if isinstance(resp_json, list):
                 return resp_json
             return []
 
@@ -151,14 +139,10 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
                 "with_capabilities": False,
                 "latest_versions_only": True,
                 "limit": 100,
-                "offset": 0
+                "offset": 0,
             }
             async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
-                resp = await client.post(
-                    f"{self.base_url}/find_agents",
-                    headers=self.headers,
-                    json=payload
-                )
+                resp = await client.post(f"{self.base_url}/find_agents", headers=self.headers, json=payload)
                 resp.raise_for_status()
                 return safe_get_agents(resp.json())
 
@@ -169,34 +153,20 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
                     "description": self.description,
                     "tags": ["langflow"],
                     "details": {},
-                    "show_entry": False
+                    "show_entry": False,
                 },
-                "entry_location": {
-                    "namespace": self.owner_id,
-                    "name": self.agent_name,
-                    "version": "1.0.0"
-                }
+                "entry_location": {"namespace": self.owner_id, "name": self.agent_name, "version": "1.0.0"},
             }
             async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
                 resp = await client.post(
-                    f"{self.base_url}/registry/upload_metadata",
-                    headers=self.headers,
-                    json=payload
+                    f"{self.base_url}/registry/upload_metadata", headers=self.headers, json=payload
                 )
                 resp.raise_for_status()
 
         async def create_thread(agent_id):
-            payload = {
-                "agent_id": agent_id,
-                "new_message": "",
-                "max_iterations": 0
-            }
+            payload = {"agent_id": agent_id, "new_message": "", "max_iterations": 0}
             async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
-                resp = await client.post(
-                    f"{self.base_url}/threads/runs",
-                    headers=self.headers,
-                    json=payload
-                )
+                resp = await client.post(f"{self.base_url}/threads/runs", headers=self.headers, json=payload)
                 try:
                     data = resp.json()
                     if isinstance(data, str):
@@ -213,10 +183,12 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
         print(f"[NearAI] Looking for agent '{self.agent_name}' for user '{self.owner_id}'...")
         agents = await fetch_agents()
         agent = next(
-            (a for a in agents if isinstance(a, dict)
-             and a.get("name") == self.agent_name
-             and a.get("namespace") == self.owner_id),
-            None
+            (
+                a
+                for a in agents
+                if isinstance(a, dict) and a.get("name") == self.agent_name and a.get("namespace") == self.owner_id
+            ),
+            None,
         )
 
         if not agent:
@@ -225,10 +197,12 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
             await asyncio.sleep(1)
             agents = await fetch_agents()
             agent = next(
-                (a for a in agents if isinstance(a, dict)
-                 and a.get("name") == self.agent_name
-                 and a.get("namespace") == self.owner_id),
-                None
+                (
+                    a
+                    for a in agents
+                    if isinstance(a, dict) and a.get("name") == self.agent_name and a.get("namespace") == self.owner_id
+                ),
+                None,
             )
             if not agent:
                 raise Exception("[NearAI] Agent registration failed. Could not retrieve after creation.")
@@ -237,7 +211,7 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
         print(f"[NearAI] Using agent: {agent_id}")
 
         self.thread_id = await create_thread(agent_id)
-        
+
         if not self.thread_id:
             self.thread_id = await create_thread(agent_id)
             logger.info(f"[NearAI] Created new thread: {self.thread_id}")
@@ -247,10 +221,11 @@ class NearAIChatMessageHistory(BaseChatMessageHistory):
         # persist for reuse
         if hasattr(self, "set_persistent_thread_id"):
             self.set_persistent_thread_id(self.thread_id)
-            
+
     def set_persistent_thread_id(self, tid):
         try:
             from langflow.base.memory.model import LCChatMemoryComponent
+
             LCChatMemoryComponent._persistent_thread_id = tid
         except Exception as e:
             print(f"[NearAI] Could not persist thread ID: {e}")
