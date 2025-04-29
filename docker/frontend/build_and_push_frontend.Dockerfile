@@ -9,7 +9,7 @@
 FROM --platform=$BUILDPLATFORM node:lts-bookworm-slim AS builder-base
 COPY src/frontend /frontend
 
-RUN cd /frontend && pnpm install && pnpm run build
+RUN cd /frontend && pnpm install --strict-peer-deps=false && pnpm run build
 
 ################################
 # RUNTIME
