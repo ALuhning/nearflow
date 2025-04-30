@@ -116,7 +116,7 @@
     "whatwg-url": "^14.2.0",
     "zlib-browserify": "^0.0.3",
     "zod": "^3.23.8",
-    "zustand": "^4.5.2"
+    "zustand": "^5.0.3"
   },
   "scripts": {
     "dev:docker": "vite --host 0.0.0.0",
