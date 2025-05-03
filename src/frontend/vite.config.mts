@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 
 import * as dotenv from "dotenv";
 import svgr from "vite-plugin-svgr";
@@ -45,9 +45,6 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        react: path.resolve(__dirname, 'node_modules/react'),
-        'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
-        'react/jsx-runtime': path.resolve(__dirname, 'src/shims/jsx-runtime.js'),
         process: 'process/browser',
         buffer: 'buffer',
         http: 'http-browserify',
@@ -68,7 +65,9 @@ export default defineConfig(({ mode }) => {
       "process.env.LANGFLOW_AUTO_LOGIN": JSON.stringify(envLangflow.LANGFLOW_AUTO_LOGIN ?? true),
     },
     plugins: [
-      react(),
+      react({
+        jsxRuntime: "automatic", // now supported
+      }),
       svgr(), 
       tsconfigPaths(),
       polyfillNode()
