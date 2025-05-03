@@ -6,6 +6,7 @@ import { BASE_URL_API } from "../../../../../../../../constants/constants";
 import { useDarkStore } from "../../../../../../../../stores/darkStore";
 import { cn } from "../../../../../../../../utils/utils";
 import usePreloadImages from "./hooks/use-preload-images";
+import { useShallow } from "zustand/react/shallow";
 
 type ProfilePictureChooserComponentProps = {
   profilePictures?: ProfilePicturesQueryResponse;
@@ -21,7 +22,7 @@ export default function ProfilePictureChooserComponent({
   onChange,
 }: ProfilePictureChooserComponentProps) {
   const ref = useRef<HTMLButtonElement>(null);
-  const dark = useDarkStore((state) => state.dark);
+  const dark = useDarkStore(useShallow((state) => state.dark));
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {

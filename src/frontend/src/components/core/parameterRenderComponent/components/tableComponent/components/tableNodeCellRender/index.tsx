@@ -4,6 +4,7 @@ import { ParameterRenderComponent } from "@/components/core/parameterRenderCompo
 import { NodeInfoType } from "@/components/core/parameterRenderComponent/types";
 import useAuthStore from "@/stores/authStore";
 import useFlowStore from "@/stores/flowStore";
+import { useShallow } from "zustand/react/shallow";
 import { useTweaksStore } from "@/stores/tweaksStore";
 import { APIClassType } from "@/types/api";
 import { isTargetHandleConnected } from "@/utils/reactflowUtils";
@@ -13,15 +14,15 @@ import { useMemo } from "react";
 export default function TableNodeCellRender({
   value: { nodeId, parameterId, isTweaks },
 }: CustomCellRendererProps) {
-  const edges = useFlowStore((state) => state.edges);
+  const edges = useFlowStore(useShallow((state) => state.edges));
   const node = isTweaks
-    ? useTweaksStore((state) => state.getNode(nodeId))
-    : useFlowStore((state) => state.getNode(nodeId));
+    ? useTweaksStore(useShallow((state) => state.getNode(nodeId)))
+    : useFlowStore(useShallow((state) => state.getNode(nodeId)));
   const parameter = node?.data?.node?.template?.[parameterId];
-  const currentFlow = useFlowStore((state) => state.currentFlow);
-  const isAuth = useAuthStore((state) => state.isAuthenticated);
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
+  const isAuth = useAuthStore(useShallow((state) => state.isAuthenticated));
 
-  const setNode = useTweaksStore((state) => state.setNode);
+  const setNode = useTweaksStore(useShallow((state) => state.setNode));
 
   const disabled = isTargetHandleConnected(
     edges,

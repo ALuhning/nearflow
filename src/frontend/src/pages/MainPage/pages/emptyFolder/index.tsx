@@ -1,13 +1,14 @@
 import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import { Button } from "@/components/ui/button";
 import { useFolderStore } from "@/stores/foldersStore";
+import { useShallow } from "zustand/react/shallow";
 
 type EmptyFolderProps = {
   setOpenModal: (open: boolean) => void;
 };
 
 export const EmptyFolder = ({ setOpenModal }: EmptyFolderProps) => {
-  const folders = useFolderStore((state) => state.folders);
+  const folders = useFolderStore(useShallow((state) => state.folders));
 
   return (
     <div className="m-0 flex w-full justify-center">

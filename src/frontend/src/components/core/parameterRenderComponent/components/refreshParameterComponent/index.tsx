@@ -3,6 +3,7 @@ import { FLEX_VIEW_TYPES } from "@/constants/constants";
 import { usePostTemplateValue } from "@/controllers/API/queries/nodes/use-post-template-value";
 import { mutateTemplate } from "@/CustomNodes/helpers/mutate-template";
 import useAlertStore from "@/stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 import { APIClassType, InputFieldType } from "@/types/api";
 import { cn } from "@/utils/utils";
 import { InputProps } from "../../types";
@@ -32,7 +33,7 @@ export function RefreshParameterComponent({
     node: nodeClass,
   });
 
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const handleRefreshButtonPress = () =>
     mutateTemplate(
       templateData.value,

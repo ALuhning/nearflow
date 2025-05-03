@@ -10,12 +10,13 @@ import { useCustomPrimaryLoading } from "@/customization/hooks/use-custom-primar
 import { useDarkStore } from "@/stores/darkStore";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { LoadingPage } from "../LoadingPage";
+import { useShallow } from "zustand/react/shallow";
 
 export function AppInitPage() {
-  const refreshStars = useDarkStore((state) => state.refreshStars);
-  const isLoading = useFlowsManagerStore((state) => state.isLoading);
+  const refreshStars = useDarkStore(useShallow((state) => state.refreshStars));
+  const isLoading = useFlowsManagerStore(useShallow((state) => state.isLoading));
 
   const { isFetched: isLoaded } = useCustomPrimaryLoading();
 

@@ -5,6 +5,7 @@ import { ReactFlowJsonObject } from "@xyflow/react";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 interface IPostAddFlow {
   name: string;
@@ -23,7 +24,7 @@ export const usePostAddFlow: useMutationFunctionType<
   IPostAddFlow
 > = (options?) => {
   const { mutate, queryClient } = UseRequestProcessor();
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
 
   const postAddFlowFn = async (payload: IPostAddFlow): Promise<any> => {
     const response = await api.post(`${getURL("FLOWS")}/`, {

@@ -1,5 +1,6 @@
 import useFlowStore from "@/stores/flowStore";
 import { ConnectionLineComponentProps } from "@xyflow/react";
+import { useShallow } from "zustand/react/shallow";
 
 const ConnectionLineComponent = ({
   fromX,
@@ -8,7 +9,7 @@ const ConnectionLineComponent = ({
   toY,
   connectionLineStyle = {},
 }: ConnectionLineComponentProps): JSX.Element => {
-  const handleDragging = useFlowStore((state) => state.handleDragging);
+  const handleDragging = useFlowStore(useShallow((state) => state.handleDragging));
   const color = handleDragging?.color;
   const accentColor = `hsl(var(--datatype-${color}))`;
 

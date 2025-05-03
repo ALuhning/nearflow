@@ -17,25 +17,26 @@ import useAlertStore from "@/stores/alertStore";
 import useAuthStore from "@/stores/authStore";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import useFlowStore from "@/stores/flowStore";
+import { useShallow } from "zustand/react/shallow";
 import { cn } from "@/utils/utils";
 import { useState } from "react";
-import { useHref } from "react-router-dom";
+import { useHref } from "react-router";
 
 export default function PublishDropdown() {
   const location = useHref("/");
   const domain = window.location.origin + location;
   const [openEmbedModal, setOpenEmbedModal] = useState(false);
-  const currentFlow = useFlowsManagerStore((state) => state.currentFlow);
+  const currentFlow = useFlowsManagerStore(useShallow((state) => state.currentFlow));
   const flowId = currentFlow?.id;
   const flowName = currentFlow?.name;
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { mutateAsync } = usePatchUpdateFlow();
-  const flows = useFlowsManagerStore((state) => state.flows);
-  const setFlows = useFlowsManagerStore((state) => state.setFlows);
-  const setCurrentFlow = useFlowStore((state) => state.setCurrentFlow);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+  const setFlows = useFlowsManagerStore(useShallow((state) => state.setFlows));
+  const setCurrentFlow = useFlowStore(useShallow((state) => state.setCurrentFlow));
   const isPublished = currentFlow?.access_type === "PUBLIC";
-  const hasIO = useFlowStore((state) => state.hasIO);
-  const isAuth = useAuthStore((state) => !!state.autoLogin);
+  const hasIO = useFlowStore(useShallow((state) => state.hasIO));
+  const isAuth = useAuthStore(useShallow((state) => !!state.autoLogin));
   const [openApiModal, setOpenApiModal] = useState(false);
 
   const handlePublishedSwitch = async (checked: boolean) => {

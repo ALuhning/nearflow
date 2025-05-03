@@ -6,6 +6,7 @@ import {
   JsonEditor as VanillaJsonEditor,
 } from "vanilla-jsoneditor";
 import useAlertStore from "../../../stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 import { cn } from "../../../utils/utils";
 
 interface JsonEditorProps {
@@ -37,7 +38,7 @@ const JsonEditor = ({
 }: JsonEditorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const jsonEditorRef = useRef<VanillaJsonEditor | null>(null);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const newRef = jsonRef ?? jsonEditorRef;
   const [transformQuery, setTransformQuery] = useState(initialFilter ?? "");
   const [originalData, setOriginalData] = useState(data);

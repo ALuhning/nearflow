@@ -2,10 +2,11 @@ import { FlowType } from "@/types/flow";
 import { useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import useFlowsManagerStore from "../../../../stores/flowsManagerStore";
+import { useShallow } from "zustand/react/shallow";
 import DragCardComponent from "../components/dragCardComponent";
 
 const useDragStart = (data: FlowType) => {
-  const getFlowById = useFlowsManagerStore((state) => state.getFlowById);
+  const getFlowById = useFlowsManagerStore(useShallow((state) => state.getFlowById));
 
   const onDragStart = useCallback(
     (event) => {

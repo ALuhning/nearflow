@@ -1,7 +1,8 @@
 import { usePostAddFlow } from "@/controllers/API/queries/flows/use-post-add-flow";
 import { useFolderStore } from "@/stores/foldersStore";
 import { addVersionToDuplicates, createNewFlow } from "@/utils/reactflowUtils";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
+import { useShallow } from "zustand/react/shallow";
 
 type UseDuplicateFlowsParams = {
   selectedFlowsComponentsCards: string[];
@@ -16,7 +17,7 @@ const useDuplicateFlows = ({
 }: UseDuplicateFlowsParams) => {
   const { mutateAsync: postAddFlow } = usePostAddFlow();
   const { folderId } = useParams();
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
 
   const handleDuplicate = async () => {
     selectedFlowsComponentsCards.map(async (selectedFlow) => {

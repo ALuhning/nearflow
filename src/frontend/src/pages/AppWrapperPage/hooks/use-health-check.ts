@@ -5,21 +5,22 @@ import { useUtilityStore } from "@/stores/utilityStore";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export function useHealthCheck() {
-  const healthCheckMaxRetries = useFlowsManagerStore(
+  const healthCheckMaxRetries = useFlowsManagerStore(useShallow(
     (state) => state.healthCheckMaxRetries,
-  );
+  ));
 
-  const healthCheckTimeout = useUtilityStore(
+  const healthCheckTimeout = useUtilityStore(useShallow(
     (state) => state.healthCheckTimeout,
-  );
+  ));
 
   const isMutating = useIsMutating();
   const isFetching = useIsFetching({
     predicate: (query) => query.queryKey[0] !== "useGetHealthQuery",
   });
-  const isBuilding = useFlowStore((state) => state.isBuilding);
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
 
   const disabled = isMutating || isFetching || isBuilding;
 

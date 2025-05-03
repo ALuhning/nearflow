@@ -16,6 +16,7 @@ import useAlertStore from "@/stores/alertStore";
 import useFlowStore from "@/stores/flowStore";
 import { APIClassType, InputFieldType } from "@/types/api";
 import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 interface NodeDialogProps {
   open: boolean;
@@ -41,9 +42,9 @@ export const NodeDialog: React.FC<NodeDialogProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
 
-  const nodes = useFlowStore((state) => state.nodes);
-  const setNode = useFlowStore((state) => state.setNode);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   const postTemplateValue = usePostTemplateValue({
     parameterId: name,

@@ -13,6 +13,7 @@ import IconComponent from "../../components/common/genericIconComponent";
 import { useTweaksStore } from "../../stores/tweaksStore";
 import BaseModal from "../baseModal";
 import APITabsComponent from "./codeTabs/code-tabs";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ApiModal({
   children,
@@ -23,15 +24,15 @@ export default function ApiModal({
   open?: boolean;
   setOpen?: (a: boolean | ((o?: boolean) => boolean)) => void;
 }) {
-  const autoLogin = useAuthStore((state) => state.autoLogin);
-  const nodes = useFlowStore((state) => state.nodes);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
   const [openTweaks, setOpenTweaks] = useState(false);
-  const tweaks = useTweaksStore((state) => state.tweaks);
+  const tweaks = useTweaksStore(useShallow((state) => state.tweaks));
   const [open, setOpen] =
     mySetOpen !== undefined && myOpen !== undefined
       ? [myOpen, mySetOpen]
       : useState(false);
-  const newInitialSetup = useTweaksStore((state) => state.newInitialSetup);
+  const newInitialSetup = useTweaksStore(useShallow((state) => state.newInitialSetup));
 
   useEffect(() => {
     if (open) newInitialSetup(nodes);

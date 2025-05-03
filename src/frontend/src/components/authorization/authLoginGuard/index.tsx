@@ -1,9 +1,10 @@
 import { CustomNavigate } from "@/customization/components/custom-navigate";
 import useAuthStore from "@/stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 
 export const ProtectedLoginRoute = ({ children }) => {
-  const autoLogin = useAuthStore((state) => state.autoLogin);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
+  const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
 
   if (autoLogin === true || isAuthenticated) {
     const urlParams = new URLSearchParams(window.location.search);

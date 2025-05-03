@@ -6,13 +6,14 @@ import {
   IMGViewErrorTitle,
 } from "../../../constants/constants";
 import useAlertStore from "../../../stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 import { Separator } from "../../ui/separator";
 import ForwardedIconComponent from "../genericIconComponent";
 
 export default function ImageViewer({ image }: { image: string }) {
   const viewerRef = useRef(null);
   const [errorDownloading, setErrordownloading] = useState(false);
-  const setErrorList = useAlertStore((state) => state.setErrorData);
+  const setErrorList = useAlertStore(useShallow((state) => state.setErrorData));
   const [initialMsg, setInicialMsg] = useState("Please build your flow");
 
   useEffect(() => {

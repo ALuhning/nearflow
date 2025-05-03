@@ -16,11 +16,12 @@ import { AuthContext } from "../../../../contexts/authContext";
 import useAlertStore from "../../../../stores/alertStore";
 import ApiKeyHeaderComponent from "./components/ApiKeyHeader";
 import { getColumnDefs } from "./helpers/column-defs";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ApiKeysPage() {
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { userData } = useContext(AuthContext);
   const [userId, setUserId] = useState("");
   const [keysList, setKeysList] = useState<IApiKeysDataArray[]>([]);

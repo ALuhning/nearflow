@@ -5,6 +5,7 @@ import { FlowType } from "@/types/flow";
 import { downloadFlow } from "@/utils/reactflowUtils";
 import useDuplicateFlows from "../../hooks/use-handle-duplicate";
 import useSelectOptionsChange from "../../hooks/use-select-options-change";
+import { useShallow } from "zustand/react/shallow";
 
 type DropdownComponentProps = {
   flowData: FlowType;
@@ -18,8 +19,8 @@ const DropdownComponent = ({
   setOpenDelete,
   handleEdit,
 }: DropdownComponentProps) => {
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   const { handleDuplicate } = useDuplicateFlows({
     selectedFlowsComponentsCards: [flowData.id],

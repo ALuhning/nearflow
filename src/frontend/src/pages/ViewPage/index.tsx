@@ -1,17 +1,18 @@
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import useFlowsManagerStore from "../../stores/flowsManagerStore";
 import Page from "../FlowPage/components/PageComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ViewPage() {
-  const setCurrentFlow = useFlowsManagerStore((state) => state.setCurrentFlow);
+  const setCurrentFlow = useFlowsManagerStore(useShallow((state) => state.setCurrentFlow));
 
   const { id } = useParams();
   const navigate = useCustomNavigate();
 
-  const flows = useFlowsManagerStore((state) => state.flows);
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
 
   // Set flow tab id
   useEffect(() => {

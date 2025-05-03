@@ -7,18 +7,19 @@ import {
 import useAlertStore from "../../../../stores/alertStore";
 import useFlowsManagerStore from "../../../../stores/flowsManagerStore";
 import { useFolderStore } from "../../../../stores/foldersStore";
+import { useShallow } from "zustand/react/shallow";
 import { addVersionToDuplicates } from "../../../../utils/reactflowUtils";
 
 const useFileDrop = (folderId: string) => {
-  const setFolderDragging = useFolderStore((state) => state.setFolderDragging);
-  const setFolderIdDragging = useFolderStore(
+  const setFolderDragging = useFolderStore(useShallow((state) => state.setFolderDragging));
+  const setFolderIdDragging = useFolderStore(useShallow(
     (state) => state.setFolderIdDragging,
-  );
+  ));
 
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const saveFlow = useSaveFlow();
-  const flows = useFlowsManagerStore((state) => state.flows);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
 
   const { mutate: uploadFlowToFolder } = usePostUploadFlowToFolder();
   const handleFileDrop = async (e, folderId) => {

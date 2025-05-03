@@ -24,6 +24,7 @@ import { handleKeyDown } from "../../utils/reactflowUtils";
 import { classNames } from "../../utils/utils";
 import BaseModal from "../baseModal";
 import varHighlightHTML from "./utils/var-highlight-html";
+import { useShallow } from "zustand/react/shallow";
 
 export default function PromptModal({
   field_name = "",
@@ -40,9 +41,9 @@ export default function PromptModal({
   const [inputValue, setInputValue] = useState(value);
   const [isEdit, setIsEdit] = useState(true);
   const [wordsHighlight, setWordsHighlight] = useState<Set<string>>(new Set());
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setNoticeData = useAlertStore((state) => state.setNoticeData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setNoticeData = useAlertStore(useShallow((state) => state.setNoticeData));
   const divRef = useRef(null);
   const divRefPrompt = useRef(null);
   const { mutate: postValidatePrompt } = usePostValidatePrompt();

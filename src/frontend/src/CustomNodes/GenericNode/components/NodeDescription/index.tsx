@@ -5,6 +5,7 @@ import { handleKeyDown } from "@/utils/reactflowUtils";
 import { cn } from "@/utils/utils";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
+import { useShallow } from "zustand/react/shallow";
 
 export default function NodeDescription({
   description,
@@ -38,8 +39,8 @@ export default function NodeDescription({
   const [nodeDescription, setNodeDescription] = useState<string>(
     description ?? "",
   );
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
-  const setNode = useFlowStore((state) => state.setNode);
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
   const overflowRef = useRef<HTMLDivElement>(null);
   const [hasScroll, sethasScroll] = useState(false);
 

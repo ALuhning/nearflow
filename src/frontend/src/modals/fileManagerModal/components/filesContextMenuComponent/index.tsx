@@ -12,6 +12,7 @@ import ConfirmationModal from "@/modals/confirmationModal";
 import useAlertStore from "@/stores/alertStore";
 import { FileType } from "@/types/file_management";
 import { ReactNode, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export default function FilesContextMenuComponent({
   children,
@@ -27,7 +28,7 @@ export default function FilesContextMenuComponent({
   const isLocal = file.provider == null;
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
 
   const { mutate: downloadFile } = useGetDownloadFileV2({
     id: file.id,

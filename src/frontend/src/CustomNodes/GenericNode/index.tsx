@@ -33,6 +33,7 @@ import NodeStatus from "./components/NodeStatus";
 import RenderInputParameters from "./components/RenderInputParameters";
 import { NodeIcon } from "./components/nodeIcon";
 import { useBuildStatus } from "./hooks/use-get-build-status";
+import { useShallow } from "zustand/react/shallow";
 
 const MemoizedOutputParameter = memo(OutputParameter);
 const MemoizedRenderInputParameters = memo(RenderInputParameters);
@@ -80,17 +81,17 @@ function GenericNode({
   const [validationStatus, setValidationStatus] =
     useState<VertexBuildTypeAPI | null>(null);
 
-  const types = useTypesStore((state) => state.types);
-  const templates = useTypesStore((state) => state.templates);
-  const deleteNode = useFlowStore((state) => state.deleteNode);
-  const setNode = useFlowStore((state) => state.setNode);
+  const types = useTypesStore(useShallow((state) => state.types));
+  const templates = useTypesStore(useShallow((state) => state.templates));
+  const deleteNode = useFlowStore(useShallow((state) => state.deleteNode));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
   const updateNodeInternals = useUpdateNodeInternals();
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
-  const edges = useFlowStore((state) => state.edges);
-  const shortcuts = useShortcutsStore((state) => state.shortcuts);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
+  const edges = useFlowStore(useShallow((state) => state.edges));
+  const shortcuts = useShortcutsStore(useShallow((state) => state.shortcuts));
   const buildStatus = useBuildStatus(data, data.id);
-  const dismissAll = useUtilityStore((state) => state.dismissAll);
+  const dismissAll = useUtilityStore(useShallow((state) => state.dismissAll));
 
   const showNode = data.showNode ?? true;
 
@@ -180,7 +181,7 @@ function GenericNode({
     }
   }, [isOutdated, selected, handleUpdateCode]);
 
-  const update = useShortcutsStore((state) => state.update);
+  const update = useShortcutsStore(useShallow((state) => state.update));
   useHotkeys(update, handleUpdateCodeWShortcut, { preventDefault: true });
 
   // Memoized values

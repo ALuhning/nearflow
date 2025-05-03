@@ -4,6 +4,7 @@ import useFlowStore from "@/stores/flowStore";
 import { VertexBuildTypeAPI } from "@/types/api";
 import { cn } from "@/utils/utils";
 import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export default function NodeName({
   display_name,
@@ -29,8 +30,8 @@ export default function NodeName({
   setHasChangedNodeDescription: (hasChanged: boolean) => void;
 }) {
   const [nodeName, setNodeName] = useState<string>(display_name ?? "");
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
-  const setNode = useFlowStore((state) => state.setNode);
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
 
   useEffect(() => {
     if (selected && editNameDescription) {

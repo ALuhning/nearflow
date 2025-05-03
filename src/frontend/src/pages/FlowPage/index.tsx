@@ -9,45 +9,46 @@ import useAlertStore from "@/stores/alertStore";
 import { useTypesStore } from "@/stores/typesStore";
 import { customStringify } from "@/utils/reactflowUtils";
 import { useEffect, useState } from "react";
-import { useBlocker, useParams } from "react-router-dom";
+import { useBlocker, useParams } from "react-router";
 import useFlowStore from "../../stores/flowStore";
 import useFlowsManagerStore from "../../stores/flowsManagerStore";
 import Page from "./components/PageComponent";
 import { FlowSidebarComponent } from "./components/flowSidebarComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
-  const types = useTypesStore((state) => state.types);
+  const types = useTypesStore(useShallow((state) => state.types));
 
   useGetTypes({
     enabled: Object.keys(types).length <= 0,
   });
 
-  const setCurrentFlow = useFlowsManagerStore((state) => state.setCurrentFlow);
-  const currentFlow = useFlowStore((state) => state.currentFlow);
-  const currentSavedFlow = useFlowsManagerStore((state) => state.currentFlow);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const setCurrentFlow = useFlowsManagerStore(useShallow((state) => state.setCurrentFlow));
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
+  const currentSavedFlow = useFlowsManagerStore(useShallow((state) => state.currentFlow));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
   const [isLoading, setIsLoading] = useState(false);
 
   const changesNotSaved =
     customStringify(currentFlow) !== customStringify(currentSavedFlow) &&
     (currentFlow?.data?.nodes?.length ?? 0) > 0;
 
-  const isBuilding = useFlowStore((state) => state.isBuilding);
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
   const blocker = useBlocker(changesNotSaved || isBuilding);
 
-  const setOnFlowPage = useFlowStore((state) => state.setOnFlowPage);
+  const setOnFlowPage = useFlowStore(useShallow((state) => state.setOnFlowPage));
   const { id } = useParams();
   const navigate = useCustomNavigate();
   const saveFlow = useSaveFlow();
 
-  const flows = useFlowsManagerStore((state) => state.flows);
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
 
-  const flowToCanvas = useFlowsManagerStore((state) => state.flowToCanvas);
+  const flowToCanvas = useFlowsManagerStore(useShallow((state) => state.flowToCanvas));
 
   const updatedAt = currentSavedFlow?.updated_at;
-  const autoSaving = useFlowsManagerStore((state) => state.autoSaving);
-  const stopBuilding = useFlowStore((state) => state.stopBuilding);
+  const autoSaving = useFlowsManagerStore(useShallow((state) => state.autoSaving));
+  const stopBuilding = useFlowStore(useShallow((state) => state.stopBuilding));
 
   const { mutateAsync: getFlow } = useGetFlow();
 

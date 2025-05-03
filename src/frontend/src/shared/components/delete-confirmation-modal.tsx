@@ -8,6 +8,7 @@ import {
 import DeleteConfirmationModal from "@/modals/deleteConfirmationModal";
 import useAlertStore from "@/stores/alertStore";
 import { cn } from "@/utils/utils";
+import { useShallow } from "zustand/react/shallow";
 
 interface GeneralDeleteConfirmationModalProps {
   option: string;
@@ -18,7 +19,7 @@ const GeneralDeleteConfirmationModal = ({
   option,
   onConfirmDelete,
 }: GeneralDeleteConfirmationModalProps) => {
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { mutate: mutateDeleteGlobalVariable } = useDeleteGlobalVariables();
   const { data: globalVariables } = useGetGlobalVariables();
 

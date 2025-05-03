@@ -7,10 +7,11 @@ import { getNodeId } from "@/utils/reactflowUtils";
 import { getNodeRenderType } from "@/utils/utils";
 import { useStoreApi } from "@xyflow/react";
 import { useCallback } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export function useAddComponent() {
   const store = useStoreApi();
-  const paste = useFlowStore((state) => state.paste);
+  const paste = useFlowStore(useShallow((state) => state.paste));
 
   const addComponent = useCallback(
     (

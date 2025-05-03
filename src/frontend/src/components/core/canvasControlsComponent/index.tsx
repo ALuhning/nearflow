@@ -3,6 +3,7 @@ import ShadTooltip from "@/components/common/shadTooltipComponent";
 import useSaveFlow from "@/hooks/flows/use-save-flow";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import useFlowStore from "@/stores/flowStore";
+import { useShallow } from "zustand/react/shallow";
 import { cn } from "@/utils/utils";
 import {
   ControlButton,
@@ -65,14 +66,13 @@ const selector = (s: ReactFlowState) => ({
 const CanvasControls = ({ children }) => {
   const store = useStoreApi();
   const { fitView, zoomIn, zoomOut } = useReactFlow();
-  const { isInteractive, minZoomReached, maxZoomReached } = useStore(
-    selector,
-    shallow,
-  );
+  const { isInteractive, minZoomReached, maxZoomReached } = useStore(useShallow(
+    selector
+  ));
   const saveFlow = useSaveFlow();
-  const currentFlow = useFlowStore((state) => state.currentFlow);
-  const setCurrentFlow = useFlowStore((state) => state.setCurrentFlow);
-  const autoSaving = useFlowsManagerStore((state) => state.autoSaving);
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
+  const setCurrentFlow = useFlowStore(useShallow((state) => state.setCurrentFlow));
+  const autoSaving = useFlowsManagerStore(useShallow((state) => state.autoSaving));
 
   useEffect(() => {
     const isLocked = currentFlow?.locked;

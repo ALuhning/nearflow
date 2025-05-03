@@ -22,6 +22,7 @@ import NoInputView from "./components/no-input";
 import { VoiceAssistant } from "./components/voice-assistant/voice-assistant";
 import useAutoResizeTextArea from "./hooks/use-auto-resize-text-area";
 import useFocusOnUnlock from "./hooks/use-focus-unlock";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ChatInput({
   sendMessage,
@@ -32,23 +33,23 @@ export default function ChatInput({
   isDragging,
   playgroundPage,
 }: ChatInputType): JSX.Element {
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { validateFileSize } = useFileSizeValidator();
-  const stopBuilding = useFlowStore((state) => state.stopBuilding);
-  const isBuilding = useFlowStore((state) => state.isBuilding);
-  const chatValue = useUtilityStore((state) => state.chatValueStore);
+  const stopBuilding = useFlowStore(useShallow((state) => state.stopBuilding));
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
+  const chatValue = useUtilityStore(useShallow((state) => state.chatValueStore));
 
   const [showAudioInput, setShowAudioInput] = useState(false);
 
-  const setIsVoiceAssistantActive = useVoiceStore(
+  const setIsVoiceAssistantActive = useVoiceStore(useShallow(
     (state) => state.setIsVoiceAssistantActive,
-  );
+  ));
 
-  const newSessionCloseVoiceAssistant = useVoiceStore(
+  const newSessionCloseVoiceAssistant = useVoiceStore(useShallow(
     (state) => state.newSessionCloseVoiceAssistant,
-  );
+  ));
 
   useEffect(() => {
     if (showAudioInput) {

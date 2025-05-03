@@ -1,6 +1,7 @@
 import { useShortcutsStore } from "@/stores/shortcuts";
 import { useHotkeys } from "react-hotkeys-hook";
 import isWrappedWithClass from "../../PageComponent/utils/is-wrapped-with-class";
+import { useShallow } from "zustand/react/shallow";
 
 export default function useShortcuts({
   showOverrideModal,
@@ -35,16 +36,16 @@ export default function useShortcuts({
   activateToolMode?: () => void;
   hasToolMode?: boolean;
 }) {
-  const advancedSettings = useShortcutsStore((state) => state.advancedSettings);
-  const minimize = useShortcutsStore((state) => state.minimize);
-  const componentShare = useShortcutsStore((state) => state.componentShare);
-  const save = useShortcutsStore((state) => state.saveComponent);
-  const docs = useShortcutsStore((state) => state.docs);
-  const code = useShortcutsStore((state) => state.code);
-  const group = useShortcutsStore((state) => state.group);
-  const download = useShortcutsStore((state) => state.download);
-  const freezeAll = useShortcutsStore((state) => state.freezePath);
-  const toolMode = useShortcutsStore((state) => state.toolMode);
+  const advancedSettings = useShortcutsStore(useShallow((state) => state.advancedSettings));
+  const minimize = useShortcutsStore(useShallow((state) => state.minimize));
+  const componentShare = useShortcutsStore(useShallow((state) => state.componentShare));
+  const save = useShortcutsStore(useShallow((state) => state.saveComponent));
+  const docs = useShortcutsStore(useShallow((state) => state.docs));
+  const code = useShortcutsStore(useShallow((state) => state.code));
+  const group = useShortcutsStore(useShallow((state) => state.group));
+  const download = useShortcutsStore(useShallow((state) => state.download));
+  const freezeAll = useShortcutsStore(useShallow((state) => state.freezePath));
+  const toolMode = useShortcutsStore(useShallow((state) => state.toolMode));
 
   function handleFreezeAll(e: KeyboardEvent) {
     if (isWrappedWithClass(e, "noflow") || !FreezeAllVertices) return;

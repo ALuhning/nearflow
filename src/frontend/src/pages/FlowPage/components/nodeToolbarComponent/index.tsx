@@ -25,6 +25,7 @@ import useFlowStore from "../../../../stores/flowStore";
 import useFlowsManagerStore from "../../../../stores/flowsManagerStore";
 import { useShortcutsStore } from "../../../../stores/shortcuts";
 import { useStoreStore } from "../../../../stores/storeStore";
+import { useShallow } from "zustand/react/shallow";
 import { nodeToolbarPropsType } from "../../../../types/components";
 import { FlowType } from "../../../../types/flow";
 import {
@@ -54,36 +55,36 @@ const NodeToolbarComponent = memo(
     isOutdated,
     setOpenShowMoreOptions,
   }: nodeToolbarPropsType): JSX.Element => {
-    const version = useDarkStore((state) => state.version);
+    const version = useDarkStore(useShallow((state) => state.version));
     const [showModalAdvanced, setShowModalAdvanced] = useState(false);
     const [showconfirmShare, setShowconfirmShare] = useState(false);
     const [showOverrideModal, setShowOverrideModal] = useState(false);
     const [flowComponent, setFlowComponent] = useState<FlowType>(
       createFlowComponent(cloneDeep(data), version),
     );
-    const updateFreezeStatus = useFlowStore(
+    const updateFreezeStatus = useFlowStore(useShallow(
       (state) => state.updateFreezeStatus,
-    );
-    const { hasStore, hasApiKey, validApiKey } = useStoreStore((state) => ({
+    ));
+    const { hasStore, hasApiKey, validApiKey } = useStoreStore(useShallow((state) => ({
       hasStore: state.hasStore,
       hasApiKey: state.hasApiKey,
       validApiKey: state.validApiKey,
-    }));
-    const shortcuts = useShortcutsStore((state) => state.shortcuts);
-    const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+    })));
+    const shortcuts = useShortcutsStore(useShallow((state) => state.shortcuts));
+    const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
     const [openModal, setOpenModal] = useState(false);
     const frozen = data.node?.frozen ?? false;
-    const currentFlow = useFlowStore((state) => state.currentFlow);
+    const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
     const updateNodeInternals = useUpdateNodeInternals();
 
-    const paste = useFlowStore((state) => state.paste);
-    const nodes = useFlowStore((state) => state.nodes);
-    const edges = useFlowStore((state) => state.edges);
-    const setNodes = useFlowStore((state) => state.setNodes);
-    const setEdges = useFlowStore((state) => state.setEdges);
-    const getNodePosition = useFlowStore((state) => state.getNodePosition);
-    const flows = useFlowsManagerStore((state) => state.flows);
-    const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
+    const paste = useFlowStore(useShallow((state) => state.paste));
+    const nodes = useFlowStore(useShallow((state) => state.nodes));
+    const edges = useFlowStore(useShallow((state) => state.edges));
+    const setNodes = useFlowStore(useShallow((state) => state.setNodes));
+    const setEdges = useFlowStore(useShallow((state) => state.setEdges));
+    const getNodePosition = useFlowStore(useShallow((state) => state.getNodePosition));
+    const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+    const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
     const { mutate: FreezeAllVertices } = usePostRetrieveVertexOrder({
       onSuccess: ({ vertices_to_run }) => {
         updateFreezeStatus(vertices_to_run, !data.node?.frozen);
@@ -118,7 +119,7 @@ const NodeToolbarComponent = memo(
       Object.values(flow).includes(data.node?.display_name!),
     );
 
-    const setNode = useFlowStore((state) => state.setNode);
+    const setNode = useFlowStore(useShallow((state) => state.setNode));
 
     const nodeLength = useMemo(() => getNodeLength(data), [data]);
     const hasCode = useMemo(
@@ -297,13 +298,13 @@ const NodeToolbarComponent = memo(
       }
     }, [showModalAdvanced]);
 
-    const setLastCopiedSelection = useFlowStore(
+    const setLastCopiedSelection = useFlowStore(useShallow(
       (state) => state.setLastCopiedSelection,
-    );
+    ));
 
-    const setSuccessData = useAlertStore((state) => state.setSuccessData);
-    const setNoticeData = useAlertStore((state) => state.setNoticeData);
-    const setErrorData = useAlertStore((state) => state.setErrorData);
+    const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+    const setNoticeData = useAlertStore(useShallow((state) => state.setNoticeData));
+    const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
     useEffect(() => {
       setFlowComponent(createFlowComponent(cloneDeep(data), version));

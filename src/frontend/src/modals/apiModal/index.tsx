@@ -12,6 +12,7 @@ import { EXPORT_CODE_DIALOG } from "../../constants/constants";
 import { useTweaksStore } from "../../stores/tweaksStore";
 import { FlowType } from "../../types/flow/index";
 import BaseModal from "../baseModal";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ApiModal({
   flow,
@@ -24,16 +25,16 @@ export default function ApiModal({
   open?: boolean;
   setOpen?: (a: boolean | ((o?: boolean) => boolean)) => void;
 }) {
-  const autoLogin = useAuthStore((state) => state.autoLogin);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
   const [open, setOpen] =
     mySetOpen !== undefined && myOpen !== undefined
       ? [myOpen, mySetOpen]
       : useState(false);
   const [activeTab, setActiveTab] = useState("0");
-  const activeTweaks = useTweaksStore((state) => state.activeTweaks);
-  const setActiveTweaks = useTweaksStore((state) => state.setActiveTweaks);
-  const tabs = useTweaksStore((state) => state.tabs);
-  const initialSetup = useTweaksStore((state) => state.initialSetup);
+  const activeTweaks = useTweaksStore(useShallow((state) => state.activeTweaks));
+  const setActiveTweaks = useTweaksStore(useShallow((state) => state.setActiveTweaks));
+  const tabs = useTweaksStore(useShallow((state) => state.tabs));
+  const initialSetup = useTweaksStore(useShallow((state) => state.initialSetup));
 
   const getCodes = useCustomAPICode();
 

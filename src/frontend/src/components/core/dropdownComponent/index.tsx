@@ -3,6 +3,7 @@ import { usePostTemplateValue } from "@/controllers/API/queries/nodes/use-post-t
 import NodeDialog from "@/CustomNodes/GenericNode/components/NodeDialogComponent";
 import { mutateTemplate } from "@/CustomNodes/helpers/mutate-template";
 import useAlertStore from "@/stores/alertStore";
+import { useShallow} from "zustand/react/shallow";
 import {
   convertStringToHTML,
   getStatusColor,
@@ -94,7 +95,7 @@ export default function Dropdown({
     nodeId: nodeId,
     node: nodeClass,
   });
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   // Utility functions
   const filterMetadataKeys = (

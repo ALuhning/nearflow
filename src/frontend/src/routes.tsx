@@ -4,7 +4,7 @@ import {
   createRoutesFromElements,
   Outlet,
   Route,
-} from "react-router-dom";
+} from "react-router";
 import { ProtectedAdminRoute } from "./components/authorization/authAdminGuard";
 import { ProtectedRoute } from "./components/authorization/authGuard";
 import { ProtectedLoginRoute } from "./components/authorization/authLoginGuard";
@@ -36,6 +36,8 @@ import StoreApiKeyPage from "./pages/SettingsPage/pages/StoreApiKeyPage";
 import StorePage from "./pages/StorePage";
 import ViewPage from "./pages/ViewPage";
 import DonationsHome from "./pages/Donations";
+import NearInitializer from "./components/core/NearInitializer/NearInitializer";
+import ZustandHydration from "./components/core/NearInitializer/ZustandHydration";
 
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 const LoginAdminPage = lazy(() => import("./pages/AdminPage/LoginPage"));
@@ -60,6 +62,8 @@ const router = createBrowserRouter(
       path={ENABLE_CUSTOM_PARAM ? "/:customParam?" : "/"}
       element={
         <ContextWrapper key={2}>
+          <NearInitializer />
+          <ZustandHydration />
           <Outlet />
         </ContextWrapper>
       }
@@ -70,6 +74,8 @@ const router = createBrowserRouter(
             path=""
             element={
               <ProtectedRoute>
+                <NearInitializer />
+                <ZustandHydration />
                 <Outlet />
               </ProtectedRoute>
             }

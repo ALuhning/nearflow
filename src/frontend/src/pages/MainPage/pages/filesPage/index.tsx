@@ -22,12 +22,13 @@ import { AgGridReact } from "ag-grid-react";
 import { useMemo, useRef, useState } from "react";
 import { sortByDate } from "../../utils/sort-flows";
 import DragWrapComponent from "./components/dragWrapComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export const FilesPage = () => {
   const tableRef = useRef<AgGridReact<any>>(null);
   const { data: files } = useGetFilesV2();
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
 
   const { mutate: rename } = usePostRenameFileV2();
 

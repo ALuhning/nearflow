@@ -36,21 +36,21 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useShallow } from "zustand/react/shallow";
 
 export const MenuBar = ({}: {}): JSX.Element => {
-  const shortcuts = useShortcutsStore((state) => state.shortcuts);
+  const shortcuts = useShortcutsStore(useShallow((state) => state.shortcuts));
   const addFlow = useAddFlow();
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const undo = useFlowsManagerStore((state) => state.undo);
-  const redo = useFlowsManagerStore((state) => state.redo);
-  const saveLoading = useFlowsManagerStore((state) => state.saveLoading);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const undo = useFlowsManagerStore(useShallow((state) => state.undo));
+  const redo = useFlowsManagerStore(useShallow((state) => state.redo));
+  const saveLoading = useFlowsManagerStore(useShallow((state) => state.saveLoading));
   const [openSettings, setOpenSettings] = useState(false);
   const [openLogs, setOpenLogs] = useState(false);
   const uploadFlow = useUploadFlow();
   const navigate = useCustomNavigate();
-  const isBuilding = useFlowStore((state) => state.isBuilding);
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
   const saveFlow = useSaveFlow();
   const queryClient = useQueryClient();
-  const autoSaving = useFlowsManagerStore((state) => state.autoSaving);
+  const autoSaving = useFlowsManagerStore(useShallow((state) => state.autoSaving));
   const {
     currentFlowName,
     currentFlowId,
@@ -71,9 +71,9 @@ export const MenuBar = ({}: {}): JSX.Element => {
       updated_at: state.currentFlow?.updated_at,
     })),
   );
-  const onFlowPage = useFlowStore((state) => state.onFlowPage);
-  const setCurrentFlow = useFlowsManagerStore((state) => state.setCurrentFlow);
-  const stopBuilding = useFlowStore((state) => state.stopBuilding);
+  const onFlowPage = useFlowStore(useShallow((state) => state.onFlowPage));
+  const setCurrentFlow = useFlowsManagerStore(useShallow((state) => state.setCurrentFlow));
+  const stopBuilding = useFlowStore(useShallow((state) => state.stopBuilding));
   const [editingName, setEditingName] = useState(false);
   const [flowName, setFlowName] = useState(currentFlowName ?? "");
   const [isInvalidName, setIsInvalidName] = useState(false);
@@ -83,7 +83,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
   const changesNotSaved = useUnsavedChanges();
 
   const { data: folders, isFetched: isFoldersFetched } = useGetFoldersQuery();
-  const flows = useFlowsManagerStore((state) => state.flows);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
   const [nameLists, setNameList] = useState<string[]>([]);
 
   useEffect(() => {
@@ -156,7 +156,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
     });
   };
 
-  const changes = useShortcutsStore((state) => state.changesSave);
+  const changes = useShortcutsStore(useShallow((state) => state.changesSave));
   useHotkeys(changes, handleSave, { preventDefault: true });
 
   const handleEditName = useCallback(

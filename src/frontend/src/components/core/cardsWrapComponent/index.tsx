@@ -1,4 +1,5 @@
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
+import { useShallow } from "zustand/react/shallow";
 import { useEffect, useState } from "react";
 import { cn } from "../../../utils/utils";
 import IconComponent from "../../common/genericIconComponent";
@@ -13,7 +14,7 @@ export default function CardsWrapComponent({
   dragMessage?: string;
 }) {
   const [isDragging, setIsDragging] = useState(false);
-  const isIOModalOpen = useFlowsManagerStore((state) => state.IOModalOpen);
+  const isIOModalOpen = useFlowsManagerStore(useShallow((state) => state.IOModalOpen));
   useEffect(() => {
     // Function to handle visibility change
     const handleVisibilityChange = () => {

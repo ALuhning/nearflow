@@ -4,6 +4,7 @@ import useAlertStore from "@/stores/alertStore";
 import { useUtilityStore } from "@/stores/utilityStore";
 import { formatFileSize } from "@/utils/stringManipulation";
 import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export default function DragFilesComponent({
   onUpload,
@@ -19,9 +20,9 @@ export default function DragFilesComponent({
     types,
     multiple: isList,
   });
-  const maxFileSizeUpload = useUtilityStore((state) => state.maxFileSizeUpload);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const maxFileSizeUpload = useUtilityStore(useShallow((state) => state.maxFileSizeUpload));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();

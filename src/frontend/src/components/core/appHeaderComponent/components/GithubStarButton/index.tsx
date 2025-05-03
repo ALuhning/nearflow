@@ -1,9 +1,10 @@
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { useDarkStore } from "@/stores/darkStore";
 import { FaGithub } from "react-icons/fa";
+import { useShallow } from "zustand/react/shallow";
 
 export const GithubStarComponent = () => {
-  const stars: number | undefined = useDarkStore((state) => state.stars);
+  const stars: number | undefined = useDarkStore(useShallow((state) => state.stars));
 
   return (
     <ShadTooltip content="Go to Github repo" side="bottom" styleClasses="z-10">

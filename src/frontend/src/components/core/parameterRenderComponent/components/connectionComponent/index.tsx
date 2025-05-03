@@ -4,6 +4,7 @@ import { usePostTemplateValue } from "@/controllers/API/queries/nodes/use-post-t
 import ListSelectionComponent from "@/CustomNodes/GenericNode/components/ListSelectionComponent";
 import { mutateTemplate } from "@/CustomNodes/helpers/mutate-template";
 import useAlertStore from "@/stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 import { APIClassType } from "@/types/api";
 import { cn } from "@/utils/utils";
 import { memo, useEffect, useRef, useState } from "react";
@@ -43,7 +44,7 @@ const ConnectionComponent = ({
     placeholder,
   } = baseInputProps;
 
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   const [isAuthenticated, setIsAuthenticated] = useState(
     connectionLink === "validated",

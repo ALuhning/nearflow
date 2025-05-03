@@ -12,19 +12,21 @@ import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useTheme from "@/customization/hooks/use-custom-theme";
 import { useResetDismissUpdateAll } from "@/hooks/use-reset-dismiss-update-all";
 import useAlertStore from "@/stores/alertStore";
-import { useEffect, useRef, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { useEffect, useRef, useState, Suspense, lazy } from "react";
 import { AccountMenu } from "./components/AccountMenu";
 import FlowMenu from "./components/FlowMenu";
 import GithubStarComponent from "./components/GithubStarButton";
-import { NearAuthIcon } from "./components/NearAuth";
+const NearAuthIcon = lazy(() => import('./components/NearAuth'));
 
 export default function AppHeader(): JSX.Element {
-  const notificationCenter = useAlertStore((state) => state.notificationCenter);
+  const notificationCenter = useAlertStore(useShallow((state) => state.notificationCenter));
   const navigate = useCustomNavigate();
   const [activeState, setActiveState] = useState<"notifications" | null>(null);
   const lastPath = window.location.pathname.split("/").filter(Boolean).pop();
   const notificationRef = useRef<HTMLButtonElement | null>(null);
   const notificationContentRef = useRef<HTMLDivElement | null>(null);
+  
   useTheme();
 
   useEffect(() => {
@@ -89,7 +91,10 @@ export default function AppHeader(): JSX.Element {
       >
         {!ENABLE_DATASTAX_LANGFLOW && (
           <>
+          <Suspense fallback={null}>
             <NearAuthIcon />
+          </Suspense>
+          
             <Button
               unstyled
               className="hidden items-center whitespace-nowrap pr-2 2xl:inline"

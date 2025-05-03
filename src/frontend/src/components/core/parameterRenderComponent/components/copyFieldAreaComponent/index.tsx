@@ -1,6 +1,7 @@
 import { GRADIENT_CLASS_DISABLED } from "@/constants/constants";
 import useAlertStore from "@/stores/alertStore";
 import useFlowStore from "@/stores/flowStore";
+import { useShallow } from "zustand/react/shallow";
 import { useMemo, useRef, useState } from "react";
 import { cn } from "../../../../../utils/utils";
 import IconComponent from "../../../../common/genericIconComponent";
@@ -63,8 +64,8 @@ export default function CopyFieldAreaComponent({
   const [isCopied, setIsCopied] = useState(false);
 
   const isValueToReplace = value === BACKEND_URL || value === MCP_SSE_VALUE;
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const currentFlow = useFlowStore((state) => state.currentFlow);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
   const endpointName = currentFlow?.endpoint_name ?? "";
 
   const valueToRender = useMemo(() => {

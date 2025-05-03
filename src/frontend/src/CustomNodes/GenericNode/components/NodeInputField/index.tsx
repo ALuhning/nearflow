@@ -25,6 +25,7 @@ import useFetchDataOnMount from "../../../hooks/use-fetch-data-on-mount";
 import useHandleOnNewValue from "../../../hooks/use-handle-new-value";
 import NodeInputInfo from "../NodeInputInfo";
 import HandleRenderComponent from "../handleRenderComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export default function NodeInputField({
   id,
@@ -44,17 +45,17 @@ export default function NodeInputField({
   isToolMode = false,
 }: NodeInputFieldComponentType): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const nodes = useFlowStore((state) => state.nodes);
-  const edges = useFlowStore((state) => state.edges);
-  const isAuth = useAuthStore((state) => state.isAuthenticated);
-  const currentFlow = useFlowStore((state) => state.currentFlow);
-  const myData = useTypesStore((state) => state.data);
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
+  const edges = useFlowStore(useShallow((state) => state.edges));
+  const isAuth = useAuthStore(useShallow((state) => state.isAuthenticated));
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
+  const myData = useTypesStore(useShallow((state) => state.data));
   const postTemplateValue = usePostTemplateValue({
     node: data.node!,
     nodeId: data.id,
     parameterId: name,
   });
-  const setFilterEdge = useFlowStore((state) => state.setFilterEdge);
+  const setFilterEdge = useFlowStore(useShallow((state) => state.setFilterEdge));
   const { handleNodeClass } = useHandleNodeClass(data.id);
   let disabled =
     edges.some(

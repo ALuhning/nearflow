@@ -5,10 +5,11 @@ import {
   extractFieldsFromComponenents,
   processFlows,
 } from "@/utils/reactflowUtils";
+import { useShallow } from "zustand/react/shallow";
 
 const useDeleteFlow = () => {
-  const flows = useFlowsManagerStore((state) => state.flows);
-  const setFlows = useFlowsManagerStore((state) => state.setFlows);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+  const setFlows = useFlowsManagerStore(useShallow((state) => state.setFlows));
 
   const { mutate, isPending } = useDeleteDeleteFlows();
 

@@ -1,5 +1,6 @@
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { useTweaksStore } from "@/stores/tweaksStore";
+import { useShallow } from "zustand/react/shallow";
 import { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -22,8 +23,8 @@ export default function CodeTabsComponent({
   activeTweaks,
 }: codeTabsPropsType) {
   const [isCopied, setIsCopied] = useState<Boolean>(false);
-  const dark = useDarkStore((state) => state.dark);
-  const nodes = useTweaksStore((state) => state.nodes);
+  const dark = useDarkStore(useShallow((state) => state.dark));
+  const nodes = useTweaksStore(useShallow((state) => state.nodes));
 
   const copyToClipboard = () => {
     if (!navigator.clipboard || !navigator.clipboard.writeText) {

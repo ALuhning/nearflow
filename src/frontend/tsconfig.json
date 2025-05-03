@@ -16,6 +16,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "noImplicitAny": false,
+    "typeRoots": ["./node_modules/@types", "./types", "./src/types"],
+    "types": [
+      "node",
+      "react",
+      "react-dom",
+      "react-router"
+    ],
     "paths": {
       "@/*": ["*"],
       "@queries/*": ["controllers/API/queries/*"]

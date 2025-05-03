@@ -7,6 +7,7 @@ import { useDarkStore } from "../../stores/darkStore";
 import { NodeDataType } from "../../types/flow";
 import BaseModal from "../baseModal";
 import { EditNodeComponent } from "./components/editNodeComponent";
+import { useShallow } from "zustand/react/shallow";
 
 const EditNodeModal = ({
   open,
@@ -17,7 +18,7 @@ const EditNodeModal = ({
   setOpen: (open: boolean) => void;
   data: NodeDataType;
 }) => {
-  const isDark = useDarkStore((state) => state.dark);
+  const isDark = useDarkStore(useShallow((state) => state.dark));
 
   const [nodeClass, setNodeClass] = useState<APIClassType>(data.node!);
 

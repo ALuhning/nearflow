@@ -1,6 +1,7 @@
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { cn } from "@/utils/utils";
 import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export default function DragWrapComponent({
   onFileDrop,
@@ -11,7 +12,7 @@ export default function DragWrapComponent({
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const isIOModalOpen = useFlowsManagerStore((state) => state.IOModalOpen);
+  const isIOModalOpen = useFlowsManagerStore(useShallow((state) => state.IOModalOpen));
   const [filesCount, setFilesCount] = useState(0);
   useEffect(() => {
     // Function to handle visibility change

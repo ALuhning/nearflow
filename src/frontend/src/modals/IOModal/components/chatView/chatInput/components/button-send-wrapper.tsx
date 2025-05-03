@@ -4,6 +4,7 @@ import { Button } from "../../../../../../components/ui/button";
 import { Case } from "../../../../../../shared/components/caseComponent";
 import { FilePreviewType } from "../../../../../../types/components";
 import { classNames } from "../../../../../../utils/utils";
+import { useShallow } from "zustand/react/shallow";
 
 const BUTTON_STATES = {
   NO_INPUT: "bg-high-indigo text-background",
@@ -27,9 +28,9 @@ const ButtonSendWrapper = ({
   chatValue,
   files,
 }: ButtonSendWrapperProps) => {
-  const stopBuilding = useFlowStore((state) => state.stopBuilding);
+  const stopBuilding = useFlowStore(useShallow((state) => state.stopBuilding));
 
-  const isBuilding = useFlowStore((state) => state.isBuilding);
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
   const showStopButton = isBuilding || files.some((file) => file.loading);
   const showSendButton =
     !(isBuilding || files.some((file) => file.loading)) && !noInput;

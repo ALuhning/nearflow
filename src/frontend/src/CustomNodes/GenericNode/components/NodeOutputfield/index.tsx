@@ -37,6 +37,7 @@ import {
 import OutputComponent from "../OutputComponent";
 import HandleRenderComponent from "../handleRenderComponent";
 import OutputModal from "../outputModal";
+import { useShallow } from "zustand/react/shallow";
 
 // Memoize IconComponent instances
 const EyeIcon = memo(
@@ -174,12 +175,12 @@ function NodeOutputField({
   const updateNodeInternals = useUpdateNodeInternals();
 
   // Use selective store subscriptions
-  const nodes = useFlowStore((state) => state.nodes);
-  const edges = useFlowStore((state) => state.edges);
-  const setNode = useFlowStore((state) => state.setNode);
-  const setFilterEdge = useFlowStore((state) => state.setFilterEdge);
-  const flowPool = useFlowStore((state) => state.flowPool);
-  const myData = useTypesStore((state) => state.data);
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
+  const edges = useFlowStore(useShallow((state) => state.edges));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
+  const setFilterEdge = useFlowStore(useShallow((state) => state.setFilterEdge));
+  const flowPool = useFlowStore(useShallow((state) => state.flowPool));
+  const myData = useTypesStore(useShallow((state) => state.data));
 
   // Memoize computed values
   const { flowPoolId, internalOutputName } = useMemo(() => {
@@ -305,7 +306,7 @@ function NodeOutputField({
     }
   };
 
-  const outputInspection = useShortcutsStore((state) => state.outputInspection);
+  const outputInspection = useShortcutsStore(useShallow((state) => state.outputInspection));
   useHotkeys(outputInspection, handleOpenOutputModal, { preventDefault: true });
 
   const LoopHandle = useMemo(() => {

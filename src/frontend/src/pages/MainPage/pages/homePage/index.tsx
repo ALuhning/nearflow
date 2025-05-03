@@ -6,7 +6,7 @@ import { ENABLE_DATASTAX_LANGFLOW } from "@/customization/feature-flags";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { useFolderStore } from "@/stores/foldersStore";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import GridComponent from "../../components/grid";
 import GridSkeleton from "../../components/gridSkeleton";
 import HeaderComponent from "../../components/header";
@@ -15,6 +15,7 @@ import ListSkeleton from "../../components/listSkeleton";
 import ModalsComponent from "../../components/modalsComponent";
 import useFileDrop from "../../hooks/use-on-file-drop";
 import EmptyFolder from "../emptyFolder";
+import { useShallow } from "zustand/react/shallow";
 
 const HomePage = ({ type }) => {
   const [view, setView] = useState<"grid" | "list">(() => {
@@ -28,13 +29,13 @@ const HomePage = ({ type }) => {
   const [search, setSearch] = useState("");
 
   const [flowType, setFlowType] = useState<"flows" | "components">(type);
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
-  const folders = useFolderStore((state) => state.folders);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
+  const folders = useFolderStore(useShallow((state) => state.folders));
   const folderName =
     folders.find((folder) => folder.id === folderId)?.name ??
     folders[0]?.name ??
     "";
-  const flows = useFlowsManagerStore((state) => state.flows);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
 
   const { data: folderData, isLoading } = useGetFolderQuery({
     id: folderId ?? myCollectionId!,

@@ -1,11 +1,12 @@
 import useFlowStore from "@/stores/flowStore";
 import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import PublishDropdown from "./deploy-dropdown";
 import PlaygroundButton from "./playground-button";
 
 export default function FlowToolbarOptions() {
   const [open, setOpen] = useState<boolean>(false);
-  const hasIO = useFlowStore((state) => state.hasIO);
+  const hasIO = useFlowStore(useShallow((state) => state.hasIO));
 
   return (
     <div className="flex items-center gap-1.5">

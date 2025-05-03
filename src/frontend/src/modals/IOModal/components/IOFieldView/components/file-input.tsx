@@ -12,15 +12,16 @@ import {
 } from "../../../../../constants/constants";
 import useFlowsManagerStore from "../../../../../stores/flowsManagerStore";
 import { IOFileInputProps } from "../../../../../types/components";
+import { useShallow } from "zustand/react/shallow";
 
 export default function IOFileInput({ field, updateValue }: IOFileInputProps) {
   //component to handle file upload from chatIO
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
 
   const [isDragging, setIsDragging] = useState(false);
   const [filePath, setFilePath] = useState("");
   const [image, setImage] = useState<string | null>(null);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { validateFileSize } = useFileSizeValidator();
 
   useEffect(() => {

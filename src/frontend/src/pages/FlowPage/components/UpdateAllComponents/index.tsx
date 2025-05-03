@@ -13,6 +13,7 @@ import { useUtilityStore } from "@/stores/utilityStore";
 import { cn } from "@/utils/utils";
 import { useUpdateNodeInternals } from "@xyflow/react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 const ERROR_MESSAGE_UPDATING_COMPONENTS = "Error updating components";
 const ERROR_MESSAGE_UPDATING_COMPONENTS_LIST = [
@@ -24,11 +25,11 @@ const ERROR_MESSAGE_EDGES_LOST =
 
 export default function UpdateAllComponents({}: {}) {
   const { componentsToUpdate, nodes, edges, setNodes } = useFlowStore();
-  const setDismissAll = useUtilityStore((state) => state.setDismissAll);
-  const templates = useTypesStore((state) => state.templates);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setDismissAll = useUtilityStore(useShallow((state) => state.setDismissAll));
+  const templates = useTypesStore(useShallow((state) => state.templates));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { mutateAsync: validateComponentCode } = usePostValidateComponentCode();
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
 
   const updateNodeInternals = useUpdateNodeInternals();
   const updateAllNodes = useUpdateAllNodes(setNodes, updateNodeInternals);

@@ -20,6 +20,7 @@ import AudioSettingsHeader from "./components/header";
 import LanguageSelect from "./components/language-select";
 import MicrophoneSelect from "./components/microphone-select";
 import VoiceSelect from "./components/voice-select";
+import { useShallow } from "zustand/react/shallow";
 
 interface SettingsVoiceModalProps {
   children?: React.ReactNode;
@@ -56,7 +57,7 @@ const SettingsVoiceModal = ({
   const popupRef = useRef<HTMLDivElement>(null);
   const [voice, setVoice] = useState<string>("alloy");
   const [open, setOpen] = useState<boolean>(false);
-  const voices = useVoiceStore((state) => state.voices);
+  const voices = useVoiceStore(useShallow((state) => state.voices));
   const shouldFetchVoices = voices.length === 0;
   const [openaiApiKey, setOpenaiApiKey] = useState<string>(
     userOpenaiApiKey ?? "",
@@ -65,11 +66,11 @@ const SettingsVoiceModal = ({
     userElevenLabsApiKey ?? "",
   );
 
-  const globalVariables = useGlobalVariablesStore(
+  const globalVariables = useGlobalVariablesStore(useShallow(
     (state) => state.globalVariablesEntries,
-  );
+  ));
 
-  const openaiVoices = useVoiceStore((state) => state.openaiVoices);
+  const openaiVoices = useVoiceStore(useShallow((state) => state.openaiVoices));
   const [allVoices, setAllVoices] = useState<
     {
       name: string;

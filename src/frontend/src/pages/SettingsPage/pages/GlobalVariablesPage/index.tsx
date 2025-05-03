@@ -19,9 +19,10 @@ import {
 import { useRef, useState } from "react";
 import { Badge } from "../../../../components/ui/badge";
 import useAlertStore from "../../../../stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 
 export default function GlobalVariablesPage() {
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const [openModal, setOpenModal] = useState(false);
   const initialData = useRef<GlobalVariable | undefined>(undefined);
   const BadgeRenderer = (props) => {

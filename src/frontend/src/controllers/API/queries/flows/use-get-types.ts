@@ -4,6 +4,7 @@ import { APIObjectType, useQueryFunctionType } from "../../../../types/api";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 export const useGetTypes: useQueryFunctionType<
   undefined,
@@ -11,8 +12,8 @@ export const useGetTypes: useQueryFunctionType<
   { checkCache?: boolean }
 > = (options) => {
   const { query } = UseRequestProcessor();
-  const setLoading = useFlowsManagerStore((state) => state.setIsLoading);
-  const setTypes = useTypesStore((state) => state.setTypes);
+  const setLoading = useFlowsManagerStore(useShallow((state) => state.setIsLoading));
+  const setTypes = useTypesStore(useShallow((state) => state.setTypes));
 
   const getTypesFn = async (checkCache = false) => {
     try {

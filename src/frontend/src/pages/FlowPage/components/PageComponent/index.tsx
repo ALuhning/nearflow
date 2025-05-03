@@ -69,6 +69,7 @@ import SelectionMenu from "../SelectionMenuComponent";
 import UpdateAllComponents from "../UpdateAllComponents";
 import getRandomName from "./utils/get-random-name";
 import isWrappedWithClass from "./utils/is-wrapped-with-class";
+import { useShallow } from "zustand/react/shallow";
 
 const nodeTypes = {
   genericNode: GenericNode,
@@ -88,46 +89,46 @@ export default function Page({
 }): JSX.Element {
   const uploadFlow = useUploadFlow();
   const autoSaveFlow = useAutoSaveFlow();
-  const types = useTypesStore((state) => state.types);
-  const templates = useTypesStore((state) => state.templates);
-  const setFilterEdge = useFlowStore((state) => state.setFilterEdge);
+  const types = useTypesStore(useShallow((state) => state.types));
+  const templates = useTypesStore(useShallow((state) => state.templates));
+  const setFilterEdge = useFlowStore(useShallow((state) => state.setFilterEdge));
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const setPositionDictionary = useFlowStore(
+  const setPositionDictionary = useFlowStore(useShallow(
     (state) => state.setPositionDictionary,
-  );
-  const reactFlowInstance = useFlowStore((state) => state.reactFlowInstance);
-  const setReactFlowInstance = useFlowStore(
+  ));
+  const reactFlowInstance = useFlowStore(useShallow((state) => state.reactFlowInstance));
+  const setReactFlowInstance = useFlowStore(useShallow(
     (state) => state.setReactFlowInstance,
-  );
-  const nodes = useFlowStore((state) => state.nodes);
-  const edges = useFlowStore((state) => state.edges);
+  ));
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
+  const edges = useFlowStore(useShallow((state) => state.edges));
   const isEmptyFlow = useRef(nodes.length === 0);
-  const onNodesChange = useFlowStore((state) => state.onNodesChange);
-  const onEdgesChange = useFlowStore((state) => state.onEdgesChange);
-  const setNodes = useFlowStore((state) => state.setNodes);
-  const setEdges = useFlowStore((state) => state.setEdges);
-  const deleteNode = useFlowStore((state) => state.deleteNode);
-  const deleteEdge = useFlowStore((state) => state.deleteEdge);
-  const undo = useFlowsManagerStore((state) => state.undo);
-  const redo = useFlowsManagerStore((state) => state.redo);
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
-  const paste = useFlowStore((state) => state.paste);
-  const lastCopiedSelection = useFlowStore(
+  const onNodesChange = useFlowStore(useShallow((state) => state.onNodesChange));
+  const onEdgesChange = useFlowStore(useShallow((state) => state.onEdgesChange));
+  const setNodes = useFlowStore(useShallow((state) => state.setNodes));
+  const setEdges = useFlowStore(useShallow((state) => state.setEdges));
+  const deleteNode = useFlowStore(useShallow((state) => state.deleteNode));
+  const deleteEdge = useFlowStore(useShallow((state) => state.deleteEdge));
+  const undo = useFlowsManagerStore(useShallow((state) => state.undo));
+  const redo = useFlowsManagerStore(useShallow((state) => state.redo));
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
+  const paste = useFlowStore(useShallow((state) => state.paste));
+  const lastCopiedSelection = useFlowStore(useShallow(
     (state) => state.lastCopiedSelection,
-  );
-  const setLastCopiedSelection = useFlowStore(
+  ));
+  const setLastCopiedSelection = useFlowStore(useShallow(
     (state) => state.setLastCopiedSelection,
-  );
-  const onConnect = useFlowStore((state) => state.onConnect);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const updateCurrentFlow = useFlowStore((state) => state.updateCurrentFlow);
+  ));
+  const onConnect = useFlowStore(useShallow((state) => state.onConnect));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const updateCurrentFlow = useFlowStore(useShallow((state) => state.updateCurrentFlow));
   const [selectionMenuVisible, setSelectionMenuVisible] = useState(false);
   const edgeUpdateSuccessful = useRef(true);
 
   const position = useRef({ x: 0, y: 0 });
   const [lastSelection, setLastSelection] =
     useState<OnSelectionChangeParams | null>(null);
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
 
   const [isAddingNote, setIsAddingNote] = useState(false);
 
@@ -299,15 +300,15 @@ export default function Page({
     }
   }
 
-  const undoAction = useShortcutsStore((state) => state.undo);
-  const redoAction = useShortcutsStore((state) => state.redo);
-  const redoAltAction = useShortcutsStore((state) => state.redoAlt);
-  const copyAction = useShortcutsStore((state) => state.copy);
-  const duplicate = useShortcutsStore((state) => state.duplicate);
-  const deleteAction = useShortcutsStore((state) => state.delete);
-  const groupAction = useShortcutsStore((state) => state.group);
-  const cutAction = useShortcutsStore((state) => state.cut);
-  const pasteAction = useShortcutsStore((state) => state.paste);
+  const undoAction = useShortcutsStore(useShallow((state) => state.undo));
+  const redoAction = useShortcutsStore(useShallow((state) => state.redo));
+  const redoAltAction = useShortcutsStore(useShallow((state) => state.redoAlt));
+  const copyAction = useShortcutsStore(useShallow((state) => state.copy));
+  const duplicate = useShortcutsStore(useShallow((state) => state.duplicate));
+  const deleteAction = useShortcutsStore(useShallow((state) => state.delete));
+  const groupAction = useShortcutsStore(useShallow((state) => state.group));
+  const cutAction = useShortcutsStore(useShallow((state) => state.cut));
+  const pasteAction = useShortcutsStore(useShallow((state) => state.paste));
   //@ts-ignore
   useHotkeys(undoAction, handleUndo);
   //@ts-ignore
@@ -540,7 +541,7 @@ export default function Page({
     };
   }, [isAddingNote, shadowBoxWidth, shadowBoxHeight]);
 
-  const componentsToUpdate = useFlowStore((state) => state.componentsToUpdate);
+  const componentsToUpdate = useFlowStore(useShallow((state) => state.componentsToUpdate));
 
   return (
     <div className="h-full w-full bg-canvas" ref={reactFlowWrapper}>

@@ -1,6 +1,6 @@
 import { CustomLink } from "@/customization/components/custom-link";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import {
   Sidebar,
   SidebarContent,

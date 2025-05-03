@@ -4,13 +4,14 @@ import { FlowType } from "@/types/flow";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 export const useGetBasicExamplesQuery: useQueryFunctionType<
   undefined,
   FlowType[]
 > = (options) => {
   const { query } = UseRequestProcessor();
-  const setExamples = useFlowsManagerStore((state) => state.setExamples);
+  const setExamples = useFlowsManagerStore(useShallow((state) => state.setExamples));
 
   const getBasicExamplesFn = async () => {
     return await api.get<FlowType[]>(`${getURL("FLOWS")}/basic_examples/`);

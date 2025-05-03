@@ -19,6 +19,7 @@ import {
   inputHandlerEventType,
   signUpInputStateType,
 } from "../../types/components";
+import { useShallow } from "zustand/react/shallow";
 
 export default function SignUp(): JSX.Element {
   const [inputState, setInputState] =
@@ -27,8 +28,8 @@ export default function SignUp(): JSX.Element {
   const [isDisabled, setDisableBtn] = useState<boolean>(true);
 
   const { password, cnfPassword, username } = inputState;
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const navigate = useCustomNavigate();
 
   const { mutate: mutateAddUser } = useAddUser();

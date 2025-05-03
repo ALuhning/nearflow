@@ -17,26 +17,27 @@ import { FlowType } from "@/types/flow";
 import { swatchColors } from "@/utils/styleUtils";
 import { cn, getNumberFromString } from "@/utils/utils";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import useDescriptionModal from "../../hooks/use-description-modal";
 import { useGetTemplateStyle } from "../../utils/get-template-style";
 import { timeElapsed } from "../../utils/time-elapse";
 import DropdownComponent from "../dropdown";
+import { useShallow } from "zustand/react/shallow";
 
 const GridComponent = ({ flowData }: { flowData: FlowType }) => {
   const navigate = useCustomNavigate();
 
   const [openDelete, setOpenDelete] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
   const { deleteFlow } = useDeleteFlow();
 
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { folderId } = useParams();
   const isComponent = flowData.is_component ?? false;
-  const setFlowToCanvas = useFlowsManagerStore(
+  const setFlowToCanvas = useFlowsManagerStore(useShallow(
     (state) => state.setFlowToCanvas,
-  );
+  ));
 
   const { getIcon } = useGetTemplateStyle(flowData);
 

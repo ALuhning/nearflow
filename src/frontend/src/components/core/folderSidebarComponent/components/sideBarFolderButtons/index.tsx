@@ -27,11 +27,12 @@ import useUploadFlow from "@/hooks/flows/use-upload-flow";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 import { FolderType } from "../../../../../pages/MainPage/entities";
 import useAlertStore from "../../../../../stores/alertStore";
 import useFlowsManagerStore from "../../../../../stores/flowsManagerStore";
 import { useFolderStore } from "../../../../../stores/foldersStore";
+import { useShallow } from "zustand/react/shallow";
 import { handleKeyDown } from "../../../../../utils/reactflowUtils";
 import { cn } from "../../../../../utils/utils";
 import useFileDrop from "../../hooks/use-on-file-drop";
@@ -52,7 +53,7 @@ const SideBarFoldersButtonsComponent = ({
 }: SideBarFoldersButtonsComponentProps) => {
   const location = useLocation();
   const pathname = location.pathname;
-  const folders = useFolderStore((state) => state.folders);
+  const folders = useFolderStore(useShallow((state) => state.folders));
   const loading = !folders;
   const refInput = useRef<HTMLInputElement>(null);
 
@@ -68,12 +69,12 @@ const SideBarFoldersButtonsComponent = ({
     return currentFolder.includes(itemId);
   };
 
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
   const isMobile = useIsMobile({ maxWidth: 1024 });
-  const folderIdDragging = useFolderStore((state) => state.folderIdDragging);
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
+  const folderIdDragging = useFolderStore(useShallow((state) => state.folderIdDragging));
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
 
   const folderId = useParams().folderId ?? myCollectionId ?? "";
 

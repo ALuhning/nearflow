@@ -14,6 +14,7 @@ import {
 } from "../../../../../constants/alerts_constants";
 import useAlertStore from "../../../../../stores/alertStore";
 import useFlowsManagerStore from "../../../../../stores/flowsManagerStore";
+import { useShallow } from "zustand/react/shallow";
 import IconComponent, {
   ForwardedIconComponent,
 } from "../../../../common/genericIconComponent";
@@ -31,8 +32,8 @@ export default function InputFileComponent({
   editNode = false,
   id,
 }: InputProps<string, FileComponentType>): JSX.Element {
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { validateFileSize } = useFileSizeValidator();
 
   // Clear component state

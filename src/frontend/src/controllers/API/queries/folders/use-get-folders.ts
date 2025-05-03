@@ -6,6 +6,7 @@ import { useQueryFunctionType } from "@/types/api";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 export const useGetFoldersQuery: useQueryFunctionType<
   undefined,
@@ -13,10 +14,10 @@ export const useGetFoldersQuery: useQueryFunctionType<
 > = (options) => {
   const { query } = UseRequestProcessor();
 
-  const setMyCollectionId = useFolderStore((state) => state.setMyCollectionId);
-  const setFolders = useFolderStore((state) => state.setFolders);
+  const setMyCollectionId = useFolderStore(useShallow((state) => state.setMyCollectionId));
+  const setFolders = useFolderStore(useShallow((state) => state.setFolders));
 
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
 
   const getFoldersFn = async (): Promise<FolderType[]> => {
     if (!isAuthenticated) return [];

@@ -4,19 +4,20 @@ import useAddFlow from "@/hooks/flows/use-add-flow";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import Fuse from "fuse.js";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { ForwardedIconComponent } from "../../../../components/common/genericIconComponent";
 import { Input } from "../../../../components/ui/input";
 import { useFolderStore } from "../../../../stores/foldersStore";
 import { TemplateContentProps } from "../../../../types/templates/types";
 import { updateIds } from "../../../../utils/reactflowUtils";
 import { TemplateCategoryComponent } from "../TemplateCategoryComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export default function TemplateContentComponent({
   currentTab,
   categories,
 }: TemplateContentProps) {
-  const examples = useFlowsManagerStore((state) => state.examples).filter(
+  const examples = useFlowsManagerStore(useShallow((state) => state.examples)).filter(
     (example) =>
       example.tags?.includes(currentTab ?? "") ||
       currentTab === "all-templates",
@@ -26,7 +27,7 @@ export default function TemplateContentComponent({
   const addFlow = useAddFlow();
   const navigate = useCustomNavigate();
   const { folderId } = useParams();
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const folderIdUrl = folderId ?? myCollectionId;

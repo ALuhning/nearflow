@@ -7,24 +7,26 @@ import useFlowStore from "@/stores/flowStore";
 import { useUtilityStore } from "@/stores/utilityStore";
 import { CookieOptions, getCookie, setCookie } from "@/utils/utils";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { v4 as uuid } from "uuid";
 import useFlowsManagerStore from "../../stores/flowsManagerStore";
 import { getInputsAndOutputs } from "../../utils/storeUtils";
+import { useShallow } from "zustand/react/shallow";
+
 export default function PlaygroundPage() {
   useGetConfig();
-  const setCurrentFlow = useFlowsManagerStore((state) => state.setCurrentFlow);
-  const currentSavedFlow = useFlowsManagerStore((state) => state.currentFlow);
-  const setClientId = useUtilityStore((state) => state.setClientId);
+  const setCurrentFlow = useFlowsManagerStore(useShallow((state) => state.setCurrentFlow));
+  const currentSavedFlow = useFlowsManagerStore(useShallow((state) => state.currentFlow));
+  const setClientId = useUtilityStore(useShallow((state) => state.setClientId));
 
   const { id } = useParams();
   const { mutateAsync: getFlow } = useGetFlow();
 
   const navigate = useCustomNavigate();
 
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
-  const setIsLoading = useFlowsManagerStore((state) => state.setIsLoading);
-  const setPlaygroundPage = useFlowStore((state) => state.setPlaygroundPage);
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
+  const setIsLoading = useFlowsManagerStore(useShallow((state) => state.setIsLoading));
+  const setPlaygroundPage = useFlowStore(useShallow((state) => state.setPlaygroundPage));
 
   async function getFlowData() {
     try {

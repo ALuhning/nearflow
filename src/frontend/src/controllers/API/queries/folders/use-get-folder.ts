@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 interface IGetFolder {
   id: string;
@@ -28,7 +29,7 @@ export const useGetFolderQuery: useQueryFunctionType<
 > = (params, options) => {
   const { query } = UseRequestProcessor();
 
-  const folders = useFolderStore((state) => state.folders);
+  const folders = useFolderStore(useShallow((state) => state.folders));
   const latestIdRef = useRef("");
 
   const getFolderFn = async (

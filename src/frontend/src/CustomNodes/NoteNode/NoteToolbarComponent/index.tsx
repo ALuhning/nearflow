@@ -17,6 +17,7 @@ import { memo, useCallback, useMemo } from "react";
 import IconComponent from "../../../components/common/genericIconComponent";
 import { ColorPickerButtons } from "../components/color-picker-buttons";
 import { SelectItems } from "../components/select-items";
+import { useShallow } from "zustand/react/shallow";
 
 const NoteToolbarComponent = memo(function NoteToolbarComponent({
   data,
@@ -25,11 +26,11 @@ const NoteToolbarComponent = memo(function NoteToolbarComponent({
   data: NoteDataType;
   bgColor: string;
 }) {
-  const setNoticeData = useAlertStore((state) => state.setNoticeData);
+  const setNoticeData = useAlertStore(useShallow((state) => state.setNoticeData));
 
   // Combine multiple store selectors into one to reduce re-renders
   const { nodes, setLastCopiedSelection, paste, setNode, deleteNode } =
-    useFlowStore(
+    useFlowStore(useShallow(
       useCallback(
         (state) => ({
           nodes: state.nodes,
@@ -40,10 +41,10 @@ const NoteToolbarComponent = memo(function NoteToolbarComponent({
         }),
         [],
       ),
-    );
+    ));
 
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
-  const shortcuts = useShortcutsStore((state) => state.shortcuts);
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
+  const shortcuts = useShortcutsStore(useShallow((state) => state.shortcuts));
 
   const openDocs = useCallback(() => {
     if (data.node?.documentation) {

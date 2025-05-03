@@ -27,6 +27,7 @@ import BaseModal from "../baseModal";
 import { ChatViewWrapper } from "./components/chat-view-wrapper";
 import { SelectedViewField } from "./components/selected-view-field";
 import { SidebarOpenView } from "./components/sidebar-open-view";
+import { useShallow } from "zustand/react/shallow";
 export default function IOModal({
   children,
   open,
@@ -36,21 +37,21 @@ export default function IOModal({
   canvasOpen,
   playgroundPage,
 }: IOModalPropsType): JSX.Element {
-  const allNodes = useFlowStore((state) => state.nodes);
-  const setIOModalOpen = useFlowsManagerStore((state) => state.setIOModalOpen);
-  const inputs = useFlowStore((state) => state.inputs).filter(
+  const allNodes = useFlowStore(useShallow((state) => state.nodes));
+  const setIOModalOpen = useFlowsManagerStore(useShallow((state) => state.setIOModalOpen));
+  const inputs = useFlowStore(useShallow((state) => state.inputs)).filter(
     (input) => input.type !== "ChatInput",
   );
-  const chatInput = useFlowStore((state) => state.inputs).find(
+  const chatInput = useFlowStore(useShallow((state) => state.inputs)).find(
     (input) => input.type === "ChatInput",
   );
-  const outputs = useFlowStore((state) => state.outputs).filter(
+  const outputs = useFlowStore(useShallow((state) => state.outputs)).filter(
     (output) => output.type !== "ChatOutput",
   );
-  const chatOutput = useFlowStore((state) => state.outputs).find(
+  const chatOutput = useFlowStore(useShallow((state) => state.outputs)).find(
     (output) => output.type === "ChatOutput",
   );
-  const nodes = useFlowStore((state) => state.nodes).filter(
+  const nodes = useFlowStore(useShallow((state) => state.nodes)).filter(
     (node) =>
       inputs.some((input) => input.id === node.id) ||
       outputs.some((output) => output.id === node.id),
@@ -59,22 +60,22 @@ export default function IOModal({
   const [selectedTab, setSelectedTab] = useState(
     inputs.length > 0 ? 1 : outputs.length > 0 ? 2 : 0,
   );
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const deleteSession = useMessagesStore((state) => state.deleteSession);
-  const clientId = useUtilityStore((state) => state.clientId);
-  let realFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const deleteSession = useMessagesStore(useShallow((state) => state.deleteSession));
+  const clientId = useUtilityStore(useShallow((state) => state.clientId));
+  let realFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
   const currentFlowId = playgroundPage
     ? uuidv5(`${clientId}_${realFlowId}`, uuidv5.DNS)
     : realFlowId;
-  const currentFlow = useFlowStore((state) => state.currentFlow);
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const { mutate: deleteSessionFunction } = useDeleteMessages();
   const [visibleSession, setvisibleSession] = useState<string | undefined>(
     currentFlowId,
   );
-  const flowName = useFlowStore((state) => state.currentFlow?.name);
+  const flowName = useFlowStore(useShallow((state) => state.currentFlow?.name));
   const PlaygroundTitle = playgroundPage && flowName ? flowName : "Playground";
 
   useEffect(() => {
@@ -126,11 +127,11 @@ export default function IOModal({
     { type: string; id: string } | undefined
   >(startView());
 
-  const buildFlow = useFlowStore((state) => state.buildFlow);
-  const setIsBuilding = useFlowStore((state) => state.setIsBuilding);
+  const buildFlow = useFlowStore(useShallow((state) => state.buildFlow));
+  const setIsBuilding = useFlowStore(useShallow((state) => state.setIsBuilding));
 
-  const isBuilding = useFlowStore((state) => state.isBuilding);
-  const messages = useMessagesStore((state) => state.messages);
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
+  const messages = useMessagesStore(useShallow((state) => state.messages));
   const [sessions, setSessions] = useState<string[]>(
     Array.from(
       new Set(
@@ -141,9 +142,9 @@ export default function IOModal({
     ),
   );
   const [sessionId, setSessionId] = useState<string>(currentFlowId);
-  const setCurrentSessionId = useUtilityStore(
+  const setCurrentSessionId = useUtilityStore(useShallow(
     (state) => state.setCurrentSessionId,
-  );
+  ));
 
   const { isFetched: messagesFetched } = useGetMessagesQuery(
     {
@@ -153,9 +154,9 @@ export default function IOModal({
     { enabled: open },
   );
 
-  const chatValue = useUtilityStore((state) => state.chatValueStore);
-  const setChatValue = useUtilityStore((state) => state.setChatValueStore);
-  const eventDeliveryConfig = useUtilityStore((state) => state.eventDelivery);
+  const chatValue = useUtilityStore(useShallow((state) => state.chatValueStore));
+  const setChatValue = useUtilityStore(useShallow((state) => state.setChatValueStore));
+  const eventDeliveryConfig = useUtilityStore(useShallow((state) => state.eventDelivery));
 
   const sendMessage = useCallback(
     async ({
@@ -223,9 +224,9 @@ export default function IOModal({
     }
   }, [visibleSession]);
 
-  const setPlaygroundScrollBehaves = useUtilityStore(
+  const setPlaygroundScrollBehaves = useUtilityStore(useShallow(
     (state) => state.setPlaygroundScrollBehaves,
-  );
+  ));
 
   useEffect(() => {
     if (open) {

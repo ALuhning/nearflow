@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs-button";
 import { useGetTypes } from "@/controllers/API/queries/flows/use-get-types";
 import BaseModal from "@/modals/baseModal";
 import useAlertStore from "@/stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 import { useTypesStore } from "@/stores/typesStore";
 import { ResponseErrorDetailAPI } from "@/types/api";
 import InputComponent from "../parameterRenderComponent/components/inputComponent";
@@ -48,8 +49,8 @@ export default function GlobalVariableModal({
     mySetOpen !== undefined && myOpen !== undefined
       ? [myOpen, mySetOpen]
       : useState(false);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const componentFields = useTypesStore((state) => state.ComponentFields);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const componentFields = useTypesStore(useShallow((state) => state.ComponentFields));
   const { mutate: mutateAddGlobalVariable } = usePostGlobalVariables();
   const { mutate: updateVariable } = usePatchGlobalVariables();
   const { data: globalVariables } = useGetGlobalVariables();
@@ -73,7 +74,7 @@ export default function GlobalVariableModal({
     }
   }, [globalVariables, componentFields, initialData]);
 
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
 
   function handleSaveVariable() {
     let data: {
