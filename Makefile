@@ -5,7 +5,7 @@ VERSION=$(shell grep "^version" pyproject.toml | sed 's/.*\"\(.*\)\"$$/\1/')
 DOCKERFILE=docker/build_and_push.Dockerfile
 DOCKERFILE_BACKEND=docker/build_and_push_backend.Dockerfile
 DOCKERFILE_FRONTEND=docker/frontend/build_and_push_frontend.Dockerfile
-DOCKER_COMPOSE=docker_example/docker-compose.yml
+DOCKER_COMPOSE=docker_nearflow/docker-compose.yml
 PYTHON_REQUIRED=$(shell grep '^requires-python[[:space:]]*=' pyproject.toml | sed -n 's/.*"\([^"]*\)".*/\1/p')
 RED=\033[0;31m
 NC=\033[0m # No Color
@@ -44,7 +44,7 @@ patch: ## bump the version in langflow and langflow-base
 # check for required tools
 check_tools:
 	@command -v uv >/dev/null 2>&1 || { echo >&2 "$(RED)uv is not installed. Aborting.$(NC)"; exit 1; }
-	@command -v pnpm >/dev/null 2>&1 || { echo >&2 "$(RED)PNPM is not installed. Aborting.$(NC)"; exit 1; }
+	@command -v npm >/dev/null 2>&1 || { echo >&2 "$(RED)NPM is not installed. Aborting.$(NC)"; exit 1; }
 	@echo "$(GREEN)All required tools are installed.$(NC)"
 
 
@@ -69,7 +69,7 @@ install_backend: ## install the backend dependencies
 
 install_frontend: ## install the frontend dependencies
 	@echo 'Installing frontend dependencies'
-	@cd src/frontend && pnpm install > /dev/null 2>&1
+	@cd src/frontend && npm install > /dev/null 2>&1
 
 build_frontend: ## build the frontend static files
 	@echo '==== Starting frontend build ===='
@@ -77,7 +77,7 @@ build_frontend: ## build the frontend static files
 	@echo 'Checking if src/frontend exists...'
 	@ls -la src/frontend || true
 	@echo 'Building frontend static files...'
-	@cd src/frontend && CI='' pnpm run build 2>&1 || { echo "\nBuild failed! Error output above ☝️"; exit 1; }
+	@cd src/frontend && CI='' npm run build 2>&1 || { echo "\nBuild failed! Error output above ☝️"; exit 1; }
 	@echo 'Clearing destination directory...'
 	$(call CLEAR_DIRS,src/backend/base/langflow/frontend)
 	@echo 'Copying build files...'
@@ -105,11 +105,11 @@ clean_python_cache:
 	@echo "$(GREEN)Python cache cleaned.$(NC)"
 
 clean_npm_cache:
-	@echo "Cleaning pnpm cache..."
-	cd src/frontend && pnpm store prune --force
+	@echo "Cleaning npm cache..."
+	cd src/frontend && npm cache clean --force
 	$(call CLEAR_DIRS,src/frontend/node_modules src/frontend/build src/backend/base/langflow/frontend)
 	rm -f src/frontend/package-lock.json
-	@echo "$(GREEN)PNPM cache and frontend directories cleaned.$(NC)"
+	@echo "$(GREEN)NPM cache and frontend directories cleaned.$(NC)"
 
 clean_all: clean_python_cache clean_npm_cache # clean all caches and temporary directories
 	@echo "$(GREEN)All caches and temporary directories cleaned.$(NC)"
@@ -202,7 +202,7 @@ format_backend: ## backend code formatters
 	@uv run ruff format . --config pyproject.toml
 
 format_frontend: ## frontend code formatters
-	@cd src/frontend && pnpm run format
+	@cd src/frontend && npm run format
 
 format: format_backend format_frontend ## run code formatters
 
@@ -213,14 +213,14 @@ lint: install_backend ## run linters
 	@uv run mypy --namespace-packages -p "langflow"
 
 install_frontendci:
-	@cd src/frontend && pnpm ci > /dev/null 2>&1
+	@cd src/frontend && npm ci > /dev/null 2>&1
 
 install_frontendc:
-	@cd src/frontend && $(call CLEAR_DIRS,node_modules) && rm -f package-lock.json && npm install --force > /dev/null 2>&1
+	@cd src/frontend && $(call CLEAR_DIRS,node_modules) && rm -f package-lock.json && npm install > /dev/null 2>&1
 
 run_frontend: ## run the frontend
 	@-kill -9 `lsof -t -i:3000`
-	@cd src/frontend && pnpm start $(if $(FRONTEND_START_FLAGS),-- $(FRONTEND_START_FLAGS))
+	@cd src/frontend && npm start $(if $(FRONTEND_START_FLAGS),-- $(FRONTEND_START_FLAGS))
 
 tests_frontend: ## run frontend tests
 ifeq ($(UI), true)

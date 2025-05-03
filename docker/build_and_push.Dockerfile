@@ -30,8 +30,6 @@ RUN apt-get update \
     npm \
     # gcc
     gcc \
-    && npm install -g pnpm \
-    && npm install -g vite \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -48,10 +46,9 @@ COPY ./src /app/src
 
 COPY src/frontend /tmp/src/frontend
 WORKDIR /tmp/src/frontend
-RUN --mount=type=cache,target=/root/.pnpm \
-    pnpm store prune \
-    && pnpm install --verbose \
-    && pnpm run build \
+RUN --mount=type=cache,target=/root/.npm \
+    && npm install \
+    && npm run build \
     && cp -r build /app/src/backend/langflow/frontend \
     && rm -rf /tmp/src/frontend
 
