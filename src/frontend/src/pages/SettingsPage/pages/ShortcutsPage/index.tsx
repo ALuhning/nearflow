@@ -8,11 +8,12 @@ import { defaultShortcuts } from "../../../../constants/constants";
 import { useShortcutsStore } from "../../../../stores/shortcuts";
 import CellRenderShortcuts from "./CellRenderWrapper";
 import EditShortcutButton from "./EditShortcutButton";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ShortcutsPage() {
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const shortcuts = useShortcutsStore((state) => state.shortcuts);
-  const setShortcuts = useShortcutsStore((state) => state.setShortcuts);
+  const shortcuts = useShortcutsStore(useShallow((state) => state.shortcuts));
+  const setShortcuts = useShortcutsStore(useShallow((state) => state.setShortcuts));
 
   // Column Definitions: Defines the columns to be displayed.
   const colDefs: ColDef[] = [

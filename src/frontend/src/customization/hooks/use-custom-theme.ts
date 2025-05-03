@@ -1,13 +1,14 @@
 // Custom Hook to manage theme logic
 import { useDarkStore } from "@/stores/darkStore";
 import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 const useTheme = () => {
   const [systemTheme, setSystemTheme] = useState(false);
-  const { setDark, dark } = useDarkStore((state) => ({
+  const { setDark, dark } = useDarkStore(useShallow((state) => ({
     setDark: state.setDark,
     dark: state.dark,
-  }));
+  })));
 
   const handleSystemTheme = () => {
     if (typeof window !== "undefined") {

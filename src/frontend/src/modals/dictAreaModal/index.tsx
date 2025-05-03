@@ -4,6 +4,7 @@ import { JsonEditor as VanillaJsonEditor } from "vanilla-jsoneditor";
 import IconComponent from "../../components/common/genericIconComponent";
 import JsonEditor from "../../components/core/jsonEditor";
 import BaseModal from "../baseModal";
+import { useShallow } from "zustand/react/shallow";
 
 export default function DictAreaModal({
   children,
@@ -18,7 +19,7 @@ export default function DictAreaModal({
 }): JSX.Element {
   const [open, setOpen] = useState(false);
 
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   ("");
   const jsonEditorRef = useRef<VanillaJsonEditor | null>(null);
 

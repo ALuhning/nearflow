@@ -1,9 +1,10 @@
 import { BuildStatus } from "@/constants/enums";
 import useFlowStore from "@/stores/flowStore";
 import { NodeDataType } from "@/types/flow";
+import { useShallow } from "zustand/react/shallow";
 
 export const useBuildStatus = (data: NodeDataType, nodeId: string) => {
-  return useFlowStore((state) => {
+  return useFlowStore(useShallow((state) => {
     // Early return if no flow data
     if (!data.node?.flow?.data?.nodes) {
       return state.flowBuildStatus[nodeId]?.status;
@@ -31,5 +32,5 @@ export const useBuildStatus = (data: NodeDataType, nodeId: string) => {
     }
 
     return BuildStatus.TO_BUILD;
-  });
+  }));
 };

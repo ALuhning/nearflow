@@ -1,4 +1,5 @@
 import useFlowStore from "@/stores/flowStore";
+import { useShallow } from "zustand/react/shallow";
 import { APIClassType } from "@/types/api";
 import React from "react";
 import JsonEditor from "../jsonEditor";
@@ -17,8 +18,8 @@ const JsonOutputViewComponent: React.FC<JsonOutputViewComponentProps> = ({
   outputName,
 }) => {
   const jsonData = typeof data === "string" ? JSON.parse(data) : data;
-  const setNode = useFlowStore((state) => state.setNode);
-  const node = useFlowStore((state) => state.getNode(nodeId));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
+  const node = useFlowStore(useShallow((state) => state.getNode(nodeId)));
   const outputs = (node?.data.node as APIClassType)?.outputs;
   const output = outputs?.find((o) => o.name === outputName);
   const initialFilter = output?.options?.filter;

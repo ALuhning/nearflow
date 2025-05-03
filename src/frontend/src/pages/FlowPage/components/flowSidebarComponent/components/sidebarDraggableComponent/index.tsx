@@ -23,6 +23,7 @@ import {
   getNodeId,
 } from "../../../../../../utils/reactflowUtils";
 import { cn, removeCountFromString } from "../../../../../../utils/utils";
+import { useShallow } from "zustand/react/shallow";
 
 export const SidebarDraggableComponent = forwardRef(
   (
@@ -59,10 +60,10 @@ export const SidebarDraggableComponent = forwardRef(
   ) => {
     const [open, setOpen] = useState(false);
     const { deleteFlow } = useDeleteFlow();
-    const flows = useFlowsManagerStore((state) => state.flows);
+    const flows = useFlowsManagerStore(useShallow((state) => state.flows));
     const addComponent = useAddComponent();
 
-    const version = useDarkStore((state) => state.version);
+    const version = useDarkStore(useShallow((state) => state.version));
     const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
     const popoverRef = useRef<HTMLDivElement>(null);
 

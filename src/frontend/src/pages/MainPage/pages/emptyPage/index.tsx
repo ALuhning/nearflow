@@ -4,13 +4,14 @@ import CardsWrapComponent from "@/components/core/cardsWrapComponent";
 import { Button } from "@/components/ui/button";
 import { useFolderStore } from "@/stores/foldersStore";
 import useFileDrop from "../../hooks/use-on-file-drop";
+import { useShallow } from "zustand/react/shallow";
 
 type EmptyPageProps = {
   setOpenModal: (open: boolean) => void;
 };
 
 export const EmptyPage = ({ setOpenModal }: EmptyPageProps) => {
-  const folders = useFolderStore((state) => state.folders);
+  const folders = useFolderStore(useShallow((state) => state.folders));
   const handleFileDrop = useFileDrop(undefined);
 
   return (

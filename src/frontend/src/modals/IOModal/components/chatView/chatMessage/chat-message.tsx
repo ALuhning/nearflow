@@ -24,6 +24,7 @@ import EditMessageField from "./components/edit-message-field";
 import FileCardWrapper from "./components/file-card-wrapper";
 import { EditMessageButton } from "./components/message-options";
 import { convertFiles } from "./helpers/convert-files";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ChatMessage({
   chat,
@@ -35,8 +36,8 @@ export default function ChatMessage({
   const convert = new Convert({ newline: true });
   const [hidden, setHidden] = useState(true);
   const [streamUrl, setStreamUrl] = useState(chat.stream_url);
-  const flow_id = useFlowsManagerStore((state) => state.currentFlowId);
-  const fitViewNode = useFlowStore((state) => state.fitViewNode);
+  const flow_id = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
+  const fitViewNode = useFlowStore(useShallow((state) => state.fitViewNode));
   // We need to check if message is not undefined because
   // we need to run .toString() on it
   const [chatMessage, setChatMessage] = useState(
@@ -44,11 +45,11 @@ export default function ChatMessage({
   );
   const [isStreaming, setIsStreaming] = useState(false);
   const eventSource = useRef<EventSource | undefined>(undefined);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const chatMessageRef = useRef(chatMessage);
   const [editMessage, setEditMessage] = useState(false);
   const [showError, setShowError] = useState(false);
-  const isBuilding = useFlowStore((state) => state.isBuilding);
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
 
   const isAudioMessage = chat.category === "audio";
 
@@ -58,12 +59,12 @@ export default function ChatMessage({
     chatMessageRef.current = chatMessage;
   }, [chat, isBuilding]);
 
-  const playgroundScrollBehaves = useUtilityStore(
+  const playgroundScrollBehaves = useUtilityStore(useShallow(
     (state) => state.playgroundScrollBehaves,
-  );
-  const setPlaygroundScrollBehaves = useUtilityStore(
+  ));
+  const setPlaygroundScrollBehaves = useUtilityStore(useShallow(
     (state) => state.setPlaygroundScrollBehaves,
-  );
+  ));
 
   // The idea now is that chat.stream_url MAY be a URL if we should stream the output of the chat
   // probably the message is empty when we have a stream_url

@@ -4,8 +4,9 @@ import { track } from "@/customization/utils/analytics";
 import useAddFlow from "@/hooks/flows/use-add-flow";
 import { useFolderStore } from "@/stores/foldersStore";
 import { updateIds } from "@/utils/reactflowUtils";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { CardData } from "../../../../types/templates/types";
+import { useShallow } from "zustand/react/shallow";
 
 export default function TemplateGetStartedCardComponent({
   bgImage,
@@ -17,7 +18,7 @@ export default function TemplateGetStartedCardComponent({
   const addFlow = useAddFlow();
   const navigate = useCustomNavigate();
   const { folderId } = useParams();
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
 
   const folderIdUrl = folderId ?? myCollectionId;
 

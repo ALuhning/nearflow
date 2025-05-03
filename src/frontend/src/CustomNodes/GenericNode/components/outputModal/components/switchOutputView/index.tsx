@@ -12,6 +12,7 @@ import {
 import { Case } from "../../../../../../shared/components/caseComponent";
 import TextOutputView from "../../../../../../shared/components/textOutputView";
 import useFlowStore from "../../../../../../stores/flowStore";
+import { useShallow } from "zustand/react/shallow";
 import ErrorOutput from "./components";
 // Define the props type
 interface SwitchOutputViewProps {
@@ -25,7 +26,7 @@ const SwitchOutputView: React.FC<SwitchOutputViewProps> = ({
   outputName,
   type,
 }) => {
-  const flowPool = useFlowStore((state) => state.flowPool);
+  const flowPool = useFlowStore(useShallow((state) => state.flowPool));
 
   const flowPoolNode = (flowPool[nodeId] ?? [])[
     (flowPool[nodeId]?.length ?? 1) - 1

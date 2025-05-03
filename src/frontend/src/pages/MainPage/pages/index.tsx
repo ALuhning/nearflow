@@ -8,21 +8,22 @@ import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { useFolderStore } from "@/stores/foldersStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import ModalsComponent from "../components/modalsComponent";
 import EmptyPage from "./emptyPage";
+import { useShallow } from "zustand/react/shallow";
 
 export default function CollectionPage(): JSX.Element {
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteFolderModal, setOpenDeleteFolderModal] = useState(false);
-  const setFolderToEdit = useFolderStore((state) => state.setFolderToEdit);
+  const setFolderToEdit = useFolderStore(useShallow((state) => state.setFolderToEdit));
   const navigate = useCustomNavigate();
-  const flows = useFlowsManagerStore((state) => state.flows);
-  const examples = useFlowsManagerStore((state) => state.examples);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const folderToEdit = useFolderStore((state) => state.folderToEdit);
-  const folders = useFolderStore((state) => state.folders);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+  const examples = useFlowsManagerStore(useShallow((state) => state.examples));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const folderToEdit = useFolderStore(useShallow((state) => state.folderToEdit));
+  const folders = useFolderStore(useShallow((state) => state.folders));
   const queryClient = useQueryClient();
 
   useEffect(() => {

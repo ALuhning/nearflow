@@ -14,26 +14,27 @@ import {
   updateGroupRecursion,
 } from "@/utils/reactflowUtils";
 import { cloneDeep } from "lodash";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import useDeleteFlow from "./use-delete-flow";
+import { useShallow } from "zustand/react/shallow";
 
 const useAddFlow = () => {
-  const flows = useFlowsManagerStore((state) => state.flows);
-  const setFlows = useFlowsManagerStore((state) => state.setFlows);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+  const setFlows = useFlowsManagerStore(useShallow((state) => state.setFlows));
   const { deleteFlow } = useDeleteFlow();
 
   const { setFlowToCanvas } = useFlowsManagerStore();
 
   const { folderId } = useParams();
 
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
 
-  const unavailableFields = useGlobalVariablesStore(
+  const unavailableFields = useGlobalVariablesStore(useShallow(
     (state) => state.unavailableFields,
-  );
-  const globalVariablesEntries = useGlobalVariablesStore(
+  ));
+  const globalVariablesEntries = useGlobalVariablesStore(useShallow(
     (state) => state.globalVariablesEntries,
-  );
+  ));
 
   const { mutate: postAddFlow } = usePostAddFlow();
 

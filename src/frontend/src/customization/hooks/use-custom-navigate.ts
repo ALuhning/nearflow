@@ -4,7 +4,7 @@ import {
   To,
   useNavigate,
   useParams,
-} from "react-router-dom";
+} from "react-router";
 import { ENABLE_CUSTOM_PARAM } from "../feature-flags";
 
 export function useCustomNavigate(): NavigateFunction {

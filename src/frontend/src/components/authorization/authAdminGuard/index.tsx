@@ -2,13 +2,14 @@ import { AuthContext } from "@/contexts/authContext";
 import { CustomNavigate } from "@/customization/components/custom-navigate";
 import { LoadingPage } from "@/pages/LoadingPage";
 import useAuthStore from "@/stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 import { useContext } from "react";
 
 export const ProtectedAdminRoute = ({ children }) => {
   const { userData } = useContext(AuthContext);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const autoLogin = useAuthStore((state) => state.autoLogin);
-  const isAdmin = useAuthStore((state) => state.isAdmin);
+  const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
+  const isAdmin = useAuthStore(useShallow((state) => state.isAdmin));
 
   if (!isAuthenticated) {
     return <LoadingPage />;

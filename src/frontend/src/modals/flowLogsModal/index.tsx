@@ -8,12 +8,13 @@ import { convertUTCToLocalTimezone } from "@/utils/utils";
 import { ColDef, ColGroupDef } from "ag-grid-community";
 import { useCallback, useEffect, useState } from "react";
 import BaseModal from "../baseModal";
+import { useShallow } from "zustand/react/shallow";
 
 export default function FlowLogsModal({
   open,
   setOpen,
 }: FlowSettingsPropsType): JSX.Element {
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
 
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(20);

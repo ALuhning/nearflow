@@ -12,6 +12,7 @@ import { debounce } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
 import NodeDescription from "../GenericNode/components/NodeDescription";
 import NoteToolbarComponent from "./NoteToolbarComponent";
+import { useShallow } from "zustand/react/shallow";
 
 const NOTE_NODE_PADDING = 25;
 const CHAR_LIMIT = 2500;
@@ -35,8 +36,8 @@ function NoteNode({
     height: DEFAULT_HEIGHT - NOTE_NODE_PADDING,
   });
   const [resizedNote, setResizedNote] = useState(false);
-  const currentFlow = useFlowStore((state) => state.currentFlow);
-  const setNode = useFlowStore((state) => state.setNode);
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
   const [isResizing, setIsResizing] = useState(false);
 
   const nodeData = useMemo(

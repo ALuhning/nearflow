@@ -50,7 +50,7 @@ COPY src/frontend /tmp/src/frontend
 WORKDIR /tmp/src/frontend
 RUN --mount=type=cache,target=/root/.pnpm \
     pnpm store prune \
-    && pnpm install \
+    && pnpm install --verbose \
     && pnpm run build \
     && cp -r build /app/src/backend/langflow/frontend \
     && rm -rf /tmp/src/frontend

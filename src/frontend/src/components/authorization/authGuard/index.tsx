@@ -6,12 +6,13 @@ import {
 import { useRefreshAccessToken } from "@/controllers/API/queries/auth";
 import { CustomNavigate } from "@/customization/components/custom-navigate";
 import useAuthStore from "@/stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 import { useEffect } from "react";
 
 export const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
   const { mutate: mutateRefresh } = useRefreshAccessToken();
-  const autoLogin = useAuthStore((state) => state.autoLogin);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
   const isAutoLoginEnv = IS_AUTO_LOGIN;
   const testMockAutoLogin = sessionStorage.getItem("testMockAutoLogin");
 

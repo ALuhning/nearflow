@@ -3,13 +3,14 @@ import { useQueryFunctionType } from "@/types/api";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 export const useGetVoiceList: useQueryFunctionType<undefined, any> = (
   options,
 ) => {
   const { query } = UseRequestProcessor();
-  const setVoices = useVoiceStore((state) => state.setVoices);
-  const voices = useVoiceStore((state) => state.voices);
+  const setVoices = useVoiceStore(useShallow((state) => state.setVoices));
+  const voices = useVoiceStore(useShallow((state) => state.voices));
 
   const getVoiceListFn = async (): Promise<
     {

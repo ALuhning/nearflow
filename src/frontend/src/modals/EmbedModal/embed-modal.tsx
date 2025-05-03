@@ -9,6 +9,7 @@ import IconComponent from "../../components/common/genericIconComponent";
 import { Button } from "../../components/ui/button";
 import getWidgetCode from "../apiModal/utils/get-widget-code";
 import BaseModal from "../baseModal";
+import { useShallow } from "zustand/react/shallow";
 
 interface EmbedModalProps {
   open: boolean;
@@ -29,7 +30,7 @@ export default function EmbedModal({
   tweaksBuildedObject,
   activeTweaks,
 }: EmbedModalProps) {
-  const isDark = useDarkStore((state) => state.dark);
+  const isDark = useDarkStore(useShallow((state) => state.dark));
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const widgetProps = {
     flowId: flowId,

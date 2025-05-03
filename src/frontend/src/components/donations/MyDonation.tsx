@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { utils, connect, keyStores, WalletConnection, providers } from "near-api-js";
+import { utils } from "near-api-js";
 import { useWalletSelector } from "@near-wallet-selector/react-hook";
 import { DonationNearContract } from "@/config";
-import axios from "axios";
 
 interface Donation {
     account_id: string;

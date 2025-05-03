@@ -15,6 +15,7 @@ import { useVoiceStore } from "@/stores/voiceStore";
 import { cn } from "@/utils/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { v5 as uuidv5 } from "uuid";
+import { useShallow } from "zustand/react/shallow";
 
 export default function SessionSelector({
   deleteSession,
@@ -37,8 +38,8 @@ export default function SessionSelector({
   setSelectedView: (view: { type: string; id: string } | undefined) => void;
   playgroundPage: boolean;
 }) {
-  const clientId = useUtilityStore((state) => state.clientId);
-  let realFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const clientId = useUtilityStore(useShallow((state) => state.clientId));
+  let realFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
   const currentFlowId = playgroundPage
     ? uuidv5(`${clientId}_${realFlowId}`, uuidv5.DNS)
     : realFlowId;
@@ -118,9 +119,9 @@ export default function SessionSelector({
     }
   };
 
-  const setNewSessionCloseVoiceAssistant = useVoiceStore(
+  const setNewSessionCloseVoiceAssistant = useVoiceStore(useShallow(
     (state) => state.setNewSessionCloseVoiceAssistant,
-  );
+  ));
 
   return (
     <div

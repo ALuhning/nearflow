@@ -6,6 +6,7 @@ import { ForwardedIconComponent } from "../../components/common/genericIconCompo
 import BaseModal from "../baseModal";
 import DragFilesComponent from "./components/dragFilesComponent";
 import RecentFilesComponent from "./components/recentFilesComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export default function FileManagerModal({
   children,
@@ -28,7 +29,7 @@ export default function FileManagerModal({
 }): JSX.Element {
   const [internalOpen, internalSetOpen] = useState(false);
 
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   const queryClient = useQueryClient();
 

@@ -1,11 +1,17 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import path from "path";
+
 import * as dotenv from "dotenv";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 import polyfillNode from 'rollup-plugin-polyfill-node';
 import { API_ROUTES, BASENAME, PORT, PROXY_TARGET } from "./src/customization/config-constants";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Derive __dirname in an ES module environment
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -36,15 +42,11 @@ export default defineConfig(({ mode }) => {
     base: BASENAME || "",
     build: {
       outDir: "build",
-      rollupOptions: {
-        external: [
-          "react/jsx-runtime",
-          "react/jsx-dev-runtime",
-        ],
-      },
     },
     resolve: {
       alias: {
+        // react: path.resolve(__dirname, 'node_modules/react'),
+        // 'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
         process: 'process/browser',
         buffer: 'buffer',
         http: 'http-browserify',

@@ -7,11 +7,12 @@ import multiAgent from "../../../../assets/temp-pat-3.png";
 import memoryChatbotHorizontal from "../../../../assets/temp-pat-m-1.png";
 import vectorRagHorizontal from "../../../../assets/temp-pat-m-2.png";
 import multiAgentHorizontal from "../../../../assets/temp-pat-m-3.png";
+import { useShallow } from "zustand/react/shallow";
 
 import TemplateGetStartedCardComponent from "../TemplateGetStartedCardComponent";
 
 export default function GetStartedComponent() {
-  const examples = useFlowsManagerStore((state) => state.examples);
+  const examples = useFlowsManagerStore(useShallow((state) => state.examples));
   console.log("examples", examples);
   // Define the card data
   const cardData: CardData[] = [

@@ -14,14 +14,15 @@ import useAlertStore from "../../stores/alertStore";
 import { useDarkStore } from "../../stores/darkStore";
 import { downloadFlow, removeApiKeys } from "../../utils/reactflowUtils";
 import BaseModal from "../baseModal";
+import { useShallow } from "zustand/react/shallow";
 
 const ExportModal = forwardRef(
   (props: { children: ReactNode }, ref): JSX.Element => {
-    const version = useDarkStore((state) => state.version);
-    const setNoticeData = useAlertStore((state) => state.setNoticeData);
+    const version = useDarkStore(useShallow((state) => state.version));
+    const setNoticeData = useAlertStore(useShallow((state) => state.setNoticeData));
     const [checked, setChecked] = useState(false);
-    const currentFlow = useFlowStore((state) => state.currentFlow);
-    const isBuilding = useFlowStore((state) => state.isBuilding);
+    const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
+    const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
     useEffect(() => {
       setName(currentFlow?.name ?? "");
       setDescription(currentFlow?.description ?? "");

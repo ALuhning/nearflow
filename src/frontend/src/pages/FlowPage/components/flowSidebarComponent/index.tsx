@@ -8,6 +8,7 @@ import SkeletonGroup from "@/components/ui/skeletonGroup";
 import { useAddComponent } from "@/hooks/use-add-component";
 import { useShortcutsStore } from "@/stores/shortcuts";
 import { useStoreStore } from "@/stores/storeStore";
+import { useShallow } from "zustand/react/shallow";
 import { checkChatInput, checkWebhookInput } from "@/utils/reactflowUtils";
 import {
   nodeColors,
@@ -48,7 +49,7 @@ interface FlowSidebarComponentProps {
 }
 
 export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
-  const { data, templates } = useTypesStore(
+  const { data, templates } = useTypesStore(useShallow(
     useCallback(
       (state) => ({
         data: state.data,
@@ -56,9 +57,9 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
       }),
       [],
     ),
-  );
+  ));
 
-  const { getFilterEdge, setFilterEdge, filterType, nodes } = useFlowStore(
+  const { getFilterEdge, setFilterEdge, filterType, nodes } = useFlowStore(useShallow(
     useCallback(
       (state) => ({
         getFilterEdge: state.getFilterEdge,
@@ -68,10 +69,10 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
       }),
       [],
     ),
-  );
+  ));
 
-  const hasStore = useStoreStore((state) => state.hasStore);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const hasStore = useStoreStore(useShallow((state) => state.hasStore));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { setOpen } = useSidebar();
   const addComponent = useAddComponent();
 
@@ -251,9 +252,9 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
     }
   }, [search, getFilterEdge]);
 
-  const searchComponentsSidebar = useShortcutsStore(
+  const searchComponentsSidebar = useShortcutsStore(useShallow(
     (state) => state.searchComponentsSidebar,
-  );
+  ));
 
   useHotkeys(
     searchComponentsSidebar,

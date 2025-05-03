@@ -28,6 +28,7 @@ import { usePlayNextAudioChunk } from "./hooks/use-play-next-audio-chunk";
 import { useStartConversation } from "./hooks/use-start-conversation";
 import { useStartRecording } from "./hooks/use-start-recording";
 import { useStopRecording } from "./hooks/use-stop-recording";
+import { useShallow } from "zustand/react/shallow";
 
 interface VoiceAssistantProps {
   flowId: string;
@@ -59,36 +60,36 @@ export function VoiceAssistant({
   const microphoneRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
 
-  const soundDetected = useVoiceStore((state) => state.soundDetected);
-  const setIsVoiceAssistantActive = useVoiceStore(
+  const soundDetected = useVoiceStore(useShallow((state) => state.soundDetected));
+  const setIsVoiceAssistantActive = useVoiceStore(useShallow(
     (state) => state.setIsVoiceAssistantActive,
-  );
-  const setSoundDetected = useVoiceStore((state) => state.setSoundDetected);
+  ));
+  const setSoundDetected = useVoiceStore(useShallow((state) => state.setSoundDetected));
   const messagesStore = useMessagesStore();
-  const setIsBuilding = useFlowStore((state) => state.setIsBuilding);
-  const edges = useFlowStore((state) => state.edges);
-  const setEdges = useFlowStore((state) => state.setEdges);
-  const updateBuildStatus = useFlowStore((state) => state.updateBuildStatus);
-  const addDataToFlowPool = useFlowStore((state) => state.addDataToFlowPool);
-  const updateEdgesRunningByNodes = useFlowStore(
+  const setIsBuilding = useFlowStore(useShallow((state) => state.setIsBuilding));
+  const edges = useFlowStore(useShallow((state) => state.edges));
+  const setEdges = useFlowStore(useShallow((state) => state.setEdges));
+  const updateBuildStatus = useFlowStore(useShallow((state) => state.updateBuildStatus));
+  const addDataToFlowPool = useFlowStore(useShallow((state) => state.addDataToFlowPool));
+  const updateEdgesRunningByNodes = useFlowStore(useShallow(
     (state) => state.updateEdgesRunningByNodes,
-  );
-  const revertBuiltStatusFromBuilding = useFlowStore(
+  ));
+  const revertBuiltStatusFromBuilding = useFlowStore(useShallow(
     (state) => state.revertBuiltStatusFromBuilding,
-  );
-  const clearEdgesRunningByNodes = useFlowStore(
+  ));
+  const clearEdgesRunningByNodes = useFlowStore(useShallow(
     (state) => state.clearEdgesRunningByNodes,
-  );
-  const variables = useGlobalVariablesStore(
+  ));
+  const variables = useGlobalVariablesStore(useShallow(
     (state) => state.globalVariablesEntries,
-  );
+  ));
   const createVariable = usePostGlobalVariables();
   const updateVariable = usePatchGlobalVariables();
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const currentSessionId = useUtilityStore((state) => state.currentSessionId);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const currentSessionId = useUtilityStore(useShallow((state) => state.currentSessionId));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { data: globalVariables } = useGetGlobalVariables();
-  const currentFlow = useFlowStore((state) => state.currentFlow);
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
   const currentFlowId = currentFlow?.id;
 
   const hasOpenAIAPIKey = useMemo(() => {

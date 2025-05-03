@@ -11,6 +11,7 @@ import { FlowSettingsPropsType } from "../../types/components";
 import { FlowType } from "../../types/flow";
 import { isEndpointNameValid } from "../../utils/utils";
 import BaseModal from "../baseModal";
+import { useShallow } from "zustand/react/shallow";
 
 export default function FlowSettingsModal({
   open,
@@ -21,12 +22,12 @@ export default function FlowSettingsModal({
   if (!open) return <></>;
 
   const saveFlow = useSaveFlow();
-  const currentFlow = useFlowStore((state) =>
+  const currentFlow = useFlowStore(useShallow((state) =>
     flowData ? undefined : state.currentFlow,
-  );
-  const setCurrentFlow = useFlowStore((state) => state.setCurrentFlow);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const flows = useFlowsManagerStore((state) => state.flows);
+  ));
+  const setCurrentFlow = useFlowStore(useShallow((state) => state.setCurrentFlow));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
   const flow = flowData ?? currentFlow;
   useEffect(() => {
     setName(flow?.name ?? "");
@@ -38,7 +39,7 @@ export default function FlowSettingsModal({
   const [endpoint_name, setEndpointName] = useState(flow?.endpoint_name ?? "");
   const [isSaving, setIsSaving] = useState(false);
   const [disableSave, setDisableSave] = useState(true);
-  const autoSaving = useFlowsManagerStore((state) => state.autoSaving);
+  const autoSaving = useFlowsManagerStore(useShallow((state) => state.autoSaving));
   function handleClick(): void {
     setIsSaving(true);
     if (!flow) return;

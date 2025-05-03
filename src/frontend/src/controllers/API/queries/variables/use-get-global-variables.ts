@@ -7,6 +7,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 export const useGetGlobalVariables: useQueryFunctionType<
   undefined,
@@ -21,7 +22,7 @@ export const useGetGlobalVariables: useQueryFunctionType<
     (state) => state.setUnavailableFields,
   );
 
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
 
   const getGlobalVariablesFn = async (): Promise<GlobalVariable[]> => {
     if (!isAuthenticated) return [];

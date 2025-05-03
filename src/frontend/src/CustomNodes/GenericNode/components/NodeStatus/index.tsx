@@ -26,6 +26,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import IconComponent from "../../../../components/common/genericIconComponent";
 import BuildStatusDisplay from "./components/build-status-display";
 import { normalizeTimeString } from "./utils/format-run-time";
+import { useShallow } from "zustand/react/shallow";
 
 const POLLING_TIMEOUT = 21000;
 const POLLING_INTERVAL = 3000;
@@ -79,16 +80,16 @@ export default function NodeStatus({
     buildStatus === BuildStatus.BUILT ||
     (buildStatus !== BuildStatus.TO_BUILD && validationStatus?.valid);
 
-  const lastRunTime = useFlowStore(
+  const lastRunTime = useFlowStore(useShallow(
     (state) => state.flowBuildStatus[nodeId_]?.timestamp,
-  );
+  ));
   const iconStatus = useIconStatus(buildStatus);
-  const buildFlow = useFlowStore((state) => state.buildFlow);
-  const isBuilding = useFlowStore((state) => state.isBuilding);
-  const setNode = useFlowStore((state) => state.setNode);
-  const version = useDarkStore((state) => state.version);
-  const eventDeliveryConfig = useUtilityStore((state) => state.eventDelivery);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const buildFlow = useFlowStore(useShallow((state) => state.buildFlow));
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
+  const version = useDarkStore(useShallow((state) => state.version));
+  const eventDeliveryConfig = useUtilityStore(useShallow((state) => state.eventDelivery));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   const postTemplateValue = usePostTemplateValue({
     parameterId: nodeAuth?.name ?? "auth",
@@ -169,8 +170,8 @@ export default function NodeStatus({
     });
   }
 
-  const play = useShortcutsStore((state) => state.play);
-  const flowPool = useFlowStore((state) => state.flowPool);
+  const play = useShortcutsStore(useShallow((state) => state.play));
+  const flowPool = useFlowStore(useShallow((state) => state.flowPool));
   useHotkeys(play, handlePlayWShortcut, { preventDefault: true });
   useValidationStatusString(validationStatus, setValidationString);
   useUpdateValidationStatus(
@@ -180,7 +181,7 @@ export default function NodeStatus({
     getValidationStatus,
   );
 
-  const dismissAll = useUtilityStore((state) => state.dismissAll);
+  const dismissAll = useUtilityStore(useShallow((state) => state.dismissAll));
 
   const getBaseBorderClass = (selected) => {
     let className =
@@ -250,7 +251,7 @@ export default function NodeStatus({
   const divRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  const stopBuilding = useFlowStore((state) => state.stopBuilding);
+  const stopBuilding = useFlowStore(useShallow((state) => state.stopBuilding));
 
   const handleClickRun = () => {
     if (BuildStatus.BUILDING === buildStatus && isHovered) {

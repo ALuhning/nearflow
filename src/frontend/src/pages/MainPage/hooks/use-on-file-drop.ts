@@ -2,10 +2,11 @@ import useUploadFlow from "@/hooks/flows/use-upload-flow";
 import { useCallback, useRef } from "react";
 import { CONSOLE_ERROR_MSG } from "../../../constants/alerts_constants";
 import useAlertStore from "../../../stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 
 const useFileDrop = (type?: string) => {
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const uploadFlow = useUploadFlow();
 
   const lastUploadTime = useRef<number>(0);

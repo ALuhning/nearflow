@@ -10,6 +10,7 @@ import { useUpdateNodeInternals } from "@xyflow/react";
 import { cloneDeep, debounce } from "lodash";
 import { useCallback, useMemo, useRef } from "react";
 import { mutateTemplate } from "../helpers/mutate-template";
+import { useShallow } from "zustand/react/shallow";
 
 const DEBOUNCE_TIME_1_SECOND = 1000;
 
@@ -35,10 +36,10 @@ const useHandleOnNewValue = ({
     update: AllNodeType | ((oldState: AllNodeType) => AllNodeType),
   ) => void;
 }) => {
-  const takeSnapshot = useFlowsManagerStore((state) => state.takeSnapshot);
-  const setNode = setNodeExternal ?? useFlowStore((state) => state.setNode);
+  const takeSnapshot = useFlowsManagerStore(useShallow((state) => state.takeSnapshot));
+  const setNode = setNodeExternal ?? useFlowStore(useShallow((state) => state.setNode));
   const updateNodeInternals = useUpdateNodeInternals();
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   // Memoize the postTemplateValue hook to prevent unnecessary re-renders
   const postTemplateValue = usePostTemplateValue(

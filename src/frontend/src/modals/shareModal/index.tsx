@@ -15,6 +15,7 @@ import {
 import useAlertStore from "../../stores/alertStore";
 import { useDarkStore } from "../../stores/darkStore";
 import { useStoreStore } from "../../stores/storeStore";
+import { useShallow } from "zustand/react/shallow";
 import { FlowType } from "../../types/flow";
 import {
   downloadNode,
@@ -41,12 +42,12 @@ export default function ShareModal({
   setOpen?: (open: boolean) => void;
   disabled?: boolean;
 }): JSX.Element {
-  const version = useDarkStore((state) => state.version);
-  const hasStore = useStoreStore((state) => state.hasStore);
-  const hasApiKey = useStoreStore((state) => state.hasApiKey);
+  const version = useDarkStore(useShallow((state) => state.version));
+  const hasStore = useStoreStore(useShallow((state) => state.hasStore));
+  const hasApiKey = useStoreStore(useShallow((state) => state.hasApiKey));
 
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const [internalOpen, internalSetOpen] =
     setOpen !== undefined && open !== undefined
       ? [open, setOpen]
@@ -59,7 +60,7 @@ export default function ShareModal({
     { id: string; name: string }[]
   >([]);
   const saveFlow = useSaveFlow();
-  const tags = useUtilityStore((state) => state.tags);
+  const tags = useUtilityStore(useShallow((state) => state.tags));
 
   const [loadingNames, setLoadingNames] = useState(false);
 

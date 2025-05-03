@@ -11,12 +11,13 @@ import { FilePreviewType } from "@/types/components";
 import { formatFileSize } from "@/utils/stringManipulation";
 import { useState } from "react";
 import ShortUniqueId from "short-unique-id";
+import { useShallow } from "zustand/react/shallow";
 
 export const useFileHandler = (currentFlowId: string) => {
   const [files, setFiles] = useState<FilePreviewType[]>([]);
   const { mutate } = usePostUploadFile();
   const { setErrorData } = useAlertStore();
-  const maxFileSizeUpload = useUtilityStore((state) => state.maxFileSizeUpload);
+  const maxFileSizeUpload = useUtilityStore(useShallow((state) => state.maxFileSizeUpload));
 
   const handleFiles = (uploadedFiles: FileList) => {
     if (uploadedFiles) {

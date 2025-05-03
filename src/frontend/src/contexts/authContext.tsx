@@ -10,6 +10,7 @@ import useAuthStore from "@/stores/authStore";
 import { createContext, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useStoreStore } from "../stores/storeStore";
+import { useShallow } from "zustand/react/shallow";
 import { Users } from "../types/api";
 import { AuthContextType } from "../types/contexts/auth";
 
@@ -37,9 +38,9 @@ export function AuthProvider({ children }): React.ReactElement {
     cookies.get(LANGFLOW_API_TOKEN),
   );
 
-  const checkHasStore = useStoreStore((state) => state.checkHasStore);
-  const fetchApiData = useStoreStore((state) => state.fetchApiData);
-  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
+  const checkHasStore = useStoreStore(useShallow((state) => state.checkHasStore));
+  const fetchApiData = useStoreStore(useShallow((state) => state.fetchApiData));
+  const setIsAuthenticated = useAuthStore(useShallow((state) => state.setIsAuthenticated));
 
   const { mutate: mutateLoggedUser } = useGetUserData();
   const { mutate: mutateGetGlobalVariables } = useGetGlobalVariablesMutation();

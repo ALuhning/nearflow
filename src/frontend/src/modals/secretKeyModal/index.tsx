@@ -9,6 +9,7 @@ import BaseModal from "../baseModal";
 import { ContentRenderKey } from "./components/content-render";
 import { FormKeyRender } from "./components/form-key-render";
 import { HeaderRender } from "./components/header-render";
+import { useShallow } from "zustand/react/shallow";
 
 // Add this interface for the modal props
 interface ModalConfigProps {
@@ -38,7 +39,7 @@ export default function SecretKeyModal({
   const [apiKeyValue, setApiKeyValue] = useState("");
   const [renderKey, setRenderKey] = useState(false);
   const [textCopied, setTextCopied] = useState(true);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
   const inputRef = useRef<HTMLInputElement | null>(null);
   const generateToken = useGenerateToken();
   const modalConfigProps = modalProps?.modalProps ?? modalProps;

@@ -10,6 +10,7 @@ import {
 } from "../../../../utils/reactflowUtils";
 import { cn, groupByFamily } from "../../../../utils/utils";
 import HandleTooltipComponent from "../HandleTooltipComponent";
+import { useShallow } from "zustand/react/shallow";
 
 const BASE_HANDLE_STYLES = {
   width: "32px",
@@ -189,7 +190,7 @@ const HandleRenderComponent = memo(function HandleRenderComponent({
     handleDragging,
     filterType,
     onConnect,
-  } = useFlowStore(
+  } = useFlowStore(useShallow(
     useCallback(
       (state) => ({
         setHandleDragging: state.setHandleDragging,
@@ -200,9 +201,9 @@ const HandleRenderComponent = memo(function HandleRenderComponent({
       }),
       [],
     ),
-  );
+  ));
 
-  const dark = useDarkStore((state) => state.dark);
+  const dark = useDarkStore(useShallow((state) => state.dark));
 
   const myId = useMemo(
     () => scapedJSONStringfy(proxy ? { ...id, proxy } : id),

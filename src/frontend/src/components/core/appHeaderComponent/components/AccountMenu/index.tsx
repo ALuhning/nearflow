@@ -8,8 +8,9 @@ import { ENABLE_DATASTAX_LANGFLOW } from "@/customization/feature-flags";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useAuthStore from "@/stores/authStore";
 import { useDarkStore } from "@/stores/darkStore";
+import { useShallow } from "zustand/react/shallow";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import GithubStarComponent from "../GithubStarButton";
 import {
   HeaderMenu,
@@ -27,14 +28,14 @@ export const AccountMenu = () => {
   const [isCustomFeatureFlagsOpen, setIsCustomFeatureFlagsOpen] =
     useState(false);
   const { customParam: id } = useParams();
-  const version = useDarkStore((state) => state.version);
+  const version = useDarkStore(useShallow((state) => state.version));
   const navigate = useCustomNavigate();
   const { mutate: mutationLogout } = useLogout();
 
-  const { isAdmin, autoLogin } = useAuthStore((state) => ({
+  const { isAdmin, autoLogin } = useAuthStore(useShallow((state) => ({
     isAdmin: state.isAdmin,
     autoLogin: state.autoLogin,
-  }));
+  })));
 
   const handleLogout = () => {
     mutationLogout();

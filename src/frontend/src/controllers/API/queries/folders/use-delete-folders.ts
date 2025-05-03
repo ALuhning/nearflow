@@ -4,6 +4,7 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 interface DeleteFoldersParams {
   folder_id: string;
@@ -14,8 +15,8 @@ export const useDeleteFolders: useMutationFunctionType<
   DeleteFoldersParams
 > = (options?) => {
   const { mutate, queryClient } = UseRequestProcessor();
-  const setFolders = useFolderStore((state) => state.setFolders);
-  const folders = useFolderStore((state) => state.folders);
+  const setFolders = useFolderStore(useShallow((state) => state.setFolders));
+  const folders = useFolderStore(useShallow((state) => state.folders));
 
   const deleteFolder = async ({
     folder_id,

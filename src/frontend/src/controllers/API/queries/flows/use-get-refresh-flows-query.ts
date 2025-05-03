@@ -13,6 +13,7 @@ import { AxiosError } from "axios";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 interface GetFlowsParams {
   components_only?: boolean;
@@ -33,8 +34,8 @@ export const useGetRefreshFlowsQuery: useQueryFunctionType<
   FlowType[] | PaginatedFlowsType
 > = (params, options) => {
   const { query } = UseRequestProcessor();
-  const setFlows = useFlowsManagerStore((state) => state.setFlows);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setFlows = useFlowsManagerStore(useShallow((state) => state.setFlows));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   const getFlowsFn = async (
     params: GetFlowsParams,

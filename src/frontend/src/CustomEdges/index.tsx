@@ -1,6 +1,7 @@
 import useFlowStore from "@/stores/flowStore";
 import { scapeJSONParse } from "@/utils/reactflowUtils";
 import { BaseEdge, EdgeProps, getBezierPath, Position } from "@xyflow/react";
+import { useShallow } from "zustand/react/shallow";
 
 export function DefaultEdge({
   sourceHandleId,
@@ -13,7 +14,7 @@ export function DefaultEdge({
   targetY,
   ...props
 }: EdgeProps) {
-  const getNode = useFlowStore((state) => state.getNode);
+  const getNode = useFlowStore(useShallow((state) => state.getNode));
 
   const sourceNode = getNode(source);
   const targetNode = getNode(target);

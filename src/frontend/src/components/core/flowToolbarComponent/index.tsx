@@ -7,6 +7,7 @@ import ShareModal from "../../../modals/shareModal";
 import useFlowStore from "../../../stores/flowStore";
 import { useShortcutsStore } from "../../../stores/shortcuts";
 import { useStoreStore } from "../../../stores/storeStore";
+import { useShallow } from 'zustand/react/shallow'
 import { classNames, cn, isThereModal } from "../../../utils/utils";
 import ForwardedIconComponent from "../../common/genericIconComponent";
 import FlowToolbarOptions from "./components/flow-toolbar-options";
@@ -33,19 +34,19 @@ export default function FlowToolbar(): JSX.Element {
     setOpenShareModal((oldState) => !oldState);
   }
 
-  const openPlayground = useShortcutsStore((state) => state.openPlayground);
-  const api = useShortcutsStore((state) => state.api);
-  const flow = useShortcutsStore((state) => state.flow);
+  const openPlayground = useShortcutsStore(useShallow((state) => state.openPlayground));
+  const api = useShortcutsStore(useShallow((state) => state.api));
+  const flow = useShortcutsStore(useShallow((state) => state.flow));
 
   useHotkeys(openPlayground, handleChatWShortcut, { preventDefault });
   useHotkeys(api, handleAPIWShortcut, { preventDefault });
   useHotkeys(flow, handleShareWShortcut, { preventDefault });
 
-  const hasIO = useFlowStore((state) => state.hasIO);
-  const hasStore = useStoreStore((state) => state.hasStore);
-  const validApiKey = useStoreStore((state) => state.validApiKey);
-  const hasApiKey = useStoreStore((state) => state.hasApiKey);
-  const currentFlow = useFlowStore((state) => state.currentFlow);
+  const hasIO = useFlowStore(useShallow((state) => state.hasIO));
+  const hasStore = useStoreStore(useShallow((state) => state.hasStore));
+  const validApiKey = useStoreStore(useShallow((state) => state.validApiKey));
+  const hasApiKey = useStoreStore(useShallow((state) => state.hasApiKey));
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
 
   useEffect(() => {
     if (open) {

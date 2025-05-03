@@ -4,6 +4,7 @@ import { getComponent } from "../../../controllers/API";
 import useAlertStore from "../../../stores/alertStore";
 import useFlowsManagerStore from "../../../stores/flowsManagerStore";
 import { useStoreStore } from "../../../stores/storeStore";
+import { useShallow } from "zustand/react/shallow";
 import { FlowType } from "../../../types/flow";
 import { storeComponent } from "../../../types/store";
 import cloneFLowWithParent, {
@@ -33,16 +34,16 @@ export default function StoreCardComponent({
   authorized?: boolean;
   disabled?: boolean;
 }) {
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setValidApiKey = useStoreStore((state) => state.updateValidApiKey);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setValidApiKey = useStoreStore(useShallow((state) => state.updateValidApiKey));
   const [loading, setLoading] = useState(false);
   const [likedByUser, setLikedByUser] = useState(data?.liked_by_user ?? false);
   const [likesCount, setLikesCount] = useState(data?.liked_by_count ?? 0);
   const [downloadsCount, setDownloadsCount] = useState(
     data?.downloads_count ?? 0,
   );
-  const setCurrentFlow = useFlowsManagerStore((state) => state.setCurrentFlow);
+  const setCurrentFlow = useFlowsManagerStore(useShallow((state) => state.setCurrentFlow));
   // const [openPlayground, setOpenPlayground] = useState(false);
   const [loadingPlayground, setLoadingPlayground] = useState(false);
   const playground =

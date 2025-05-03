@@ -30,6 +30,7 @@ import { CodeErrorDataTypeAPI } from "../../types/api";
 import { codeAreaModalPropsType } from "../../types/components";
 import BaseModal from "../baseModal";
 import ConfirmationModal from "../confirmationModal";
+import { useShallow } from "zustand/react/shallow";
 
 export default function CodeAreaModal({
   value,
@@ -48,10 +49,10 @@ export default function CodeAreaModal({
     mySetOpen !== undefined && myOpen !== undefined
       ? [myOpen, mySetOpen]
       : useState(false);
-  const dark = useDarkStore((state) => state.dark);
+  const dark = useDarkStore(useShallow((state) => state.dark));
   const [height, setHeight] = useState<string | null>(null);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const codeRef = useRef<ReactAce | null>(null);
   const { mutate, isPending } = usePostValidateCode();
@@ -60,7 +61,7 @@ export default function CodeAreaModal({
   } | null>(null);
 
   const { mutate: validateComponentCode } = usePostValidateComponentCode();
-  const setNode = useFlowStore((state) => state.setNode);
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
 
   useEffect(() => {
     // if nodeClass.template has more fields other than code and dynamic is true
@@ -175,12 +176,14 @@ export default function CodeAreaModal({
         if (code === value) {
           setOpen(false);
         } else {
-          if (
-            !(
-              codeRef.current?.editor.completer.popup &&
-              codeRef.current?.editor.completer.popup.isOpen
-            )
-          ) {
+          const completer = codeRef.current?.editor?.completer;
+          if (completer && "popup" in completer) { // Check if 'popup' exists in completer
+            const completerPopup = completer.popup;
+            if (!completerPopup.isOpen) {
+              setOpenConfirmation(true);
+            }
+          } else {
+            // Handle case where completer is not of the correct type
             setOpenConfirmation(true);
           }
         }

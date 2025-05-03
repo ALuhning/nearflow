@@ -9,6 +9,7 @@ import { Cookies } from "react-cookie";
 import { BuildStatus, EventDeliveryType } from "../../constants/enums";
 import useAlertStore from "../../stores/alertStore";
 import useFlowStore from "../../stores/flowStore";
+import { useShallow } from "zustand/react/shallow";
 import { checkDuplicateRequestAndStoreRequest } from "./helpers/check-duplicate-requests";
 import { useLogout, useRefreshAccessToken } from "./queries/auth";
 
@@ -19,9 +20,9 @@ const api: AxiosInstance = axios.create({
 
 const cookies = new Cookies();
 function ApiInterceptor() {
-  const autoLogin = useAuthStore((state) => state.autoLogin);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const accessToken = useAuthStore((state) => state.accessToken);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const accessToken = useAuthStore(useShallow((state) => state.accessToken));
   const authenticationErrorCount = useAuthStore(
     (state) => state.authenticationErrorCount,
   );

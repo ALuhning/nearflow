@@ -7,6 +7,7 @@ import { Button } from "../../../../../components/ui/button";
 import BaseModal from "../../../../../modals/baseModal";
 import { useShortcutsStore } from "../../../../../stores/shortcuts";
 import { toCamelCase, toTitleCase } from "../../../../../utils/utils";
+import { useShallow } from "zustand/react/shallow";
 
 export default function EditShortcutButton({
   children,
@@ -36,9 +37,9 @@ export default function EditShortcutButton({
         )?.shortcut
       : "";
   const [key, setKey] = useState<string | null>(null);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setShortcuts = useShortcutsStore((state) => state.setShortcuts);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setShortcuts = useShortcutsStore(useShallow((state) => state.setShortcuts));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   function canEditCombination(newCombination: string): boolean {
     let canSave = true;
@@ -50,9 +51,9 @@ export default function EditShortcutButton({
     return canSave;
   }
 
-  const setUniqueShortcut = useShortcutsStore(
+  const setUniqueShortcut = useShortcutsStore(useShallow(
     (state) => state.updateUniqueShortcut,
-  );
+  ));
 
   function editCombination(): void {
     if (key) {

@@ -3,6 +3,7 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { useEffect } from "react";
 import useAlertStore from "../../stores/alertStore";
 import { mutateTemplate } from "../helpers/mutate-template";
+import { useShallow } from "zustand/react/shallow";
 
 const useFetchDataOnMount = (
   node: APIClassType,
@@ -14,7 +15,7 @@ const useFetchDataOnMount = (
     any
   >,
 ) => {
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
 
   useEffect(() => {
     async function fetchData() {

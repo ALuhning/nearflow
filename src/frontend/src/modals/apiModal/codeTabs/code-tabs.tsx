@@ -18,15 +18,16 @@ import { useDarkStore } from "../../../stores/darkStore";
 import { getNewCurlCode } from "../utils/get-curl-code";
 import { getNewJsApiCode } from "../utils/get-js-api-code";
 import { getNewPythonApiCode } from "../utils/get-python-api-code";
+import { useShallow } from "zustand/react/shallow";
 
 export default function APITabsComponent() {
   const [isCopied, setIsCopied] = useState<Boolean>(false);
-  const dark = useDarkStore((state) => state.dark);
-  const nodes = useFlowStore((state) => state.nodes);
-  const flowId = useFlowStore((state) => state.currentFlow?.id);
-  const autologin = useAuthStore((state) => state.autoLogin);
-  const inputs = useFlowStore((state) => state.inputs);
-  const outputs = useFlowStore((state) => state.outputs);
+  const dark = useDarkStore(useShallow((state) => state.dark));
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
+  const flowId = useFlowStore(useShallow((state) => state.currentFlow?.id));
+  const autologin = useAuthStore(useShallow((state) => state.autoLogin));
+  const inputs = useFlowStore(useShallow((state) => state.inputs));
+  const outputs = useFlowStore(useShallow((state) => state.outputs));
   const hasChatInput = inputs.some((input) => input.type === "ChatInput");
   const hasChatOutput = outputs.some((output) => output.type === "ChatOutput");
   let input_value = "hello world!";
@@ -38,7 +39,7 @@ export default function APITabsComponent() {
     }
   }
   const streaming = hasStreaming(nodes);
-  const tweaks = useTweaksStore((state) => state.tweaks);
+  const tweaks = useTweaksStore(useShallow((state) => state.tweaks));
   const codeOptions = {
     streaming: streaming,
     flowId: flowId || "",

@@ -7,6 +7,7 @@ import {
   NO_COLUMN_DEFINITION_ALERT_TITLE,
 } from "@/constants/constants";
 import { useDarkStore } from "@/stores/darkStore";
+import { useShallow } from "zustand/react/shallow";
 import "@/style/ag-theme-shadcn.css"; // Custom CSS applied to the grid
 import { TableOptionsTypeAPI } from "@/types/api";
 import { cn } from "@/utils/utils";
@@ -121,7 +122,7 @@ const TableComponent = forwardRef<
     // @ts-ignore
     const realRef: React.MutableRefObject<AgGridReact> =
       useRef<AgGridReact | null>(null);
-    const dark = useDarkStore((state) => state.dark);
+    const dark = useDarkStore(useShallow((state) => state.dark));
     const initialColumnDefs = useRef(colDef);
     const [columnStateChange, setColumnStateChange] = useState(false);
     // Only use visible columns for the store reference

@@ -18,6 +18,7 @@ import ChatInput from "../chatInput/chat-input";
 import useDragAndDrop from "../chatInput/hooks/use-drag-and-drop";
 import { useFileHandler } from "../chatInput/hooks/use-file-handler";
 import ChatMessage from "../chatMessage/chat-message";
+import { useShallow } from "zustand/react/shallow";
 
 const MemoizedChatMessage = memo(ChatMessage, (prevProps, nextProps) => {
   return (
@@ -38,10 +39,10 @@ export default function ChatView({
   playgroundPage,
   sidebarOpen,
 }: chatViewProps): JSX.Element {
-  const flowPool = useFlowStore((state) => state.flowPool);
-  const inputs = useFlowStore((state) => state.inputs);
-  const clientId = useUtilityStore((state) => state.clientId);
-  let realFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const flowPool = useFlowStore(useShallow((state) => state.flowPool));
+  const inputs = useFlowStore(useShallow((state) => state.inputs));
+  const clientId = useUtilityStore(useShallow((state) => state.clientId));
+  let realFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
   const currentFlowId = playgroundPage
     ? uuidv5(`${clientId}_${realFlowId}`, uuidv5.DNS)
     : realFlowId;
@@ -49,19 +50,19 @@ export default function ChatView({
   const [chatHistory, setChatHistory] = useState<ChatMessageType[] | undefined>(
     undefined,
   );
-  const messages = useMessagesStore((state) => state.messages);
-  const nodes = useFlowStore((state) => state.nodes);
+  const messages = useMessagesStore(useShallow((state) => state.messages));
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
   const chatInput = inputs.find((input) => input.type === "ChatInput");
   const chatInputNode = nodes.find((node) => node.id === chatInput?.id);
-  const displayLoadingMessage = useMessagesStore(
+  const displayLoadingMessage = useMessagesStore(useShallow(
     (state) => state.displayLoadingMessage,
-  );
+  ));
 
-  const isBuilding = useFlowStore((state) => state.isBuilding);
+  const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
 
   const inputTypes = inputs.map((obj) => obj.type);
-  const updateFlowPool = useFlowStore((state) => state.updateFlowPool);
-  const setChatValueStore = useUtilityStore((state) => state.setChatValueStore);
+  const updateFlowPool = useFlowStore(useShallow((state) => state.updateFlowPool));
+  const setChatValueStore = useUtilityStore(useShallow((state) => state.setChatValueStore));
   const isTabHidden = useTabVisibility();
 
   //build chat history

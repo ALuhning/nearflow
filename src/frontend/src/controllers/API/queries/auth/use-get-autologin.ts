@@ -6,6 +6,7 @@ import {
 import { AuthContext } from "@/contexts/authContext";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useAuthStore from "@/stores/authStore";
+import { useShallow } from "zustand/react/shallow";
 import { AxiosError } from "axios";
 import { useContext, useRef } from "react";
 import { useQueryFunctionType, Users } from "../../../../types/api";
@@ -26,12 +27,12 @@ export const useGetAutoLogin: useQueryFunctionType<undefined, undefined> = (
 ) => {
   const { query } = UseRequestProcessor();
   const { login, setUserData, getUser } = useContext(AuthContext);
-  const setAutoLogin = useAuthStore((state) => state.setAutoLogin);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const setAutoLogin = useAuthStore(useShallow((state) => state.setAutoLogin));
+  const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
   const isLoginPage = location.pathname.includes("login");
   const navigate = useCustomNavigate();
   const { mutateAsync: mutationLogout } = useLogout();
-  const autoLogin = useAuthStore((state) => state.autoLogin);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
 
   const retryCountRef = useRef(0);
   const retryTimerRef = useRef<NodeJS.Timeout | null>(null);

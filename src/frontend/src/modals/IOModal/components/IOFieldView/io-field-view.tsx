@@ -25,6 +25,7 @@ import CsvSelect from "./components/csv-selected";
 import IOFileInput from "./components/file-input";
 import IoJsonInput from "./components/json-input";
 import IOKeyPairInput from "./components/key-pair-input";
+import { useShallow } from "zustand/react/shallow";
 
 export default function IOFieldView({
   type,
@@ -32,9 +33,9 @@ export default function IOFieldView({
   fieldId,
   left,
 }: IOFieldViewProps): JSX.Element | undefined {
-  const nodes = useFlowStore((state) => state.nodes);
-  const setNode = useFlowStore((state) => state.setNode);
-  const flowPool = useFlowStore((state) => state.flowPool);
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
+  const setNode = useFlowStore(useShallow((state) => state.setNode));
+  const flowPool = useFlowStore(useShallow((state) => state.flowPool));
   const node: AllNodeType | undefined = nodes.find(
     (node) => node.id === fieldId,
   );

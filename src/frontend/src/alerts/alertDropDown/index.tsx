@@ -8,21 +8,22 @@ import {
 } from "../../components/ui/popover";
 import { ZERO_NOTIFICATIONS } from "../../constants/constants";
 import useAlertStore from "../../stores/alertStore";
+import { useShallow } from "zustand/react/shallow";
 import { AlertDropdownType } from "../../types/alerts";
 import SingleAlert from "./components/singleAlertComponent";
 
 const AlertDropdown = forwardRef<HTMLDivElement, AlertDropdownType>(
   function AlertDropdown({ children, notificationRef, onClose }, ref) {
-    const notificationList = useAlertStore((state) => state.notificationList);
-    const clearNotificationList = useAlertStore(
+    const notificationList = useAlertStore(useShallow((state) => state.notificationList));
+    const clearNotificationList = useAlertStore(useShallow(
       (state) => state.clearNotificationList,
-    );
-    const removeFromNotificationList = useAlertStore(
+    ));
+    const removeFromNotificationList = useAlertStore(useShallow(
       (state) => state.removeFromNotificationList,
-    );
-    const setNotificationCenter = useAlertStore(
+    ));
+    const setNotificationCenter = useAlertStore(useShallow(
       (state) => state.setNotificationCenter,
-    );
+    ));
 
     const [open, setOpen] = useState(false);
 

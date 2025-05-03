@@ -14,11 +14,12 @@ import { ENABLE_PROFILE_ICONS } from "@/customization/feature-flags";
 import useAuthStore from "@/stores/authStore";
 import { cloneDeep } from "lodash";
 import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { CONTROL_PATCH_USER_STATE } from "../../../../constants/constants";
 import { AuthContext } from "../../../../contexts/authContext";
 import useAlertStore from "../../../../stores/alertStore";
 import { useStoreStore } from "../../../../stores/storeStore";
+import { useShallow } from "zustand/react/shallow";
 import {
   inputHandlerEventType,
   patchUserInputStateType,
@@ -35,16 +36,16 @@ export const GeneralPage = () => {
     CONTROL_PATCH_USER_STATE,
   );
 
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { userData, setUserData } = useContext(AuthContext);
   const { password, cnfPassword, profilePicture } = inputState;
-  const autoLogin = useAuthStore((state) => state.autoLogin);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
 
   const { storeApiKey } = useContext(AuthContext);
-  const setHasApiKey = useStoreStore((state) => state.updateHasApiKey);
-  const setValidApiKey = useStoreStore((state) => state.updateValidApiKey);
-  const setLoadingApiKey = useStoreStore((state) => state.updateLoadingApiKey);
+  const setHasApiKey = useStoreStore(useShallow((state) => state.updateHasApiKey));
+  const setValidApiKey = useStoreStore(useShallow((state) => state.updateValidApiKey));
+  const setLoadingApiKey = useStoreStore(useShallow((state) => state.updateLoadingApiKey));
 
   const { mutate: mutateResetPassword } = useResetPassword();
   const { mutate: mutatePatchUser } = useUpdateUser();

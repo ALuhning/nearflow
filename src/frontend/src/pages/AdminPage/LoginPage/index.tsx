@@ -12,6 +12,7 @@ import {
   inputHandlerEventType,
   loginInputStateType,
 } from "../../../types/components";
+import { useShallow } from "zustand/react/shallow";
 
 export default function LoginAdminPage() {
   const [inputState, setInputState] =
@@ -19,7 +20,7 @@ export default function LoginAdminPage() {
   const { login } = useContext(AuthContext);
 
   const { password, username } = inputState;
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   function handleInput({
     target: { name, value },
   }: inputHandlerEventType): void {

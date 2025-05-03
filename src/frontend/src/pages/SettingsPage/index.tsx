@@ -6,13 +6,14 @@ import {
 } from "@/customization/feature-flags";
 import useAuthStore from "@/stores/authStore";
 import { useStoreStore } from "@/stores/storeStore";
-import { Outlet } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
+import { Outlet } from "react-router";
 import ForwardedIconComponent from "../../components/common/genericIconComponent";
 import PageLayout from "../../components/common/pageLayout";
 
 export default function SettingsPage(): JSX.Element {
-  const autoLogin = useAuthStore((state) => state.autoLogin);
-  const hasStore = useStoreStore((state) => state.hasStore);
+  const autoLogin = useAuthStore(useShallow((state) => state.autoLogin));
+  const hasStore = useStoreStore(useShallow((state) => state.hasStore));
 
   // Hides the General settings if there is nothing to show
   const showGeneralSettings = ENABLE_PROFILE_ICONS || hasStore || !autoLogin;

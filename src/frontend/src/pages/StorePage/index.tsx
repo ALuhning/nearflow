@@ -11,7 +11,7 @@ import StoreCardComponent from "@/components/common/storeCardComponent";
 import { CustomLink } from "@/customization/components/custom-link";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import { useUtilityStore } from "@/stores/utilityStore";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { TagsSelector } from "../../components/common/tagsSelectorComponent";
 import { Badge } from "../../components/ui/badge";
 import {
@@ -40,21 +40,22 @@ import { getStoreComponents } from "../../controllers/API";
 import useAlertStore from "../../stores/alertStore";
 import useFlowsManagerStore from "../../stores/flowsManagerStore";
 import { useStoreStore } from "../../stores/storeStore";
+import { useShallow } from "zustand/react/shallow";
 import { storeComponent } from "../../types/store";
 import { cn } from "../../utils/utils";
 import InputSearchComponent from "../MainPage/components/inputSearchComponent";
 
 export default function StorePage(): JSX.Element {
-  const hasApiKey = useStoreStore((state) => state.hasApiKey);
-  const validApiKey = useStoreStore((state) => state.validApiKey);
-  const loadingApiKey = useStoreStore((state) => state.loadingApiKey);
+  const hasApiKey = useStoreStore(useShallow((state) => state.hasApiKey));
+  const validApiKey = useStoreStore(useShallow((state) => state.validApiKey));
+  const loadingApiKey = useStoreStore(useShallow((state) => state.loadingApiKey));
 
-  const setValidApiKey = useStoreStore((state) => state.updateValidApiKey);
+  const setValidApiKey = useStoreStore(useShallow((state) => state.updateValidApiKey));
 
   const { apiKey } = useContext(AuthContext);
 
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const currentFlowId = useFlowsManagerStore((state) => state.currentFlowId);
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [filteredCategories, setFilterCategories] = useState<any[]>([]);
@@ -68,7 +69,7 @@ export default function StorePage(): JSX.Element {
   const [searchNow, setSearchNow] = useState("");
   const [selectFilter, setSelectFilter] = useState("all");
 
-  const tags = useUtilityStore((state) => state.tags);
+  const tags = useUtilityStore(useShallow((state) => state.tags));
 
   const navigate = useCustomNavigate();
 

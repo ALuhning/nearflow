@@ -2,6 +2,7 @@ import { getMinOrMaxValue } from "@/components/core/parameterRenderComponent/com
 import { InputProps } from "@/components/core/parameterRenderComponent/types";
 import { Case } from "@/shared/components/caseComponent";
 import { useDarkStore } from "@/stores/darkStore";
+import { useShallow } from "zustand/react/shallow";
 import { SliderComponentType } from "@/types/components";
 import { cn } from "@/utils/utils";
 import * as SliderPrimitive from "@radix-ui/react-slider";
@@ -87,7 +88,7 @@ export default function SliderComponent({
     return null;
   };
 
-  const isDark = useDarkStore((state) => state.dark);
+  const isDark = useDarkStore(useShallow((state) => state.dark));
 
   const getNormalizedValue = (
     value: number,

@@ -1,5 +1,6 @@
 import useFlowStore from "@/stores/flowStore";
 import { useUtilityStore } from "@/stores/utilityStore";
+import { useShallow } from "zustand/react/shallow";
 import { useMutationFunctionType } from "@/types/api";
 import { FlowPoolType } from "@/types/zustand/flow";
 import { useEffect, useRef } from "react";
@@ -91,8 +92,8 @@ export const useGetBuildsMutation: useMutationFunctionType<
     (state) => state.webhookPollingInterval,
   );
 
-  const setFlowPool = useFlowStore((state) => state.setFlowPool);
-  const currentFlow = useFlowStore((state) => state.currentFlow);
+  const setFlowPool = useFlowStore(useShallow((state) => state.setFlowPool));
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
 
   const flowIdRef = useRef<string | null>(null);
   const requestInProgressRef = useRef<Record<string, boolean>>({});

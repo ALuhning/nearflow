@@ -4,10 +4,11 @@ import useFlowStore from "@/stores/flowStore";
 import { FlowType } from "@/types/flow";
 import { processDataFromFlow } from "@/utils/reactflowUtils";
 import useAddFlow from "./use-add-flow";
+import { useShallow } from "zustand/react/shallow";
 
 const useUploadFlow = () => {
   const addFlow = useAddFlow();
-  const paste = useFlowStore((state) => state.paste);
+  const paste = useFlowStore(useShallow((state) => state.paste));
 
   const getFlowsFromFiles = async ({
     files,

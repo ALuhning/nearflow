@@ -11,6 +11,7 @@ import TableComponent from "../../../components/core/parameterRenderComponent/co
 import useAlertStore from "../../../stores/alertStore";
 import { useMessagesStore } from "../../../stores/messagesStore";
 import { extractColumnsFromRows, messagesSorter } from "../../../utils/utils";
+import { useShallow } from "zustand/react/shallow";
 
 export default function SessionView({
   session,
@@ -19,11 +20,11 @@ export default function SessionView({
   session?: string;
   id?: string;
 }) {
-  const messages = useMessagesStore((state) => state.messages);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const updateMessage = useMessagesStore((state) => state.updateMessage);
-  const deleteMessagesStore = useMessagesStore((state) => state.removeMessages);
+  const messages = useMessagesStore(useShallow((state) => state.messages));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const updateMessage = useMessagesStore(useShallow((state) => state.updateMessage));
+  const deleteMessagesStore = useMessagesStore(useShallow((state) => state.removeMessages));
   const columns = extractColumnsFromRows(messages, "intersection");
   const isFetching = useIsFetching({
     queryKey: ["useGetMessagesQuery"],

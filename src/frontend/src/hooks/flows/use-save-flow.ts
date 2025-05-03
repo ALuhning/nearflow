@@ -6,22 +6,23 @@ import useFlowStore from "@/stores/flowStore";
 import { AllNodeType, EdgeType, FlowType } from "@/types/flow";
 import { customStringify } from "@/utils/reactflowUtils";
 import { ReactFlowJsonObject } from "@xyflow/react";
+import { useShallow } from "zustand/react/shallow";
 
 const useSaveFlow = () => {
-  const flows = useFlowsManagerStore((state) => state.flows);
-  const setFlows = useFlowsManagerStore((state) => state.setFlows);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
-  const reactFlowInstance = useFlowStore((state) => state.reactFlowInstance);
-  const nodes = useFlowStore((state) => state.nodes);
-  const edges = useFlowStore((state) => state.edges);
-  const setSaveLoading = useFlowsManagerStore((state) => state.setSaveLoading);
-  const setCurrentFlow = useFlowStore((state) => state.setCurrentFlow);
-  const currentSavedFlow = useFlowsManagerStore((state) => state.currentFlow);
+  const flows = useFlowsManagerStore(useShallow((state) => state.flows));
+  const setFlows = useFlowsManagerStore(useShallow((state) => state.setFlows));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
+  const reactFlowInstance = useFlowStore(useShallow((state) => state.reactFlowInstance));
+  const nodes = useFlowStore(useShallow((state) => state.nodes));
+  const edges = useFlowStore(useShallow((state) => state.edges));
+  const setSaveLoading = useFlowsManagerStore(useShallow((state) => state.setSaveLoading));
+  const setCurrentFlow = useFlowStore(useShallow((state) => state.setCurrentFlow));
+  const currentSavedFlow = useFlowsManagerStore(useShallow((state) => state.currentFlow));
 
   const { mutate: getFlow } = useGetFlow();
   const { mutate } = usePatchUpdateFlow();
 
-  const currentFlow = useFlowStore((state) => state.currentFlow);
+  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
   const flowData = currentFlow?.data;
 
   const saveFlow = async (flow?: FlowType): Promise<void> => {

@@ -2,6 +2,7 @@ import useFlowStore from "@/stores/flowStore";
 import { AllNodeType } from "@/types/flow";
 import { useUpdateNodeInternals } from "@xyflow/react";
 import { cloneDeep } from "lodash";
+import { useShallow } from "zustand/react/shallow";
 
 const useHandleNodeClass = (
   nodeId: string,
@@ -10,7 +11,7 @@ const useHandleNodeClass = (
     update: AllNodeType | ((oldState: AllNodeType) => AllNodeType),
   ) => void,
 ) => {
-  const setNode = setMyNode ?? useFlowStore((state) => state.setNode);
+  const setNode = setMyNode ?? useFlowStore(useShallow((state) => state.setNode));
   const updateNodeInternals = useUpdateNodeInternals();
 
   const handleNodeClass = (newNodeClass, type?: string) => {

@@ -12,6 +12,7 @@ import { ICON_STROKE_WIDTH } from "@/constants/constants";
 import { checkLucideIcons } from "@/CustomNodes/helpers/check-lucide-icons";
 import { cn } from "@/utils/utils";
 import IconComponent from "../../../../components/common/genericIconComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export function NodeIcon({
   icon,
@@ -26,7 +27,7 @@ export function NodeIcon({
   isGroup?: boolean;
   hasToolMode: boolean;
 }) {
-  const types = useTypesStore((state) => state.types);
+  const types = useTypesStore(useShallow((state) => state.types));
   const [name, setName] = useState(types[dataType]);
 
   useEffect(() => {

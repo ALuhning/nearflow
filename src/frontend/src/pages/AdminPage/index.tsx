@@ -42,14 +42,15 @@ import UserManagementModal from "../../modals/userManagementModal";
 import useAlertStore from "../../stores/alertStore";
 import { Users } from "../../types/api";
 import { UserInputType } from "../../types/components";
+import { useShallow } from "zustand/react/shallow";
 
 export default function AdminPage() {
   const [inputValue, setInputValue] = useState("");
 
   const [size, setPageSize] = useState(PAGINATION_SIZE);
   const [index, setPageIndex] = useState(PAGINATION_PAGE);
-  const setSuccessData = useAlertStore((state) => state.setSuccessData);
-  const setErrorData = useAlertStore((state) => state.setErrorData);
+  const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
+  const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { userData } = useContext(AuthContext);
   const [totalRowsCount, setTotalRowsCount] = useState(0);
 

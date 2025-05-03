@@ -10,6 +10,7 @@ import { useQueryFunctionType } from "../../../../types/api";
 import { api } from "../../api";
 import { getURL } from "../../helpers/constants";
 import { UseRequestProcessor } from "../../services/request-processor";
+import { useShallow } from "zustand/react/shallow";
 
 export interface ConfigResponse {
   frontend_timeout: number;
@@ -25,21 +26,21 @@ export interface ConfigResponse {
 export const useGetConfig: useQueryFunctionType<undefined, ConfigResponse> = (
   options,
 ) => {
-  const setAutoSaving = useFlowsManagerStore((state) => state.setAutoSaving);
-  const setAutoSavingInterval = useFlowsManagerStore(
+  const setAutoSaving = useFlowsManagerStore(useShallow((state) => state.setAutoSaving));
+  const setAutoSavingInterval = useFlowsManagerStore(useShallow(
     (state) => state.setAutoSavingInterval,
-  );
-  const setHealthCheckMaxRetries = useFlowsManagerStore(
+  ));
+  const setHealthCheckMaxRetries = useFlowsManagerStore(useShallow(
     (state) => state.setHealthCheckMaxRetries,
-  );
-  const setMaxFileSizeUpload = useUtilityStore(
+  ));
+  const setMaxFileSizeUpload = useUtilityStore(useShallow(
     (state) => state.setMaxFileSizeUpload,
-  );
-  const setFeatureFlags = useUtilityStore((state) => state.setFeatureFlags);
-  const setWebhookPollingInterval = useUtilityStore(
+  ));
+  const setFeatureFlags = useUtilityStore(useShallow((state) => state.setFeatureFlags));
+  const setWebhookPollingInterval = useUtilityStore(useShallow(
     (state) => state.setWebhookPollingInterval,
-  );
-  const setEventDelivery = useUtilityStore((state) => state.setEventDelivery);
+  ));
+  const setEventDelivery = useUtilityStore(useShallow((state) => state.setEventDelivery));
   const { query } = UseRequestProcessor();
 
   const getConfigFn = async () => {
