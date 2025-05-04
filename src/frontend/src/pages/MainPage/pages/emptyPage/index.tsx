@@ -1,4 +1,4 @@
-import LangflowLogo from "@/assets/vitalpoint.svg?react";
+import LangflowLogo from "@/assets/vitalpoint.svg";
 import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import CardsWrapComponent from "@/components/core/cardsWrapComponent";
 import { Button } from "@/components/ui/button";

@@ -1,4 +1,4 @@
-import LangflowLogo from "@/assets/vitalpoint.svg?react";
+import LangflowLogo from "@/assets/vitalpoint.svg";
 import { useLoginUser } from "@/controllers/API/queries/auth";
 import { CustomLink } from "@/customization/components/custom-link";
 import * as Form from "@radix-ui/react-form";

@@ -1,4 +1,4 @@
-import LangflowLogo from "@/assets/vitalpoint.svg?react";
+import LangflowLogo from "@/assets/vitalpoint.svg";
 import InputComponent from "@/components/core/parameterRenderComponent/components/inputComponent";
 import { useAddUser } from "@/controllers/API/queries/auth";
 import { CustomLink } from "@/customization/components/custom-link";

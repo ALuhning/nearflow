@@ -1,4 +1,4 @@
-import LangflowLogo from "@/assets/vitalpoint.svg?react";
+import LangflowLogo from "@/assets/vitalpoint.svg";
 import { useLoginUser } from "@/controllers/API/queries/auth";
 import { useContext, useState } from "react";
 import { Button } from "../../../components/ui/button";
