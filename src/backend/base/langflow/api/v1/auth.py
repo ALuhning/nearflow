@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Request, Response, HTTPException
+from fastapi import APIRouter, Request, Response
 from pydantic import BaseModel
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 import base64
 from urllib.parse import quote, unquote
 import json
-from .config import settings
-from fastapi import HTTPException
+from langflow.services.deps import get_settings_service
 
 # Constants
 AUTH_COOKIE_NAME = "auth"
@@ -43,7 +42,7 @@ def parse_auth_cookie(request: Request):
 
 @router.post("/auth/sign-message")
 async def sign_message_auth(input_data: SignedMessageInput, response: Response):
-
+    auth_settings = get_settings_service().auth_settings
     cookie_dict = {
         "account_id": input_data.accountId,
         "signature": input_data.signature,
@@ -61,9 +60,11 @@ async def sign_message_auth(input_data: SignedMessageInput, response: Response):
     response.set_cookie(
         key=AUTH_COOKIE_NAME,
         value=encoded_cookie,
-        httponly=settings.COOKIE_HTTPONLY,
-        samesite=settings.COOKIE_SAMESITE,
-        secure=settings.COOKIE_SECURE
+        httponly=auth_settings.ACCESS_HTTPONLY,
+        samesite=auth_settings.ACCESS_SAME_SITE,
+        secure=auth_settings.ACCESS_SECURE,
+        expires=None,
+        domain=auth_settings.COOKIE_DOMAIN,
     )
 
     return {"ok": True, "accountId": input_data.accountId}
@@ -79,7 +80,7 @@ async def get_session(request: Request):
             "signature": None,
         }
     return {
-        "accountId": "unknown",  # or derive it if available
+        "accountId": auth["account_id"],
         "publicKey": auth["authorization"],
         "signature": auth["signature"],
     }

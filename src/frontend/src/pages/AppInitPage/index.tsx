@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { Outlet } from "react-router";
 import { LoadingPage } from "../LoadingPage";
 import { useShallow } from "zustand/react/shallow";
+import { IS_AUTO_LOGIN } from "@/constants/constants";
 
 export function AppInitPage() {
   const refreshStars = useDarkStore(useShallow((state) => state.refreshStars));
@@ -20,7 +21,10 @@ export function AppInitPage() {
 
   const { isFetched: isLoaded } = useCustomPrimaryLoading();
 
-  const { isFetched, refetch } = useGetAutoLogin({ enabled: isLoaded });
+  const autoLoginQuery = IS_AUTO_LOGIN
+  ? useGetAutoLogin({ enabled: false })
+  : { isFetched: true, refetch: () => {} };
+  const { isFetched, refetch } = autoLoginQuery;
   useGetVersionQuery({ enabled: isFetched });
   const { isFetched: isConfigFetched } = useGetConfig({ enabled: isFetched });
   useGetGlobalVariables({ enabled: isFetched });
@@ -28,6 +32,12 @@ export function AppInitPage() {
   useGetFoldersQuery({ enabled: isFetched });
   const { isFetched: isExamplesFetched, refetch: refetchExamples } =
     useGetBasicExamplesQuery();
+
+  useEffect(() => {
+    if (IS_AUTO_LOGIN && isLoaded && !isFetched) {
+      refetch();
+    }
+  }, [IS_AUTO_LOGIN, isLoaded, isFetched, refetch]);
 
   useEffect(() => {
     if (isFetched) {

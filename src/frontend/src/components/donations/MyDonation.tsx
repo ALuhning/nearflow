@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { utils } from "near-api-js";
-import { useWalletSelector } from "@near-wallet-selector/react-hook";
+import { useWalletStore } from "@/stores/walletStore";
+import { useNearStore } from "@/stores/near";
 import { DonationNearContract } from "@/config";
+import { useShallow } from "zustand/react/shallow";
 
 interface Donation {
     account_id: string;
@@ -9,7 +11,9 @@ interface Donation {
 }
 
 const MyDonation = ({ myDonation }) => {
-  const { signedAccountId, viewFunction, wallet } = useWalletSelector();
+  const walletAccount = useWalletStore(useShallow((s) => s.account));
+  const wallet = useWalletStore(useShallow((state) => state.wallet));
+  const viewAccount = useNearStore.getState().viewAccount;
   const [donation, setDonation] = useState<number>(0);
   
   // Update donation amount when `myDonation` changes
@@ -21,19 +25,19 @@ const MyDonation = ({ myDonation }) => {
 
   useEffect(() => {
     const getMyDonations = async () => {
-      if (wallet && signedAccountId) {
+      if (wallet && walletAccount) {
       try {
         // Fetch donations for the given account
-        if (!signedAccountId || signedAccountId.trim() === "") {
-          console.error("Invalid signedAccountId");
+        if (!walletAccount || walletAccount.accountId.trim() === "") {
+          console.error("Invalid AccountId");
           return;
         }
         
-        const loadedDonation = await viewFunction({
+        const loadedDonation = await viewAccount?.viewFunction({
           contractId: DonationNearContract,
-          method: "get_donation_for_account",
+          methodName: "get_donation_for_account",
           args: {
-            "account_id": signedAccountId,
+            "account_id": walletAccount.accountId,
           },
         }) as Donation;
   
@@ -55,14 +59,14 @@ const MyDonation = ({ myDonation }) => {
     };
     
     getMyDonations();
-  }, [signedAccountId]);
+  }, [walletAccount?.accountId]);
   
   
   
 
   return (
     <>
-        {signedAccountId ? (
+        {walletAccount?.accountId ? (
             <p className="mb-3 text-gray-700">
             You have donated <strong>{donation} NEAR</strong> to the cause.
             </p>

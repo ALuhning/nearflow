@@ -5,18 +5,20 @@ import {
   Outlet,
   Route,
 } from "react-router";
+
+import RootLayout from "./components/common/rootLayout/RootLayout";
 import { ProtectedAdminRoute } from "./components/authorization/authAdminGuard";
 import { ProtectedRoute } from "./components/authorization/authGuard";
 import { ProtectedLoginRoute } from "./components/authorization/authLoginGuard";
 import { AuthSettingsGuard } from "./components/authorization/authSettingsGuard";
 import { StoreGuard } from "./components/authorization/storeGuard";
-import ContextWrapper from "./contexts";
 import { CustomNavigate } from "./customization/components/custom-navigate";
 import { BASENAME } from "./customization/config-constants";
 import {
   ENABLE_CUSTOM_PARAM,
   ENABLE_FILE_MANAGEMENT,
 } from "./customization/feature-flags";
+
 import { AppAuthenticatedPage } from "./pages/AppAuthenticatedPage";
 import { AppInitPage } from "./pages/AppInitPage";
 import { AppWrapperPage } from "./pages/AppWrapperPage";
@@ -36,58 +38,35 @@ import StoreApiKeyPage from "./pages/SettingsPage/pages/StoreApiKeyPage";
 import StorePage from "./pages/StorePage";
 import ViewPage from "./pages/ViewPage";
 import DonationsHome from "./pages/Donations";
-import NearInitializer from "./components/core/NearInitializer/NearInitializer";
-import ZustandHydration from "./components/core/NearInitializer/ZustandHydration";
 
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 const LoginAdminPage = lazy(() => import("./pages/AdminPage/LoginPage"));
 const DeleteAccountPage = lazy(() => import("./pages/DeleteAccountPage"));
-
 const PlaygroundPage = lazy(() => import("./pages/Playground"));
-
 const SignUp = lazy(() => import("./pages/SignUpPage"));
+
 const router = createBrowserRouter(
   createRoutesFromElements([
-    <Route path="/playground/:id/">
-      <Route
-        path=""
-        element={
-          <ContextWrapper key={1}>
-            <PlaygroundPage />
-          </ContextWrapper>
-        }
-      />
-    </Route>,
     <Route
       path={ENABLE_CUSTOM_PARAM ? "/:customParam?" : "/"}
-      element={
-        <ContextWrapper key={2}>
-          <NearInitializer />
-          <ZustandHydration />
-          <Outlet />
-        </ContextWrapper>
-      }
+      element={<RootLayout />}
     >
+      {/* Core App Init */}
       <Route path="" element={<AppInitPage />}>
         <Route path="" element={<AppWrapperPage />}>
           <Route
             path=""
             element={
               <ProtectedRoute>
-                <NearInitializer />
-                <ZustandHydration />
                 <Outlet />
               </ProtectedRoute>
             }
           >
+            {/* Authenticated Routes */}
             <Route path="" element={<AppAuthenticatedPage />}>
               <Route path="" element={<DashboardWrapperPage />}>
                 <Route path="" element={<CollectionPage />}>
-                  
-                  <Route
-                    index
-                    element={<CustomNavigate replace to={"flows"} />}
-                  />
+                  <Route index element={<CustomNavigate replace to="flows" />} />
                   {ENABLE_FILE_MANAGEMENT && (
                     <Route path="files" element={<FilesPage />} />
                   )}
@@ -118,16 +97,13 @@ const router = createBrowserRouter(
                       element={<HomePage key="flows" type="flows" />}
                     />
                   </Route>
-                  <Route 
-                    path="donations" 
-                    element={<DonationsHome />} 
-                  />
+                  <Route path="donations" element={<DonationsHome />} />
                 </Route>
-                
+
                 <Route path="settings" element={<SettingsPage />}>
                   <Route
                     index
-                    element={<CustomNavigate replace to={"general"} />}
+                    element={<CustomNavigate replace to="general" />}
                   />
                   <Route
                     path="global-variables"
@@ -146,7 +122,7 @@ const router = createBrowserRouter(
                   <Route path="messages" element={<MessagesPage />} />
                   <Route path="store" element={<StoreApiKeyPage />} />
                 </Route>
-                
+
                 <Route
                   path="store"
                   element={
@@ -163,9 +139,9 @@ const router = createBrowserRouter(
                     </StoreGuard>
                   }
                 />
-                <Route path="account">
-                  <Route path="delete" element={<DeleteAccountPage />}></Route>
-                </Route>
+
+                <Route path="account/delete" element={<DeleteAccountPage />} />
+
                 <Route
                   path="admin"
                   element={
@@ -175,7 +151,7 @@ const router = createBrowserRouter(
                   }
                 />
               </Route>
-              
+
               <Route path="flow/:id/">
                 <Route path="" element={<DashboardWrapperPage />}>
                   <Route path="folder/:folderId/" element={<FlowPage />} />
@@ -185,6 +161,8 @@ const router = createBrowserRouter(
               </Route>
             </Route>
           </Route>
+
+          {/* Public Routes */}
           <Route
             path="login"
             element={
@@ -211,10 +189,15 @@ const router = createBrowserRouter(
           />
         </Route>
       </Route>
+
+      {/* Playground (also wrapped in RootLayout) */}
+      <Route path="playground/:id/" element={<PlaygroundPage />} />
+
+      {/* Fallback */}
       <Route path="*" element={<CustomNavigate replace to="/" />} />
     </Route>,
   ]),
-  { basename: BASENAME || undefined },
+  { basename: BASENAME || undefined }
 );
 
 export default router;

@@ -1,11 +1,15 @@
 import { utils } from "near-api-js";
 import { useState } from "react";
-import { useWalletSelector } from "@near-wallet-selector/react-hook";
+import { useWalletStore } from "@/stores/walletStore";
 import { DonationNearContract } from "@/config";
+import { useDonationStore } from "@/stores/donationStore";
+import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
 const DonationForm = ({ setMyDonation }) => {
-  const { callFunction } = useWalletSelector();
+  const walletAccount = useWalletStore(useShallow((state) => state.account));
+  const wallet = useWalletStore(useShallow((state) => state.wallet));
+  const { triggerRefresh } = useDonationStore();
   const [amount, setAmount] = useState<number>(0);
   
   const setDonation = async (amount) => {
@@ -16,9 +20,7 @@ const DonationForm = ({ setMyDonation }) => {
       const response = await axios.get(
         "https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd"
       );
-  
-      // Log the response to check structure
-      console.log("Raw data received:", response.data);
+
   
       // Validate the structure of the received data
       if (!response.data || !response.data["near"] || !response.data["near"]["usd"]) {
@@ -44,15 +46,29 @@ const DonationForm = ({ setMyDonation }) => {
   const handleSubmit = async (event) => {
     // event.preventDefault();
     let deposit = utils.format.parseNearAmount(amount.toString()) || "0";
-    let response = await callFunction({
-        contractId: DonationNearContract,
-        method: "donate",
-        deposit,
+    let response = await wallet?.signAndSendTransaction({
+        signerId: walletAccount?.accountId,
+        receiverId: DonationNearContract,
+        actions: [
+          {
+            type: "FunctionCall",
+            params: {
+              methodName: "donate",
+              args: {
+                account_id: walletAccount?.accountId,
+              },
+              gas: "30000000000000",
+              deposit: deposit,
+            },
+          },
+      ],
       })
     if(response) {
       setMyDonation(amount);
+      triggerRefresh();
     } else {
       setMyDonation(-Number(amount));
+
     }
   };
   

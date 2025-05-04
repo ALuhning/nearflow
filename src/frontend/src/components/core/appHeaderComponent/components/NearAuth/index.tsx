@@ -14,6 +14,7 @@ import { useSignAuthUrlMessage } from "./SignIn";
 import { usePostGlobalVariables } from "@/controllers/API/queries/variables/use-post-global-variables";
 import { usePatchGlobalVariables } from "@/controllers/API/queries/variables/use-patch-global-variables";
 import { useGetGlobalVariables } from "@/controllers/API/queries/variables";
+import { useSessionQuery } from "@/controllers/API/queries/auth/use-post-login-user-near";
 import Cookies from "js-cookie";
 
 export default function NearAuthIcon() {
@@ -29,6 +30,7 @@ export default function NearAuthIcon() {
   const { data: variables } = useGetGlobalVariables();
   const { mutateAsync: postGlobalVar } = usePostGlobalVariables();
   const { mutateAsync: patchGlobalVar } = usePatchGlobalVariables();
+  const { data: session } = useSessionQuery();
 
   const [walletConnected, setWalletConnected] = useState(false);
   const [readyToSign, setReadyToSign] = useState(false);
@@ -38,27 +40,16 @@ export default function NearAuthIcon() {
 
   const authUrl = createAuthUrl(MESSAGE, RECIPIENT, generateNonce());
 
-  // 1. Restore auth from cookie
   useEffect(() => {
-    const cookieMatch = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("auth="));
-    if (!cookieMatch) return;
-
-    try {
-      const encodedValue = decodeURIComponent(cookieMatch.split("=")[1]);
-      const decodedJson = atob(encodedValue);
-      const cookieObject = JSON.parse(decodedJson);
-      if (cookieObject?.account_id) {
-        setAuth({ accountId: cookieObject.account_id });
-        setHasNearAuth(true);
-      }
-    } catch (err) {
-      console.warn("Failed to restore auth from cookie:", err);
+    if (session?.accountId) {
+      setAuth({ accountId: session.accountId });
+      setHasNearAuth(true);
+    } else {
+      clearAuth();
+      setHasNearAuth(false);
     }
-  }, []);
+  }, [session]);
 
-  // 2. Wallet connection observer
   useEffect(() => {
     if (!selector) return;
     const unsubscribe = selector.store.observable.subscribe(({ accounts }) => {
@@ -67,13 +58,11 @@ export default function NearAuthIcon() {
     return () => unsubscribe.unsubscribe();
   }, [selector]);
 
-  // 3. Handle wallet modal open/close
   useEffect(() => {
     if (toggle) walletModal?.show();
     if (walletConnected) walletModal?.hide();
   }, [toggle, walletModal]);
 
-  // 4. Sign + Upsert when explicitly triggered
   useEffect(() => {
     if (!readyToSign || !walletConnected) return;
     (async () => {
@@ -83,13 +72,10 @@ export default function NearAuthIcon() {
         setAuth({ accountId });
         setHasNearAuth(true);
 
-        // Cookie should now be present
-        const cookieMatch = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("auth="));
-        if (!cookieMatch) return;
-        const encodedValue = decodeURIComponent(cookieMatch.split("=")[1]);
-        const decodedJson = atob(encodedValue);
+        const cookie = Cookies.get("auth");
+        if (!cookie) return;
+
+        const decodedJson = atob(decodeURIComponent(cookie));
         const cookieObject = JSON.parse(decodedJson);
         const upsertValue = JSON.stringify({ auth: cookieObject });
 
@@ -119,21 +105,19 @@ export default function NearAuthIcon() {
     })();
   }, [readyToSign]);
 
-  // 5. Always run cookie -> upsert logic on re-mount/redirect
   useEffect(() => {
-    const cookieMatch = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("auth="));
-    if (!cookieMatch || !variables) return;
+    const cookie = Cookies.get("auth");
+    if (!cookie || !variables || variables.length === 0) return;
+
+    const existing = variables.find((v) => v.name === "NEARAI");
+    if (existing) return; // Skip post if NEARAI already exists
 
     try {
-      const encodedValue = decodeURIComponent(cookieMatch.split("=")[1]);
-      const decodedJson = atob(encodedValue);
+      const decodedJson = atob(decodeURIComponent(cookie));
       const cookieObject = JSON.parse(decodedJson);
       const upsertValue = JSON.stringify({ auth: cookieObject });
 
       const existing = variables.find((v) => v.name === "NEARAI");
-
       if (existing) {
         patchGlobalVar({
           id: existing.id,
@@ -154,7 +138,6 @@ export default function NearAuthIcon() {
     }
   }, [variables]);
 
-  // 6. Sign out handler
   useEffect(() => {
     if (
       !toggle ||
@@ -209,7 +192,7 @@ export default function NearAuthIcon() {
           pending
             ? "text-yellow-400 animate-pulse"
             : status
-            ? "text-green-500"
+            ? "text-green-500" + (type === "top" && !hasNearAuth && walletConnected ? " animate-pulse" : "")
             : "text-red-500"
         }`}
         fill="currentColor"

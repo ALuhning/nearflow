@@ -167,6 +167,25 @@ export default function AppHeader(): JSX.Element {
                 <span className="hidden whitespace-nowrap">Store</span>
               </Button>
             </ShadTooltip>
+            <ShadTooltip
+              content="Support VitalPoint"
+              side="bottom"
+              styleClasses="z-10"
+            >
+              <Button
+                variant="ghost"
+                className={` ${lastPath === "donations" ? "bg-accent text-accent-foreground" : ""} z-50`}
+                onClick={() => navigate("/donations")}
+                data-testid="button-donations"
+              >
+                <ForwardedIconComponent
+                  name="HeartHandshake"
+                  className="side-bar-button-size h-[18px] w-[18px]"
+                />
+                <span className="hidden whitespace-nowrap">Support</span>
+              </Button>
+            </ShadTooltip>
+
             <Separator
               orientation="vertical"
               className="my-auto h-7 dark:border-zinc-700"
