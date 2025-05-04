@@ -68,6 +68,13 @@ jobs:
           TF_VAR_PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
           TF_VAR_PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
           TF_VAR_PROD_SSH_PUB_KEY: ${{ secrets.PROD_SSH_PUB_KEY }}
+          TF_VAR_LANGFLOW_ACCESS_HTTPONLY: ${{ secrets.LANGFLOW_ACCESS_HTTPONLY }}
+          TF_VAR_LANGFLOW_ACCESS_SAME_SITE: ${{ secrets.LANGFLOW_ACCESS_SAME_SITE }}
+          TF_VAR_LANGFLOW_ACCESS_SECURE: ${{ secrets.LANGFLOW_ACCESS_SECURE }}
+          TF_VAR_LANGFLOW_REFRESH_HTTPONLY: ${{ secrets.LANGFLOW_REFRESH_HTTPONLY }}
+          TF_VAR_LANGFLOW_REFRESH_SAME_SITE: ${{ secrets.LANGFLOW_REFRESH_SAME_SITE }}
+          TF_VAR_LANGFLOW_REFRESH_SECURE: ${{ secrets.LANGFLOW_REFRESH_SECURE }}
+          TF_VAR_LANGFLOW_COOKIE_DOMAIN: ${{ secrets.LANGFLOW_COOKIE_DOMAIN }}
 
   build-and-deploy:
     name: Build and Deploy Docker Image
@@ -108,7 +115,14 @@ jobs:
           echo "LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}" >> nearflow.env
           echo "GHCR_PAT=${{ secrets.GHCR_PAT }}" >> nearflow.env
           echo "ENV"=${{ secrets.ENV }} >> nearflow.env
-
+          echo "LANGFLOW_ACCESS_HTTPONLY"=${{ secrets.LANGFLOW_ACCESS_HTTPONLY }}" >> nearflow.env
+          echo "LANGFLOW_ACCESS_SAME_SITE"=${{ secrets.LANGFLOW_ACCESS_SAME_SITE }}" >> nearflow.env
+          echo "LANGFLOW_ACCESS_SECURE"=${{ secrets.LANGFLOW_ACCESS_SECURE }}" >> nearflow.env
+          echo "LANGFLOW_REFRESH_HTTPONLY"=${{ secrets.LANGFLOW_REFRESH_HTTPONLY }}" >> nearflow.env
+          echo "LANGFLOW_REFRESH_SAME_SITE"=${{ secrets.LANGFLOW_REFRESH_SAME_SITE }}" >> nearflow.env
+          echo "LANGFLOW_REFRESH_SECURE"=${{ secrets.LANGFLOW_REFRESH_SECURE }}" >> nearflow.env
+          echo "LANGFLOW_COOKIE_DOMAIN"=${{ secrets.LANGFLOW_COOKIE_DOMAIN }}" >> nearflow.env
+        
       - name: Print .env contents (DEBUG ONLY – remove in production)
         run: cat nearflow.env | grep POSTGRES
 
