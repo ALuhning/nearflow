@@ -115,13 +115,13 @@ jobs:
           echo "LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}" >> nearflow.env
           echo "GHCR_PAT=${{ secrets.GHCR_PAT }}" >> nearflow.env
           echo "ENV"=${{ secrets.ENV }} >> nearflow.env
-          echo "LANGFLOW_ACCESS_HTTPONLY"=${{ secrets.LANGFLOW_ACCESS_HTTPONLY }}" >> nearflow.env
-          echo "LANGFLOW_ACCESS_SAME_SITE"=${{ secrets.LANGFLOW_ACCESS_SAME_SITE }}" >> nearflow.env
-          echo "LANGFLOW_ACCESS_SECURE"=${{ secrets.LANGFLOW_ACCESS_SECURE }}" >> nearflow.env
-          echo "LANGFLOW_REFRESH_HTTPONLY"=${{ secrets.LANGFLOW_REFRESH_HTTPONLY }}" >> nearflow.env
-          echo "LANGFLOW_REFRESH_SAME_SITE"=${{ secrets.LANGFLOW_REFRESH_SAME_SITE }}" >> nearflow.env
-          echo "LANGFLOW_REFRESH_SECURE"=${{ secrets.LANGFLOW_REFRESH_SECURE }}" >> nearflow.env
-          echo "LANGFLOW_COOKIE_DOMAIN"=${{ secrets.LANGFLOW_COOKIE_DOMAIN }}" >> nearflow.env
+          echo "LANGFLOW_ACCESS_HTTPONLY=${{ secrets.LANGFLOW_ACCESS_HTTPONLY }}" >> nearflow.env
+          echo "LANGFLOW_ACCESS_SAME_SITE=${{ secrets.LANGFLOW_ACCESS_SAME_SITE }}" >> nearflow.env
+          echo "LANGFLOW_ACCESS_SECURE=${{ secrets.LANGFLOW_ACCESS_SECURE }}" >> nearflow.env
+          echo "LANGFLOW_REFRESH_HTTPONLY=${{ secrets.LANGFLOW_REFRESH_HTTPONLY }}" >> nearflow.env
+          echo "LANGFLOW_REFRESH_SAME_SITE=${{ secrets.LANGFLOW_REFRESH_SAME_SITE }}" >> nearflow.env
+          echo "LANGFLOW_REFRESH_SECURE=${{ secrets.LANGFLOW_REFRESH_SECURE }}" >> nearflow.env
+          echo "LANGFLOW_COOKIE_DOMAIN=${{ secrets.LANGFLOW_COOKIE_DOMAIN }}" >> nearflow.env
         
       - name: Print .env contents (DEBUG ONLY – remove in production)
         run: cat nearflow.env | grep POSTGRES
