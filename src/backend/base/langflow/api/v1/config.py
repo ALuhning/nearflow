@@ -1,7 +1,7 @@
 import os
 
 class Settings:
-    ENV: str = os.getenv("ENV", "local")  # "development" or "production"
+    ENV: str = os.getenv("ENV", "production")  # "development" or "production"
 
     # Cookie settings
     COOKIE_SECURE: bool = ENV == "production"

@@ -3,20 +3,13 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.exceptions import RequestValidationError
 import base64
-import urllib.parse
 from urllib.parse import quote, unquote
-import uuid
 import json
 from .config import settings
 from fastapi import HTTPException
 
 # Constants
 AUTH_COOKIE_NAME = "auth"
-AUTH_COOKIE_DELETE = f"{AUTH_COOKIE_NAME}=deleted; Path=/; Max-Age=0"
-AUTH_NEAR_URL = "https://auth.near.ai"
-FRONTEND_APP_URL = "http://localhost:3000"  # or your deployed frontend
-MESSAGE = "Welcome to NEAR AI Hub!"
-RECIPIENT = "ai.near"
 
 # FastAPI router
 router = APIRouter(tags=["Auth"])
@@ -90,24 +83,6 @@ async def get_session(request: Request):
         "publicKey": auth["authorization"],
         "signature": auth["signature"],
     }
-
-
-@router.get("/auth/start-auth")
-async def start_auth():
-    nonce = str(uuid.uuid4()).replace("-", "")
-    callback_url = "http://localhost:3000/api/v1/auth/sign-message"  # this FastAPI server
-
-    params = {
-        "message": MESSAGE,
-        "recipient": RECIPIENT,
-        "nonce": nonce,
-        "callbackUrl": callback_url,
-    }
-
-    url = f"{AUTH_NEAR_URL}/?{urllib.parse.urlencode(params)}"
-
-    # You could store nonce in session/db for extra verification later
-    return RedirectResponse(url=url)
 
 # Custom error handler for validation (mimics ZodError flattening)
 def include_custom_handlers(app):
