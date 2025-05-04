@@ -1,6 +1,7 @@
+import { JSX } from "react";
 import AlertDropdown from "@/alerts/alertDropDown";
 import DataStaxLogo from "@/assets/DataStaxLogo.svg?react";
-import LangflowLogo from "@/assets/vitalpoint.svg";
+import LangflowLogo from "@/assets/vitalpoint.svg?react";
 import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { Button } from "@/components/ui/button";
@@ -24,8 +25,9 @@ export default function AppHeader(): JSX.Element {
   const navigate = useCustomNavigate();
   const [activeState, setActiveState] = useState<"notifications" | null>(null);
   const lastPath = window.location.pathname.split("/").filter(Boolean).pop();
-  const notificationRef = useRef<HTMLButtonElement | null>(null);
-  const notificationContentRef = useRef<HTMLDivElement | null>(null);
+  const notificationRef = useRef<HTMLDivElement>(null!);
+  const notificationContentRef = useRef<HTMLDivElement>(null!);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   
   useTheme();
 
@@ -117,7 +119,7 @@ export default function AppHeader(): JSX.Element {
           >
             <AlertDropdown onClose={() => setActiveState(null)}>
               <Button
-                ref={notificationRef}
+                ref={buttonRef}
                 variant="ghost"
                 className={`relative ${activeState === "notifications" ? "bg-accent text-accent-foreground" : ""}`}
                 onClick={() =>

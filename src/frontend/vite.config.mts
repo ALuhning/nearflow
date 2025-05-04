@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 
 import * as dotenv from "dotenv";
 import tsconfigPaths from "vite-tsconfig-paths";
+import svgr from "vite-plugin-svgr";
 import { API_ROUTES, BASENAME, PORT, PROXY_TARGET } from "./src/customization/config-constants";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -64,6 +65,14 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      svgr({
+        svgrOptions: {
+          // Enable title prop and other props like ref
+          icon: true,
+          expandProps: "end",
+          titleProp: true,
+        },
+      }),
       tsconfigPaths(),
     ],
     optimizeDeps: {

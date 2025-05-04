@@ -1,6 +1,5 @@
+import { JSX } from "react";
 import ThemeButtons from "@/components/core/appHeaderComponent/components/ThemeButtons";
-import { EventDeliveryType } from "@/constants/enums";
-import { useGetConfig } from "@/controllers/API/queries/config/use-get-config";
 import {
   useDeleteMessages,
   useGetMessagesQuery,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import NearIcon from "@/assets/near-icon.svg";
+import NearIcon from "@/assets/near-icon.svg?react";
 import {
   returnUrlToRestoreAfterSignIn,
   generateNonce,
