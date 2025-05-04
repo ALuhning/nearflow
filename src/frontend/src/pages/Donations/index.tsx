@@ -48,7 +48,7 @@ export default function DonationsHome() {
             <div className="flex flex-col items-center">
               <DonationProgress progress={progress} />
               <p className="mt-2 text-sm text-green-700 dark:text-green-400 text-center">
-                🎯 Raised: Ⓝ{totalRaised.toFixed(2)} / Ⓝ{monthlyGoal}
+                🎯 Ⓝ{totalRaised.toFixed(2)} raised to power Nearflow's growth growth — help us reach Ⓝ{monthlyGoal}!
               </p>
             </div>
           </div>

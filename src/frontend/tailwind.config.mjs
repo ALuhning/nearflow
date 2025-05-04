@@ -51,6 +51,10 @@ const config = {
           from: { opacity: 1 },
           to: { opacity: 0 },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-4px)" },
+        },
 
         // Content animations - now including both scale and clip in one animation
         contentShow: {
@@ -102,6 +106,7 @@ const config = {
         wiggle: "wiggle 150ms ease-in-out 1",
         "slow-wiggle": "wiggle 500ms ease-in-out 1",
         "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
+        float: "float 3s ease-in-out infinite",
       },
       colors: {
         "frozen-blue": "rgba(128, 190, 219, 0.86)", // Custom blue color for the frozen effect
