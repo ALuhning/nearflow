@@ -79,9 +79,14 @@ async def sign_message_auth(input_data: SignedMessageInput, response: Response):
 async def get_session(request: Request):
     auth = parse_auth_cookie(request)
     if auth["error"]:
-        raise HTTPException(status_code=401, detail="No session")
+        # Gracefully return empty session instead of 401
+        return {
+            "accountId": None,
+            "publicKey": None,
+            "signature": None,
+        }
     return {
-        "accountId": "unknown",
+        "accountId": "unknown",  # or derive it if available
         "publicKey": auth["authorization"],
         "signature": auth["signature"],
     }
