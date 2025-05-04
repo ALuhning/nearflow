@@ -5,7 +5,7 @@ export default function FloatingDonationBox() {
   const location = useLocation();
 
   // Don't show on donations page
-  if (location.pathname.startsWith("/donations")) {
+  if (location.pathname.startsWith("/donations") || location.pathname.startsWith("/login")) {
     return null;
   }
 
