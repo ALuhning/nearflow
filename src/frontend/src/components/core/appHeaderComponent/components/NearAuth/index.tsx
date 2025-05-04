@@ -38,6 +38,7 @@ export default function NearAuthIcon() {
 
   const authUrl = createAuthUrl(MESSAGE, RECIPIENT, generateNonce());
 
+  // 1. Restore auth from cookie
   useEffect(() => {
     const cookieMatch = document.cookie
       .split("; ")
@@ -57,6 +58,7 @@ export default function NearAuthIcon() {
     }
   }, []);
 
+  // 2. Wallet connection observer
   useEffect(() => {
     if (!selector) return;
     const unsubscribe = selector.store.observable.subscribe(({ accounts }) => {
@@ -65,21 +67,23 @@ export default function NearAuthIcon() {
     return () => unsubscribe.unsubscribe();
   }, [selector]);
 
+  // 3. Handle wallet modal open/close
   useEffect(() => {
     if (toggle) walletModal?.show();
     if (walletConnected) walletModal?.hide();
   }, [toggle, walletModal]);
 
+  // 4. Sign + Upsert when explicitly triggered
   useEffect(() => {
     if (!readyToSign || !walletConnected) return;
     (async () => {
       try {
-        const response = await signFromAuthUrl(authUrl);
+        await signFromAuthUrl(authUrl);
         const accountId = walletAccount?.accountId ?? "";
         setAuth({ accountId });
         setHasNearAuth(true);
-        navigate(returnUrlToRestoreAfterSignIn());
 
+        // Cookie should now be present
         const cookieMatch = document.cookie
           .split("; ")
           .find((row) => row.startsWith("auth="));
@@ -88,8 +92,8 @@ export default function NearAuthIcon() {
         const decodedJson = atob(encodedValue);
         const cookieObject = JSON.parse(decodedJson);
         const upsertValue = JSON.stringify({ auth: cookieObject });
-        const existing = variables?.find((v) => v.name === "NEARAI");
 
+        const existing = variables?.find((v) => v.name === "NEARAI");
         if (existing) {
           await patchGlobalVar({
             id: existing.id,
@@ -105,6 +109,8 @@ export default function NearAuthIcon() {
             default_fields: ["Near Credentials"],
           });
         }
+
+        navigate(returnUrlToRestoreAfterSignIn());
       } catch (err) {
         console.error("Sign message or upsert failed:", err);
       } finally {
@@ -113,6 +119,42 @@ export default function NearAuthIcon() {
     })();
   }, [readyToSign]);
 
+  // 5. Always run cookie -> upsert logic on re-mount/redirect
+  useEffect(() => {
+    const cookieMatch = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("auth="));
+    if (!cookieMatch || !variables) return;
+
+    try {
+      const encodedValue = decodeURIComponent(cookieMatch.split("=")[1]);
+      const decodedJson = atob(encodedValue);
+      const cookieObject = JSON.parse(decodedJson);
+      const upsertValue = JSON.stringify({ auth: cookieObject });
+
+      const existing = variables.find((v) => v.name === "NEARAI");
+
+      if (existing) {
+        patchGlobalVar({
+          id: existing.id,
+          name: "NEARAI",
+          value: upsertValue,
+          default_fields: existing.default_fields ?? ["Near Credentials"],
+        });
+      } else {
+        postGlobalVar({
+          name: "NEARAI",
+          value: upsertValue,
+          type: "Credential",
+          default_fields: ["Near Credentials"],
+        });
+      }
+    } catch (err) {
+      console.warn("Failed NEARAI variable upsert from cookie:", err);
+    }
+  }, [variables]);
+
+  // 6. Sign out handler
   useEffect(() => {
     if (
       !toggle ||
@@ -137,8 +179,6 @@ export default function NearAuthIcon() {
   }, [toggle, walletAccount, auth]);
 
   const handleClick = () => setToggle((t) => !t);
-
-  const showSignButton = walletConnected && !auth?.accountId;
 
   const Icon = ({
     status,
@@ -179,7 +219,7 @@ export default function NearAuthIcon() {
           fillRule="evenodd"
           d={
             pending
-              ? "M10 2a8 8 0 100 16 8 8 0 000-16zm1 4H9v5h4v-2h-3V6z" // clock icon
+              ? "M10 2a8 8 0 100 16 8 8 0 000-16zm1 4H9v5h4v-2h-3V6z"
               : status
               ? "M16.293 5.293a1 1 0 0 0-1.414 0L8 11.586 5.121 8.707a1 1 0 0 0-1.414 1.414l3.535 3.535a1 1 0 0 0 1.414 0l8-8a1 1 0 0 0 0-1.414z"
               : "M10 8.586l4.95-4.95a1 1 0 0 1 1.414 1.414L11.414 10l4.95 4.95a1 1 0 0 1-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 0 1-1.414-1.414L8.586 10l-4.95-4.95a1 1 0 1 1 1.414-1.414L10 8.586z"
@@ -189,9 +229,6 @@ export default function NearAuthIcon() {
       </svg>
     </div>
   );
-  
-  
-  
 
   return (
     <div className="navbar-nav pt-1">
@@ -201,7 +238,7 @@ export default function NearAuthIcon() {
       >
         <div className="relative h-7 w-7">
           <NearIcon className="h-full w-full shrink-0 focus-visible:outline-0" />
-  
+
           <Icon
             status={hasNearAuth}
             type="top"
@@ -213,13 +250,10 @@ export default function NearAuthIcon() {
                 setHasNearAuth(false);
                 return;
               }
-            
               if (!walletConnected) {
-                walletModal?.show();           
+                walletModal?.show();
                 return;
               }
-            
-              // Wallet already connected — proceed to NEARAI sign-in
               setReadyToSign(true);
             }}
             setHovered={setHovered}
@@ -240,7 +274,7 @@ export default function NearAuthIcon() {
             }}
             setHovered={setHovered}
           />
-  
+
           {hovered && (
             <div className="absolute left-1/2 -bottom-7 -translate-x-1/2 animate-fade-in-up z-50">
               <span className="rounded bg-gray-800 px-2 py-1 text-xs text-white shadow-md whitespace-nowrap">
@@ -249,8 +283,8 @@ export default function NearAuthIcon() {
                     ? "NEARAI Connected (Click to Disconnect)"
                     : "NEARAI Not Connected (Click to Connect)"
                   : walletConnected
-                    ? "Wallet Connected (Click to Sign Out)"
-                    : "Wallet Not Connected (Click to Connect)"}
+                  ? "Wallet Connected (Click to Sign Out)"
+                  : "Wallet Not Connected (Click to Connect)"}
               </span>
             </div>
           )}
@@ -258,5 +292,4 @@ export default function NearAuthIcon() {
       </button>
     </div>
   );
-  
 }
