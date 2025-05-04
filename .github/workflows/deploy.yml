@@ -127,6 +127,9 @@ jobs:
       - name: Authenticate with GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ALuhning --password-stdin
 
+      - name: Prune Docker system before build
+        run: docker system prune -f
+        
       - name: Build Docker image
         run: docker build -f docker/build_and_push.Dockerfile -t ghcr.io/aluhning/nearflow:latest .
 
