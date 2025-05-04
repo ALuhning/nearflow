@@ -6,6 +6,7 @@ import base64
 from urllib.parse import quote, unquote
 import json
 from langflow.services.deps import get_settings_service
+import os
 
 # Constants
 AUTH_COOKIE_NAME = "auth"
@@ -57,14 +58,17 @@ async def sign_message_auth(input_data: SignedMessageInput, response: Response):
     encoded_cookie = quote(
         base64.b64encode(json.dumps(cookie_dict).encode("utf-8")).decode("utf-8")
     )
+
+    LANGFLOW_ENV = os.getenv("LANGFLOW_ENV", "development").lower()
+
     response.set_cookie(
         key=AUTH_COOKIE_NAME,
         value=encoded_cookie,
-        httponly=auth_settings.ACCESS_HTTPONLY,
-        samesite=auth_settings.ACCESS_SAME_SITE,
-        secure=auth_settings.ACCESS_SECURE,
+        httponly=True,
+        samesite="None" if LANGFLOW_ENV == "production" else "Lax",
+        secure=LANGFLOW_ENV == "production",
         expires=None,
-        domain=auth_settings.COOKIE_DOMAIN,
+        domain="vitalpoint.ai" if LANGFLOW_ENV == "production" else None,
     )
 
     return {"ok": True, "accountId": input_data.accountId}
