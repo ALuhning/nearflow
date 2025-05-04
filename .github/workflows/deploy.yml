@@ -129,7 +129,7 @@ jobs:
 
       - name: Prune Docker system before build
         run: docker system prune -f
-        
+
       - name: Build Docker image
         run: docker build -f docker/build_and_push.Dockerfile -t ghcr.io/aluhning/nearflow:latest .
 
@@ -147,6 +147,9 @@ jobs:
 
             echo "=== Move .env into place ==="
             sudo mv -f /tmp/nearflow_env_upload.env /opt/nearflow/.env
+
+            echo "=== Clean up Docker on EC2 ==="
+            docker system prune -f
 
             cd /opt/nearflow
             git checkout near-model
