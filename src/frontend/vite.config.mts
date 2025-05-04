@@ -40,11 +40,6 @@ export default defineConfig(({ mode }) => {
     base: BASENAME || "",
     build: {
       outDir: "build",
-      rollupOptions: {
-        external: [
-          'react/jsx-runtime',
-        ],
-      },
     },
     resolve: {
       alias: {
