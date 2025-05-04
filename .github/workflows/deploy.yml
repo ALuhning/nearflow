@@ -63,6 +63,7 @@ jobs:
           TF_VAR_LANGFLOW_STORE_ENVIRONMENT_VARIABLES: ${{ secrets.LANGFLOW_STORE_ENVIRONMENT_VARIABLES }}
           TF_VAR_LANGFLOW_WORKERS: ${{ secrets.LANGFLOW_WORKERS }}
           TF_VAR_LANGFLOW_HOST: ${{ secrets.LANGFLOW_HOST }}
+          TF_VAR_ENV: ${{ secrets.ENV }}
           TF_VAR_GHCR_PAT: ${{ secrets.GHCR_PAT }}
           TF_VAR_PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
           TF_VAR_PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
@@ -106,6 +107,7 @@ jobs:
           echo "LANGFLOW_WORKERS=${{ secrets.LANGFLOW_WORKERS }}" >> nearflow.env
           echo "LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}" >> nearflow.env
           echo "GHCR_PAT=${{ secrets.GHCR_PAT }}" >> nearflow.env
+          echo "ENV"=${{ secrets.ENV }} >> nearflow.env
 
       - name: Print .env contents (DEBUG ONLY – remove in production)
         run: cat nearflow.env | grep POSTGRES
