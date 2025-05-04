@@ -2,9 +2,7 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 
 import * as dotenv from "dotenv";
-import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
-import polyfillNode from 'rollup-plugin-polyfill-node';
 import { API_ROUTES, BASENAME, PORT, PROXY_TARGET } from "./src/customization/config-constants";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -42,6 +40,11 @@ export default defineConfig(({ mode }) => {
     base: BASENAME || "",
     build: {
       outDir: "build",
+      rollupOptions: {
+        external: [
+          'react/jsx-runtime',
+        ],
+      },
     },
     resolve: {
       alias: {
@@ -66,9 +69,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      svgr(), 
       tsconfigPaths(),
-      polyfillNode()
     ],
     optimizeDeps: {
       esbuildOptions: {
