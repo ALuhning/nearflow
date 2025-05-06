@@ -136,7 +136,7 @@ async def download_profile_picture(
         extension = file_name.split(".")[-1]
         config_dir = storage_service.settings_service.settings.config_dir
         # Check if the environment is local and config_dir contains '~'
-        if "LOCAL" in os.environ.get("ENV", "") and "~" in config_dir:
+        if "development" in os.environ.get("LANGFLOW_ENV", "") and "~" in config_dir:
             # First, expand the '~' in the config_dir to the home directory
             config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
 
@@ -183,7 +183,7 @@ async def list_profile_pictures():
         config_dir = storage_service.settings_service.settings.config_dir
 
         # Check if the environment is local and config_dir contains '~'
-        if "LOCAL" in os.environ.get("ENV", "") and "~" in config_dir:
+        if "development" in os.environ.get("LANGFLOW_ENV", "") and "~" in config_dir:
             # First, expand the '~' in the config_dir to the home directory
             config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
 

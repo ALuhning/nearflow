@@ -67,6 +67,7 @@ jobs:
           TF_VAR_PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
           TF_VAR_PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
           TF_VAR_PROD_SSH_PUB_KEY: ${{ secrets.PROD_SSH_PUB_KEY }}
+          TF_VAR_LANGFLOW_DOMAIN: ${{ secrets.LANGFLOW_DOMAIN }}
         
   build-and-deploy:
     name: Build and Deploy Docker Image
@@ -106,6 +107,7 @@ jobs:
           echo "LANGFLOW_WORKERS=${{ secrets.LANGFLOW_WORKERS }}" >> nearflow.env
           echo "LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}" >> nearflow.env
           echo "GHCR_PAT=${{ secrets.GHCR_PAT }}" >> nearflow.env
+          echo "LANGFLOW_DOMAIN=${{ secrets.LANGFLOW_DOMAIN }}" >> nearflow.env
         
       - name: Print .env contents (DEBUG ONLY – remove in production)
         run: cat nearflow.env | grep POSTGRES

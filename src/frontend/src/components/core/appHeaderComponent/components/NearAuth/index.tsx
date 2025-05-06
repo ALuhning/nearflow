@@ -6,16 +6,19 @@ import {
   generateNonce,
   createAuthUrl,
 } from "@/utils/auth";
+import { useQueryClient } from "@tanstack/react-query";
 import { config } from "@/config";
-import { useNearAuthStore } from "@/stores/nearAuthStore";
 import { useWalletStore } from "@/stores/walletStore";
 import { useShallow } from "zustand/react/shallow";
 import { useSignAuthUrlMessage } from "./SignIn";
 import { usePostGlobalVariables } from "@/controllers/API/queries/variables/use-post-global-variables";
 import { usePatchGlobalVariables } from "@/controllers/API/queries/variables/use-patch-global-variables";
 import { useGetGlobalVariables } from "@/controllers/API/queries/variables";
-import { useSessionQuery } from "@/controllers/API/queries/auth/use-post-login-user-near";
-import Cookies from "js-cookie";
+import {
+  useSessionQuery,
+  useSignOutMutation,
+} from "@/controllers/API/queries/auth/use-post-login-user-near";
+import { useDeleteGlobalVariables } from "@/controllers/API/queries/variables";
 
 export default function NearAuthIcon() {
   const { MESSAGE, RECIPIENT } = config;
@@ -24,13 +27,15 @@ export default function NearAuthIcon() {
   const walletAccount = useWalletStore(useShallow((s) => s.account));
   const wallet = useWalletStore(useShallow((state) => state.wallet));
   const walletModal = useWalletStore(useShallow((state) => state.modal));
-  const { auth, setAuth, clearAuth } = useNearAuthStore();
+  const queryClient = useQueryClient();
 
   const { signFromAuthUrl } = useSignAuthUrlMessage();
   const { data: variables } = useGetGlobalVariables();
   const { mutateAsync: postGlobalVar } = usePostGlobalVariables();
   const { mutateAsync: patchGlobalVar } = usePatchGlobalVariables();
-  const { data: session } = useSessionQuery();
+  const { mutateAsync: signOutNearAuth } = useSignOutMutation();
+  const { mutateAsync: deleteGlobalVar } = useDeleteGlobalVariables();
+  const { data: session, refetch: refetchSession } = useSessionQuery();
 
   const [walletConnected, setWalletConnected] = useState(false);
   const [readyToSign, setReadyToSign] = useState(false);
@@ -40,14 +45,62 @@ export default function NearAuthIcon() {
 
   const authUrl = createAuthUrl(MESSAGE, RECIPIENT, generateNonce());
 
-  useEffect(() => {
-    if (session?.accountId) {
-      setAuth({ accountId: session.accountId });
-      setHasNearAuth(true);
+  const tryUpsertGlobalVar = async (cookieObject: any) => {
+    const upsertValue = JSON.stringify({ auth: cookieObject });
+    const existing = variables?.find((v) => v.name === "NEARAI");
+    if (existing) {
+      await patchGlobalVar({
+        id: existing.id,
+        name: "NEARAI",
+        value: upsertValue,
+        default_fields: existing.default_fields ?? ["Near Credentials"],
+      });
     } else {
-      clearAuth();
-      setHasNearAuth(false);
+      await postGlobalVar({
+        name: "NEARAI",
+        value: upsertValue,
+        type: "Credential",
+        default_fields: ["Near Credentials"],
+      });
     }
+    queryClient.invalidateQueries({ queryKey: ["variables"] as const });
+    return true
+  };
+
+  // Debounced session effect to prevent premature variable creation
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!session) return;
+
+      const hasAuthFields =
+        session.account_id &&
+        session.signature &&
+        session.public_key &&
+        session.message &&
+        session.nonce &&
+        session.recipient;
+
+      if (hasAuthFields) {
+        setHasNearAuth(true);
+        const cookieObject = {
+          account_id: session.account_id,
+          signature: session.signature,
+          public_key: session.public_key,
+          message: session.message,
+          nonce: session.nonce,
+          recipient: session.recipient,
+          callback_url: session.callback_url,
+          on_behalf_of: session.on_behalf_of,
+        };
+        tryUpsertGlobalVar(cookieObject);
+        queryClient.invalidateQueries({ queryKey: ["variables"] as const });
+      } else {
+        setHasNearAuth(false);
+        queryClient.invalidateQueries({ queryKey: ["variables"] as const });
+      }
+    }, 150); // debounce duration
+
+    return () => clearTimeout(timeout);
   }, [session]);
 
   useEffect(() => {
@@ -64,102 +117,61 @@ export default function NearAuthIcon() {
   }, [toggle, walletModal]);
 
   useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["variables"] as const });
     if (!readyToSign || !walletConnected) return;
     (async () => {
       try {
         await signFromAuthUrl(authUrl);
-        const accountId = walletAccount?.accountId ?? "";
-        setAuth({ accountId });
-        setHasNearAuth(true);
-
-        const cookie = Cookies.get("auth");
-        if (!cookie) return;
-
-        const decodedJson = atob(decodeURIComponent(cookie));
-        const cookieObject = JSON.parse(decodedJson);
-        const upsertValue = JSON.stringify({ auth: cookieObject });
-
+        if(session){
+        const cookieObject = {
+          account_id: session.account_id,
+          signature: session.signature,
+          public_key: session.public_key,
+          message: session.message,
+          nonce: session.nonce,
+          recipient: session.recipient,
+          callback_url: session.callback_url,
+          on_behalf_of: session.on_behalf_of,
+        };
+      
+        const success = await tryUpsertGlobalVar(cookieObject);
+          if (success) {
+            setHasNearAuth(true);
+            queryClient.invalidateQueries({ queryKey: ["variables"] as const });
+          }
+        }
+        
+      } catch {
+        setHasNearAuth(false);
         const existing = variables?.find((v) => v.name === "NEARAI");
         if (existing) {
-          await patchGlobalVar({
-            id: existing.id,
-            name: "NEARAI",
-            value: upsertValue,
-            default_fields: existing.default_fields ?? ["Near Credentials"],
-          });
-        } else {
-          await postGlobalVar({
-            name: "NEARAI",
-            value: upsertValue,
-            type: "Credential",
-            default_fields: ["Near Credentials"],
-          });
+          await deleteGlobalVar({ id: existing.id });
+          queryClient.invalidateQueries({ queryKey: ["variables"] as const });
         }
-
-        navigate(returnUrlToRestoreAfterSignIn());
-      } catch (err) {
-        console.error("Sign message or upsert failed:", err);
       } finally {
         setReadyToSign(false);
       }
     })();
-  }, [readyToSign]);
+  }, [readyToSign, session]);
 
   useEffect(() => {
-    const cookie = Cookies.get("auth");
-    if (!cookie || !variables || variables.length === 0) return;
-
-    const existing = variables.find((v) => v.name === "NEARAI");
-    if (existing) return; // Skip post if NEARAI already exists
-
-    try {
-      const decodedJson = atob(decodeURIComponent(cookie));
-      const cookieObject = JSON.parse(decodedJson);
-      const upsertValue = JSON.stringify({ auth: cookieObject });
-
-      const existing = variables.find((v) => v.name === "NEARAI");
-      if (existing) {
-        patchGlobalVar({
-          id: existing.id,
-          name: "NEARAI",
-          value: upsertValue,
-          default_fields: existing.default_fields ?? ["Near Credentials"],
-        });
-      } else {
-        postGlobalVar({
-          name: "NEARAI",
-          value: upsertValue,
-          type: "Credential",
-          default_fields: ["Near Credentials"],
-        });
-      }
-    } catch (err) {
-      console.warn("Failed NEARAI variable upsert from cookie:", err);
-    }
-  }, [variables]);
-
-  useEffect(() => {
-    if (
-      !toggle ||
-      !walletAccount ||
-      !auth?.accountId ||
-      walletAccount.accountId !== auth.accountId
-    )
-      return;
+    if (!toggle || !walletAccount) return;
     (async () => {
       try {
         await wallet?.signOut();
-        clearAuth();
         setWalletConnected(false);
         setHasNearAuth(false);
+        const existing = variables?.find((v) => v.name === "NEARAI");
+        if (existing) {
+          await deleteGlobalVar({ id: existing.id });
+          queryClient.invalidateQueries({ queryKey: ["variables"] as const });
+        }
         navigate(returnUrlToRestoreAfterSignIn());
-      } catch (err) {
-        console.error("Sign out failed:", err);
       } finally {
         setToggle(false);
       }
     })();
-  }, [toggle, walletAccount, auth]);
+  }, [toggle, walletAccount]);
 
   const handleClick = () => setToggle((t) => !t);
 
@@ -192,7 +204,10 @@ export default function NearAuthIcon() {
           pending
             ? "text-yellow-400 animate-pulse"
             : status
-            ? "text-green-500" + (type === "top" && !hasNearAuth && walletConnected ? " animate-pulse" : "")
+            ? "text-green-500" +
+              (type === "top" && !hasNearAuth && walletConnected
+                ? " animate-pulse"
+                : "")
             : "text-red-500"
         }`}
         fill="currentColor"
@@ -221,23 +236,26 @@ export default function NearAuthIcon() {
       >
         <div className="relative h-7 w-7">
           <NearIcon className="h-full w-full shrink-0 focus-visible:outline-0" />
-
           <Icon
             status={hasNearAuth}
             type="top"
             pending={!hasNearAuth && walletConnected}
             onClick={async () => {
               if (hasNearAuth) {
-                Cookies.remove("auth");
-                clearAuth();
+                await signOutNearAuth();
                 setHasNearAuth(false);
-                return;
-              }
-              if (!walletConnected) {
+                const existing = variables?.find((v) => v.name === "NEARAI");
+                if (existing) {
+                  await deleteGlobalVar({ id: existing.id });
+                  queryClient.invalidateQueries({
+                    queryKey: ["variables"] as const,
+                  });
+                }
+              } else if (!walletConnected) {
                 walletModal?.show();
-                return;
+              } else {
+                setReadyToSign(true);
               }
-              setReadyToSign(true);
             }}
             setHovered={setHovered}
           />
@@ -257,7 +275,6 @@ export default function NearAuthIcon() {
             }}
             setHovered={setHovered}
           />
-
           {hovered && (
             <div className="absolute left-1/2 -bottom-7 -translate-x-1/2 animate-fade-in-up z-50">
               <span className="rounded bg-gray-800 px-2 py-1 text-xs text-white shadow-md whitespace-nowrap">

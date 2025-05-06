@@ -20,9 +20,14 @@ export interface SignAuthMessageResponse {
 }
 
 export interface SessionResponse {
-  accountId: string;
-  publicKey: string;
+  account_id: string;
+  public_key: string;
   signature: string;
+  message: string;
+  nonce: string;
+  recipient: string;
+  callback_url: string;
+  on_behalf_of: string;
 }
 
 export const useSignAuthUrlMessageMutation = (): UseMutationResult<
@@ -66,5 +71,16 @@ export const useSessionQuery = (): UseQueryResult<SessionResponse> => {
     queryFn: fetchSession,
     retry: false,
     refetchOnWindowFocus: false,
+  });
+};
+
+export const useSignOutMutation = () => {
+  return useMutation({
+    mutationFn: async (): Promise<{ ok: boolean }> => {
+      const response = await api.post(`${getURL("AUTH")}/sign-out`, null, {
+        withCredentials: true,
+      });
+      return response.data;
+    },
   });
 };

@@ -11,7 +11,7 @@ export const ZustandHydration = () => {
   
   useEffect(() => {
     if (session && !unauthorizedErrorHasTriggered) {
-      setAuth(session);
+      setAuth({ accountId: session.account_id });
     }
     if (unauthorizedErrorHasTriggered) {
       clearAuth();
