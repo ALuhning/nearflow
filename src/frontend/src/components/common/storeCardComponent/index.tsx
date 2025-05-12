@@ -42,11 +42,6 @@ export default function StoreCardComponent({
   const [downloadsCount, setDownloadsCount] = useState(
     data?.downloads_count ?? 0,
   );
-  const setCurrentFlow = useFlowsManagerStore(useShallow((state) => state.setCurrentFlow));
-  // const [openPlayground, setOpenPlayground] = useState(false);
-  const [loadingPlayground, setLoadingPlayground] = useState(false);
-  const playground =
-    data.last_tested_version?.includes("1.0.0") && !data.is_component;
 
   const name = data.is_component ? "Component" : "Flow";
 

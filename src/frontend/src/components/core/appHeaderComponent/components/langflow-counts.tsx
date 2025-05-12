@@ -3,10 +3,11 @@ import { DISCORD_URL, GITHUB_URL } from "@/constants/constants";
 import { useDarkStore } from "@/stores/darkStore";
 import { formatNumber } from "@/utils/utils";
 import { FaDiscord, FaGithub } from "react-icons/fa";
+import { useShallow } from "zustand/react/shallow";
 
 export const LangflowCounts = () => {
-  const stars: number | undefined = useDarkStore((state) => state.stars);
-  const discordCount: number = useDarkStore((state) => state.discordCount);
+  const stars: number | undefined = useDarkStore(useShallow((state) => state.stars));
+  const discordCount: number = useDarkStore(useShallow((state) => state.discordCount));
 
   return (
     <div

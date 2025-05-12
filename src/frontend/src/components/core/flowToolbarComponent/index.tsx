@@ -3,13 +3,10 @@ import { track } from "@/customization/utils/analytics";
 import { Panel } from "@xyflow/react";
 import { memo, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import ShareModal from "../../../modals/shareModal";
 import useFlowStore from "../../../stores/flowStore";
 import { useShortcutsStore } from "../../../stores/shortcuts";
-import { useStoreStore } from "../../../stores/storeStore";
 import { useShallow } from 'zustand/react/shallow'
-import { classNames, cn, isThereModal } from "../../../utils/utils";
-import ForwardedIconComponent from "../../common/genericIconComponent";
+import { cn, isThereModal } from "../../../utils/utils";
 import FlowToolbarOptions from "./components/flow-toolbar-options";
 
 const FlowToolbar = memo(function FlowToolbar(): JSX.Element {
@@ -41,12 +38,6 @@ const FlowToolbar = memo(function FlowToolbar(): JSX.Element {
   useHotkeys(openPlayground, handleChatWShortcut, { preventDefault });
   useHotkeys(api, handleAPIWShortcut, { preventDefault });
   useHotkeys(flow, handleShareWShortcut, { preventDefault });
-
-  const hasIO = useFlowStore(useShallow((state) => state.hasIO));
-  const hasStore = useStoreStore(useShallow((state) => state.hasStore));
-  const validApiKey = useStoreStore(useShallow((state) => state.validApiKey));
-  const hasApiKey = useStoreStore(useShallow((state) => state.hasApiKey));
-  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
 
   useEffect(() => {
     if (open) {

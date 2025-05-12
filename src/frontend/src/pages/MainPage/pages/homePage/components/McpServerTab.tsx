@@ -16,13 +16,14 @@ import { MCPSettingsType } from "@/types/mcp";
 import { parseString } from "@/utils/stringManipulation";
 import { cn } from "@/utils/utils";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import SyntaxHighlighter from "react-syntax-highlighter";
+import { useShallow } from "zustand/react/shallow";
 
 const McpServerTab = ({ folderName }: { folderName: string }) => {
   const isDarkMode = useTheme().dark;
   const { folderId } = useParams();
-  const myCollectionId = useFolderStore((state) => state.myCollectionId);
+  const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
   const projectId = folderId ?? myCollectionId ?? "";
   const [isCopied, setIsCopied] = useState(false);
   const [apiKey, setApiKey] = useState<string>("");

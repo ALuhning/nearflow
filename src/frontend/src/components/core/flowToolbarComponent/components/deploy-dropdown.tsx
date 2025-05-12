@@ -29,6 +29,7 @@ export default function PublishDropdown() {
   const currentFlow = useFlowsManagerStore(useShallow((state) => state.currentFlow));
   const flowId = currentFlow?.id;
   const flowName = currentFlow?.name;
+  const folderId = currentFlow?.folder_id;
   const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const { mutateAsync } = usePatchUpdateFlow();
   const flows = useFlowsManagerStore(useShallow((state) => state.flows));

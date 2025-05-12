@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import SideBarFoldersButtonsComponent from "@/components/core/folderSidebarComponent/components/sideBarFolderButtons";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useDeleteFolders } from "@/controllers/API/queries/folders";

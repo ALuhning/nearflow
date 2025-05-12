@@ -26,6 +26,7 @@ export default function AppHeader(): JSX.Element {
   const notificationRef = useRef<HTMLDivElement>(null!);
   const notificationContentRef = useRef<HTMLDivElement>(null!);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const lastPath = window.location.pathname.split("/").filter(Boolean).pop();
   
   useTheme();
 
@@ -50,7 +51,7 @@ export default function AppHeader(): JSX.Element {
   const getNotificationBadge = () => {
     const baseClasses = "absolute h-1 w-1 rounded-full bg-destructive";
     return notificationCenter
-      ? `${baseClasses} right-[5.1rem] top-[5px]`
+      ? `${baseClasses} right-[1.1rem] top-[5px]`
       : "hidden";
   };
 
@@ -97,7 +98,7 @@ export default function AppHeader(): JSX.Element {
         {!ENABLE_DATASTAX_LANGFLOW && (
           <>
           <Suspense fallback={null}>
-            <NearAuthIcon />
+              <NearAuthIcon />
           </Suspense>
           
             <Button
@@ -107,7 +108,7 @@ export default function AppHeader(): JSX.Element {
                 window.open("https://github.com/ALuhning/nearflow", "_blank")
               }
             >
-              <GithubStarComponent />
+              <LangflowCounts />
             </Button>
           </>
         )}

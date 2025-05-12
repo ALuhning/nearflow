@@ -13,7 +13,6 @@ import TemplateGetStartedCardComponent from "../TemplateGetStartedCardComponent"
 
 export default function GetStartedComponent() {
   const examples = useFlowsManagerStore(useShallow((state) => state.examples));
-  console.log("examples", examples);
   // Define the card data
   const cardData: CardData[] = [
     {

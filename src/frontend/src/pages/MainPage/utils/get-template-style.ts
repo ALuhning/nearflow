@@ -6,7 +6,7 @@ import { useShallow } from "zustand/react/shallow";
 export const useGetTemplateStyle = (
   flowData: FlowType,
 ): { getIcon: () => Promise<string> } => {
-  const types = useTypesStore((state) => state.types);
+  const types = useTypesStore(useShallow((state) => state.types));
   const getIcon = async () => {
     if (
       flowData.is_component &&

@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import IconComponent from "@/components/common/genericIconComponent";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import useSaveFlow from "@/hooks/flows/use-save-flow";
@@ -15,8 +16,6 @@ import {
 } from "@xyflow/react";
 import { cloneDeep } from "lodash";
 import { useCallback, useEffect } from "react";
-import { useShallow } from "zustand/react/shallow";
-import { shallow } from "zustand/shallow";
 
 type CustomControlButtonProps = {
   iconName: string;

@@ -11,7 +11,7 @@ import { ENABLE_MCP } from "@/customization/feature-flags";
 import { cn } from "@/utils/utils";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface HeaderComponentProps {
   flowType: "flows" | "components" | "mcp";

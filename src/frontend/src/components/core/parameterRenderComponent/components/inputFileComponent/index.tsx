@@ -112,7 +112,6 @@ export default function InputFileComponent({
           ),
         )
           .then((results) => {
-            console.log(results);
             // Filter out any failed uploads
             const successfulUploads = results.filter(
               (r): r is { file_name: string; file_path: string } => r !== null,

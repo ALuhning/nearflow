@@ -1073,9 +1073,10 @@ export const OPENAI_VOICES = [
 export const DEFAULT_POLLING_INTERVAL = 5000;
 export const DEFAULT_TIMEOUT = 30000;
 export const DEFAULT_FILE_PICKER_TIMEOUT = 60000;
-export const DISCORD_URL = "https://discord.com/invite/EqksyE2EX9";
-export const GITHUB_URL = "https://github.com/langflow-ai/langflow";
-export const TWITTER_URL = "https://x.com/langflow_ai";
+export const DISCORD_URL = "https://discord.gg/xCQzwpcCea";
+export const GITHUB_URL = "https://github.com/ALuhning/nearflow";
+export const TWITTER_URL = "https://x.com/VitalPoint_AI";
+export const VITALPOINT_ACADEMY_URL = "https://vitalpoint.ai/academy";
 export const DOCS_URL = "https://docs.langflow.org";
 export const DATASTAX_DOCS_URL =
   "https://docs.datastax.com/en/langflow/index.html";

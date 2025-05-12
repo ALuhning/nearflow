@@ -9,7 +9,6 @@ import { useAddComponent } from "@/hooks/use-add-component";
 import { useShortcutsStore } from "@/stores/shortcuts";
 import { useStoreStore } from "@/stores/storeStore";
 import { useShallow } from "zustand/react/shallow";
-import { checkChatInput, checkWebhookInput } from "@/utils/reactflowUtils";
 import {
   nodeColors,
   SIDEBAR_BUNDLES,
@@ -17,10 +16,8 @@ import {
 } from "@/utils/styleUtils";
 import Fuse from "fuse.js";
 import { cloneDeep } from "lodash";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState, RefObject } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useShallow } from "zustand/react/shallow";
-import useAlertStore from "../../../../stores/alertStore";
 import useFlowStore from "../../../../stores/flowStore";
 import { useTypesStore } from "../../../../stores/typesStore";
 import { APIClassType } from "../../../../types/api";
@@ -38,7 +35,6 @@ import { filteredDataFn } from "./helpers/filtered-data";
 import { normalizeString } from "./helpers/normalize-string";
 import sensitiveSort from "./helpers/sensitive-sort";
 import { traditionalSearchMetadata } from "./helpers/traditional-search-metadata";
-import { UniqueInputsComponents } from "./types";
 
 const CATEGORIES = SIDEBAR_CATEGORIES;
 const BUNDLES = SIDEBAR_BUNDLES;
@@ -74,7 +70,7 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
   const [showLegacy, setShowLegacy] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const searchInputRef: RefObject<HTMLInputElement | null> = useRef(null!);
 
   const customComponent = useMemo(() => {
     return data?.["custom_component"]?.["CustomComponent"] ?? null;

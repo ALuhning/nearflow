@@ -23,7 +23,6 @@ import { useShortcutsStore } from "../../stores/shortcuts";
 import { useTypesStore } from "../../stores/typesStore";
 import { VertexBuildTypeAPI } from "../../types/api";
 import { NodeDataType } from "../../types/flow";
-import { checkHasToolMode } from "../../utils/reactflowUtils";
 import { classNames, cn } from "../../utils/utils";
 import { processNodeAdvancedFields } from "../helpers/process-node-advanced-fields";
 import useUpdateNodeCode from "../hooks/use-update-node-code";
@@ -35,7 +34,6 @@ import NodeUpdateComponent from "./components/NodeUpdateComponent";
 import RenderInputParameters from "./components/RenderInputParameters";
 import { NodeIcon } from "./components/nodeIcon";
 import { useBuildStatus } from "./hooks/use-get-build-status";
-import { useShallow } from "zustand/react/shallow";
 
 const MemoizedOutputParameter = memo(OutputParameter);
 const MemoizedRenderInputParameters = memo(RenderInputParameters);
@@ -233,7 +231,7 @@ function GenericNode({
     [data.node?.outputs],
   );
 
-  const nodeRef = useRef<HTMLDivElement>(null);
+  const nodeRef = useRef<HTMLDivElement>(null!);
 
   useChangeOnUnfocus({
     selected,

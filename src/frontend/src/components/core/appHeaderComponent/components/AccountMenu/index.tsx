@@ -1,13 +1,12 @@
 import { ForwardedIconComponent } from "@/components/common/genericIconComponent";
 import {
-  DATASTAX_DOCS_URL,
   DISCORD_URL,
   DOCS_URL,
   GITHUB_URL,
   TWITTER_URL,
+  VITALPOINT_ACADEMY_URL,
 } from "@/constants/constants";
 import { useLogout } from "@/controllers/API/queries/auth";
-import { ENABLE_DATASTAX_LANGFLOW } from "@/customization/feature-flags";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useAuthStore from "@/stores/authStore";
 import { useDarkStore } from "@/stores/darkStore";
@@ -26,9 +25,8 @@ import { ProfileIcon } from "../ProfileIcon";
 import ThemeButtons from "../ThemeButtons";
 
 export const AccountMenu = () => {
-  const { customParam: id } = useParams();
   const version = useDarkStore(useShallow((state) => state.version));
-  const latestVersion = useDarkStore(useShallow(state) => state.latestVersion));
+  const latestVersion = useDarkStore(useShallow((state) => state.latestVersion));
   const navigate = useCustomNavigate();
   const { mutate: mutationLogout } = useLogout();
 
@@ -41,7 +39,8 @@ export const AccountMenu = () => {
     mutationLogout();
   };
 
-  const isLatestVersion = version === latestVersion;
+  const baseVersion = version.split('.').slice(0, 3).join('.');
+  const isLatestVersion = baseVersion === latestVersion;
 
   return (
     <>
@@ -108,70 +107,49 @@ export const AccountMenu = () => {
                       Admin Page
                     </span>
                   </HeaderMenuItemButton>
-                )}
-              </>
-            )}
-            {ENABLE_DATASTAX_LANGFLOW ? (
-              <>
-                <HeaderMenuItemButton onClick={() => setIsFeedbackOpen(true)}>
-                  <span
-                    data-testid="menu_feedback_button"
-                    id="menu_feedback_button"
-                  >
-                    Feedback
-                  </span>
-                </HeaderMenuItemButton>
-                <CustomFeatureFlagMenuItems
-                  onClick={() => setIsCustomFeatureFlagsOpen(true)}
-                />
-              </>
-            ) : (
-              <>
-              <HeaderMenuItemLink newPage href="https://vitalpoint.ai/academy">
+                </div>
+              )}
+              
+              <HeaderMenuItemLink newPage href={VITALPOINT_ACADEMY_URL}>
                 <span data-testid="menu_docs_button" id="menu_docs_button">
                   VitalPoint Academy
                 </span>
               </HeaderMenuItemLink>
-              <HeaderMenuItemLink newPage href="https://docs.langflow.org">
+              <HeaderMenuItemLink newPage href={DOCS_URL}>
                 <span data-testid="menu_docs_button" id="menu_docs_button">
                   Langflow Docs
                 </span>
               </HeaderMenuItemLink>
-              </>
-            )}
-          </HeaderMenuItemsSection>
-          <HeaderMenuItemsSection>
-            {ENABLE_DATASTAX_LANGFLOW ? (
+            </div>
+            
+            <div>
               <HeaderMenuItemLink
                 newPage
-                href="https://github.com/langflow-ai/langflow"
-              >
-                <div className="-my-2 mr-2 flex w-full items-center justify-between">
-                  <div className="text-sm">Star the repo</div>
-                  <GithubStarComponent />
-                </div>
-              </HeaderMenuItemLink>
-            ) : (
-              <HeaderMenuItemLink
-                newPage
-                href="https://github.com/ALuhning/nearflow/discussions"
+                href={GITHUB_URL}
               >
                 <span data-testid="menu_github_button" id="menu_github_button">
-                  Share Feedback on Github
+                  <FaGithub className="h-4 w-4" />
+                  Github
                 </span>
               </HeaderMenuItemLink>
-            )}
-            <HeaderMenuItemLink newPage href="https://twitter.com/VitalPoint_AI">
+            
+            <HeaderMenuItemLink newPage href={TWITTER_URL}>
               <span data-testid="menu_twitter_button" id="menu_twitter_button">
+                <ForwardedIconComponent
+                  strokeWidth={2}
+                  name="TwitterX"
+                  className="h-4 w-4"
+                />
                 Follow VitalPoint on X
               </span>
             </HeaderMenuItemLink>
-            <HeaderMenuItemLink newPage href="https://discord.gg/xCQzwpcCea">
+            <HeaderMenuItemLink newPage href={DISCORD_URL}>
               <span data-testid="menu_discord_button" id="menu_discord_button">
+                <FaDiscord className="h-4 w-4 text-[#5865F2]" />
                 Join the VitalPoint Discord
               </span>
             </HeaderMenuItemLink>
-          </HeaderMenuItemsSection>
+          </div>
           
 
             <div className="flex items-center justify-between px-4 py-[6.5px] text-sm">
