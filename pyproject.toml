@@ -1,6 +1,6 @@
 [project]
 name = "langflow"
-version = "1.3.4.dev1"  # PEP 440-compliant fork version
+version = "1.4.1.dev1"  # PEP 440-compliant fork version
 description = "Custom fork of Langflow with NearAI model and deployment support"
 requires-python = ">=3.11,<3.13"
 license = "MIT"
@@ -12,7 +12,7 @@ maintainers = [
 
 # Define your main dependencies here
 dependencies = [
-    "langflow-base==0.3.4",
+    "langflow-base==0.4.1",
     "beautifulsoup4==4.12.3",
     "google-search-results>=2.4.1,<3.0.0",
     "google-api-python-client==2.154.0",
@@ -29,7 +29,8 @@ dependencies = [
     "supabase==2.6.0",
     "certifi>=2023.11.17,<2025.0.0",
     "certifi==2024.8.30",
-    "fastavro==1.9.7",
+    'fastavro==1.9.7; python_version < "3.13"',
+    'fastavro>=1.9.8; python_version >= "3.13"',
     "redis==5.2.1",
     "metaphor-python==0.1.23",
     'pywin32==307; sys_platform == "win32"',
@@ -55,7 +56,7 @@ dependencies = [
     "kubernetes==31.0.0",
     "json_repair==0.30.3",
     "langwatch==0.1.16",
-    "langsmith==0.1.147",
+    "langsmith>=0.3.42,<1.0.0",
     "yfinance==0.2.50",
     "wolframalpha==5.1.3",
     "astra-assistants[tools]~=2.2.12",
@@ -89,7 +90,7 @@ dependencies = [
     "langchain-elasticsearch==0.3.0",
     "langchain-ollama==0.2.1",
     "langchain-sambanova==0.1.0",
-    "langchain-community~=0.3.10",
+    "langchain-community~=0.3.20",
     "sqlalchemy[aiosqlite]>=2.0.38,<3.0.0",
     "atlassian-python-api==3.41.16",
     "mem0ai==0.1.34",
@@ -203,12 +204,8 @@ clickhouse-connect = [
 ]
 
 nv-ingest = [
-    # nv-ingest-client 2025.2.7.dev0 does not correctly install its
-    # dependencies, so we need to install some manually.
-    "nv-ingest-client==2025.2.7.dev0",
-    "python-pptx==0.6.23",
-    "pymilvus[bulk_writer,model]==2.5.0",
-    "llama-index-embeddings-nvidia==0.1.5",
+    "nv-ingest-api==2025.4.22.dev20250422",
+    "nv-ingest-client==2025.4.22.dev20250422",
 ]
 
 postgresql = [
@@ -228,7 +225,7 @@ ignore-regex = '.*(Stati Uniti|Tense=Pres).*'
 
 [tool.pytest.ini_options]
 timeout = 120
-tiemout_method = "thread"
+timeout_method = "signal"
 minversion = "6.0"
 testpaths = ["tests", "integration"]
 console_output_style = "progress"

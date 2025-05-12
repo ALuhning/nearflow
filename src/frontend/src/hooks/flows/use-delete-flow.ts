@@ -18,6 +18,7 @@ const useDeleteFlow = () => {
   }: {
     id: string | string[];
   }): Promise<void> => {
+    const flows = useFlowsManagerStore.getState().flows;
     return new Promise<void>((resolve, reject) => {
       if (!Array.isArray(id)) {
         id = [id];

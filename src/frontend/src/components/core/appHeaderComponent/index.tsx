@@ -11,20 +11,18 @@ import { CustomProductSelector } from "@/customization/components/custom-product
 import { ENABLE_DATASTAX_LANGFLOW } from "@/customization/feature-flags";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useTheme from "@/customization/hooks/use-custom-theme";
-import { useResetDismissUpdateAll } from "@/hooks/use-reset-dismiss-update-all";
 import useAlertStore from "@/stores/alertStore";
 import { useShallow } from "zustand/react/shallow";
 import { useEffect, useRef, useState, Suspense, lazy } from "react";
 import { AccountMenu } from "./components/AccountMenu";
 import FlowMenu from "./components/FlowMenu";
-import GithubStarComponent from "./components/GithubStarButton";
+import LangflowCounts from "./components/langflow-counts";
 const NearAuthIcon = lazy(() => import('./components/NearAuth'));
 
 export default function AppHeader(): JSX.Element {
   const notificationCenter = useAlertStore(useShallow((state) => state.notificationCenter));
   const navigate = useCustomNavigate();
   const [activeState, setActiveState] = useState<"notifications" | null>(null);
-  const lastPath = window.location.pathname.split("/").filter(Boolean).pop();
   const notificationRef = useRef<HTMLDivElement>(null!);
   const notificationContentRef = useRef<HTMLDivElement>(null!);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -49,11 +47,16 @@ export default function AppHeader(): JSX.Element {
     };
   }, []);
 
-  useResetDismissUpdateAll();
+  const getNotificationBadge = () => {
+    const baseClasses = "absolute h-1 w-1 rounded-full bg-destructive";
+    return notificationCenter
+      ? `${baseClasses} right-[5.1rem] top-[5px]`
+      : "hidden";
+  };
 
   return (
     <div
-      className="flex h-[62px] w-full items-center justify-between gap-2 border-b px-5 py-2.5 dark:bg-background"
+      className={`flex h-[48px] w-full items-center justify-between border-b px-6 dark:bg-background`}
       data-testid="app-header"
     >
       {/* Left Section */}
@@ -70,7 +73,7 @@ export default function AppHeader(): JSX.Element {
           {ENABLE_DATASTAX_LANGFLOW ? (
             <DataStaxLogo className="fill-black dark:fill-[white]" />
           ) : (
-            <LangflowLogo className="h-5 w-6" />
+            <LangflowLogo className="h-6 w-6" />
           )}
         </Button>
         {ENABLE_DATASTAX_LANGFLOW && (
@@ -88,7 +91,7 @@ export default function AppHeader(): JSX.Element {
 
       {/* Right Section */}
       <div
-        className={`z-30 flex items-center gap-2`}
+        className={`relative left-3 z-30 flex items-center gap-1`}
         data-testid="header_right_section_wrapper"
       >
         {!ENABLE_DATASTAX_LANGFLOW && (
@@ -129,18 +132,21 @@ export default function AppHeader(): JSX.Element {
                 }
                 data-testid="notification_button"
               >
-                <span
-                  className={
-                    notificationCenter
-                      ? `absolute left-[31px] top-[10px] h-1 w-1 rounded-full bg-destructive`
-                      : "hidden"
-                  }
-                />
-                <ForwardedIconComponent
-                  name="Bell"
-                  className="side-bar-button-size h-[18px] w-[18px]"
-                />
-                <span className="hidden whitespace-nowrap">Notifications</span>
+                <div className="hit-area-hover group items-center rounded-md px-2 py-1 text-muted-foreground">
+                  <span className={getNotificationBadge()} />
+                  <ForwardedIconComponent
+                    name="Bell"
+                    className={`side-bar-button-size h-4 w-4 ${
+                      activeState === "notifications"
+                        ? "text-primary"
+                        : "text-muted-foreground group-hover:text-primary"
+                    }`}
+                    strokeWidth={2}
+                  />
+                  <span className="hidden whitespace-nowrap">
+                    Notifications
+                  </span>
+                </div>
               </Button>
             </AlertDropdown>
           </ShadTooltip>

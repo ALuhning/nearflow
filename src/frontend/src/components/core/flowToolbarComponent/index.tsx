@@ -1,7 +1,7 @@
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { track } from "@/customization/utils/analytics";
 import { Panel } from "@xyflow/react";
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import ShareModal from "../../../modals/shareModal";
 import useFlowStore from "../../../stores/flowStore";
@@ -12,7 +12,7 @@ import { classNames, cn, isThereModal } from "../../../utils/utils";
 import ForwardedIconComponent from "../../common/genericIconComponent";
 import FlowToolbarOptions from "./components/flow-toolbar-options";
 
-export default function FlowToolbar(): JSX.Element {
+const FlowToolbar = memo(function FlowToolbar(): JSX.Element {
   const preventDefault = true;
   const [open, setOpen] = useState<boolean>(false);
   const [openCodeModal, setOpenCodeModal] = useState<boolean>(false);
@@ -54,63 +54,6 @@ export default function FlowToolbar(): JSX.Element {
     }
   }, [open]);
 
-  const ModalMemo = useMemo(
-    () => (
-      <ShareModal
-        is_component={false}
-        component={currentFlow!}
-        disabled={!hasApiKey || !validApiKey || !hasStore}
-        open={openShareModal}
-        setOpen={setOpenShareModal}
-      >
-        <ShadTooltip
-          content={
-            !hasApiKey || !validApiKey || !hasStore
-              ? "Store API Key Required"
-              : ""
-          }
-          side="bottom"
-          align="end"
-        >
-          <button
-            disabled={!hasApiKey || !validApiKey || !hasStore}
-            className={classNames(
-              "relative inline-flex h-8 w-full items-center justify-center gap-1.5 rounded px-3 py-1.5 text-sm font-semibold text-foreground transition-all duration-150 ease-in-out",
-              !hasApiKey || !validApiKey || !hasStore
-                ? "cursor-not-allowed text-muted-foreground"
-                : "hover:bg-accent",
-            )}
-            data-testid="shared-button-flow"
-            onClick={() => {
-              setOpenShareModal(true);
-            }}
-          >
-            <>
-              <ForwardedIconComponent
-                name="Share2"
-                className={classNames(
-                  "h-4 w-4",
-                  !hasApiKey || !validApiKey || !hasStore
-                    ? "extra-side-bar-save-disable"
-                    : "",
-                )}
-              />
-              <span className="hidden md:block">Share</span>
-            </>
-          </button>
-        </ShadTooltip>
-      </ShareModal>
-    ),
-    [
-      hasApiKey,
-      validApiKey,
-      currentFlow,
-      hasStore,
-      openShareModal,
-      setOpenShareModal,
-    ],
-  );
-
   return (
     <>
       <Panel className="!m-2" position="top-right">
@@ -124,4 +67,6 @@ export default function FlowToolbar(): JSX.Element {
       </Panel>
     </>
   );
-}
+});
+
+export default FlowToolbar;

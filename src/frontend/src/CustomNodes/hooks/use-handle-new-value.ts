@@ -131,6 +131,7 @@ const useHandleOnNewValue = ({
             ) => {
               await mutateTemplate(
                 value,
+                nodeId,
                 node,
                 setNodeClassFn,
                 postTemplateFn,

@@ -37,6 +37,7 @@ export function RefreshParameterComponent({
   const handleRefreshButtonPress = () =>
     mutateTemplate(
       templateData.value,
+      nodeId,
       nodeClass,
       handleNodeClass,
       postTemplateValue,

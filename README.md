@@ -8,9 +8,9 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/langflow?style=flat-square)](https://pypistats.org/packages/langflow)
 [![GitHub star chart](https://img.shields.io/github/stars/langflow-ai/langflow?style=flat-square)](https://star-history.com/#langflow-ai/langflow)
 [![Open Issues](https://img.shields.io/github/issues-raw/langflow-ai/langflow?style=flat-square)](https://github.com/langflow-ai/langflow/issues)
-[![Open in HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/Langflow/Langflow?duplicate=true)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/langflow-ai.svg?style=social&label=Follow%20%40Langflow)](https://twitter.com/langflow)
-[![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCn2bInQrjdDYKEEmbpwblLQ)](https://www.youtube.com/@Langflow)
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/langflow-ai.svg?style=social&label=Follow%20%40Langflow)](https://twitter.com/langflow_ai)
+[![YouTube Channel](https://img.shields.io/youtube/channel/subscribers/UCn2bInQrjdDYKEEmbpwblLQ?label=Subscribe)](https://www.youtube.com/@Langflow)
+[![Discord Server](https://img.shields.io/discord/1116803230643527710?logo=discord&style=social&label=Join)](https://discord.gg/EqksyE2EX9)
 
 **Nearflow** is a customized fork of [Langflow](https://github.com/logspace-ai/langflow) — a powerful visual interface for building AI agent flows — extended by [Vital Point](https://vitalpoint.ai) to enable building and deploying user-owned AI agents and workflows using Langflow's powerful interface.
 

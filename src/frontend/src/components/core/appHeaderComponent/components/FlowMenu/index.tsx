@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useAddFlow from "@/hooks/flows/use-add-flow";
@@ -35,7 +35,7 @@ import { cn, getNumberFromString } from "@/utils/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { useShallow } from "zustand/react/shallow";
 
-export const MenuBar = ({}: {}): JSX.Element => {
+export const MenuBar = memo((): JSX.Element => {
   const shortcuts = useShortcutsStore(useShallow((state) => state.shortcuts));
   const addFlow = useAddFlow();
   const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
@@ -81,6 +81,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
   const [inputWidth, setInputWidth] = useState<number>(0);
   const measureRef = useRef<HTMLSpanElement>(null);
   const changesNotSaved = useUnsavedChanges();
+  const [flowNames, setFlowNames] = useState<string[]>([]);
 
   const { data: folders, isFetched: isFoldersFetched } = useGetFoldersQuery();
   const flows = useFlowsManagerStore(useShallow((state) => state.flows));
@@ -108,12 +109,6 @@ export const MenuBar = ({}: {}): JSX.Element => {
     () => folders?.find((f) => f.id === currentFlowFolderId),
     [folders, currentFlowFolderId],
   );
-
-  useEffect(() => {
-    if (measureRef.current) {
-      setInputWidth(measureRef.current.offsetWidth);
-    }
-  }, [flowName]);
 
   function handleAddFlow() {
     try {
@@ -143,7 +138,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
       <div
         data-testid="menu_status_saved_flow_button"
         id="menu_status_saved_flow_button"
-        className="shrink-0 text-xs font-medium text-accent-emerald-foreground"
+        className="shrink-0 text-sm font-medium text-accent-emerald-foreground"
       >
         Saved
       </div>
@@ -162,17 +157,11 @@ export const MenuBar = ({}: {}): JSX.Element => {
   const handleEditName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
-      let invalid = false;
-      for (let i = 0; i < nameLists.length; i++) {
-        if (value === nameLists[i]) {
-          invalid = true;
-          break;
-        }
-      }
+      const invalid = flowNames.includes(value);
       setIsInvalidName(invalid);
       setFlowName(value);
     },
-    [nameLists],
+    [flowNames],
   );
 
   const handleKeyDown = useCallback(
@@ -189,13 +178,12 @@ export const MenuBar = ({}: {}): JSX.Element => {
     [currentFlowName],
   );
 
-  const handleNameSubmit = useCallback(() => {
+  const handleNameSubmit = useCallback(async () => {
     if (
       flowName.trim() !== "" &&
       flowName !== currentFlowName &&
       !isInvalidName
     ) {
-      // Get a one-time snapshot of currentFlow using get()
       const currentFlowSnapshot = useFlowStore.getState().currentFlow;
 
       const newFlow = {
@@ -203,9 +191,10 @@ export const MenuBar = ({}: {}): JSX.Element => {
         name: flowName,
         id: currentFlowId!,
       };
-      setCurrentFlow(newFlow);
+
       saveFlow(newFlow)
         .then(() => {
+          setCurrentFlow(newFlow);
           setSuccessData({ title: "Flow name updated successfully" });
         })
         .catch((error) => {
@@ -247,7 +236,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
     if (measureRef.current) {
       setInputWidth(measureRef.current.offsetWidth + 10);
     }
-  }, [flowName]);
+  }, [flowName, onFlowPage]);
 
   const swatchIndex =
     (currentFlowGradient && !isNaN(parseInt(currentFlowGradient))
@@ -268,7 +257,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
         {currentFolder?.name && (
           <div className="hidden truncate md:flex">
             <div
-              className="cursor-pointer truncate pr-1 text-muted-foreground hover:text-primary"
+              className="cursor-pointer truncate pr-1 text-sm text-muted-foreground hover:text-primary"
               onClick={() => {
                 navigate(
                   currentFolder?.id
@@ -313,7 +302,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
             >
               <Input
                 className={cn(
-                  "h-6 w-full shrink-0 cursor-text font-semibold",
+                  "text- h-6 w-full shrink-0 cursor-text font-semibold",
                   "bg-transparent pl-1 pr-0 transition-colors duration-200",
                   "border-0 outline-none focus:border-0 focus:outline-none focus:ring-0 focus:ring-offset-0",
                   !editingName && "text-primary hover:opacity-80",
@@ -326,6 +315,12 @@ export const MenuBar = ({}: {}): JSX.Element => {
                 onFocus={() => {
                   setEditingName(true);
                   setFlowName(currentFlowName);
+                  const flows = useFlowsManagerStore.getState().flows;
+                  setFlowNames(
+                    flows
+                      ?.map((flow) => flow.name)
+                      .filter((name) => name !== currentFlowName) ?? [],
+                  );
                 }}
                 onBlur={handleNameSubmit}
                 value={flowName}
@@ -334,7 +329,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
               />
               <span
                 ref={measureRef}
-                className="invisible absolute left-0 top-0 -z-10 w-fit whitespace-pre font-semibold"
+                className="invisible absolute left-0 top-0 -z-10 w-fit whitespace-pre text-sm font-semibold"
                 aria-hidden="true"
                 data-testid="flow_name"
               >
@@ -549,7 +544,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
         >
           <div className="flex cursor-default items-center gap-2 truncate text-sm text-muted-foreground">
             <div className="flex cursor-default items-center gap-2 truncate text-sm">
-              <div className="w-full truncate text-xs">
+              <div className="w-full truncate text-sm">
                 {printByBuildStatus()}
               </div>
             </div>
@@ -563,7 +558,7 @@ export const MenuBar = ({}: {}): JSX.Element => {
               }}
               className={
                 isBuilding
-                  ? "hidden items-center gap-1.5 text-xs text-status-red sm:flex"
+                  ? "hidden items-center gap-1.5 text-sm text-status-red sm:flex"
                   : "hidden"
               }
             >
@@ -577,6 +572,6 @@ export const MenuBar = ({}: {}): JSX.Element => {
   ) : (
     <></>
   );
-};
+});
 
 export default MenuBar;

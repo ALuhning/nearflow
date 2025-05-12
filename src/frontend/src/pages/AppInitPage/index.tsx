@@ -17,6 +17,9 @@ import { IS_AUTO_LOGIN } from "@/constants/constants";
 
 export function AppInitPage() {
   const refreshStars = useDarkStore(useShallow((state) => state.refreshStars));
+  const refreshDiscordCount = useDarkStore(useShallow(
+    (state) => state.refreshDiscordCount,
+  ));
   const isLoading = useFlowsManagerStore(useShallow((state) => state.isLoading));
 
   const { isFetched: isLoaded } = useCustomPrimaryLoading();
@@ -42,6 +45,7 @@ export function AppInitPage() {
   useEffect(() => {
     if (isFetched) {
       refreshStars();
+      refreshDiscordCount();
     }
 
     if (isConfigFetched) {

@@ -26,10 +26,18 @@ const useSaveFlow = () => {
   const flowData = currentFlow?.data;
 
   const saveFlow = async (flow?: FlowType): Promise<void> => {
+    const currentFlow = useFlowStore.getState().currentFlow;
+    const currentSavedFlow = useFlowsManagerStore.getState().currentFlow;
     if (
       customStringify(flow || currentFlow) !== customStringify(currentSavedFlow)
     ) {
       setSaveLoading(true);
+
+      const flowData = currentFlow?.data;
+      const nodes = useFlowStore.getState().nodes;
+      const edges = useFlowStore.getState().edges;
+      const reactFlowInstance = useFlowStore.getState().reactFlowInstance;
+
       return new Promise<void>((resolve, reject) => {
         if (currentFlow) {
           flow = flow || {
@@ -84,6 +92,7 @@ const useSaveFlow = () => {
               },
               {
                 onSuccess: (updatedFlow) => {
+                  const flows = useFlowsManagerStore.getState().flows;
                   setSaveLoading(false);
                   if (flows) {
                     // updates flow in state

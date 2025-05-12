@@ -44,8 +44,6 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
   const flows = useFlowsManagerStore(useShallow((state) => state.flows));
   const currentFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
 
-  const flowToCanvas = useFlowsManagerStore(useShallow((state) => state.flowToCanvas));
-
   const updatedAt = currentSavedFlow?.updated_at;
   const autoSaving = useFlowsManagerStore(useShallow((state) => state.autoSaving));
   const stopBuilding = useFlowStore(useShallow((state) => state.stopBuilding));
@@ -113,19 +111,18 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
 
         const isAnExistingFlowId = isAnExistingFlow.id;
 
-        flowToCanvas
-          ? setCurrentFlow(flowToCanvas)
-          : getFlowToAddToCanvas(isAnExistingFlowId);
+        await getFlowToAddToCanvas(isAnExistingFlowId);
       }
     };
     awaitgetTypes();
-  }, [id, flows, currentFlowId, flowToCanvas]);
+  }, [id, flows, currentFlowId]);
 
   useEffect(() => {
     setOnFlowPage(true);
 
     return () => {
       setOnFlowPage(false);
+      console.log("unmounting");
       setCurrentFlow(undefined);
     };
   }, [id]);
@@ -153,6 +150,7 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
 
   const getFlowToAddToCanvas = async (id: string) => {
     const flow = await getFlow({ id: id });
+    console.log(flow);
     setCurrentFlow(flow);
   };
 
@@ -173,17 +171,6 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
             </SidebarProvider>
           </div>
         )}
-        {/* {ENABLE_BRANDING && version && (
-          <a
-            target={"_blank"}
-            href="https://medium.com/logspace/langflow-datastax-better-together-1b7462cebc4d"
-            className="langflow-page-icon"
-          >
-            <div className="mt-1">Langflow 🤝 DataStax</div>
-
-            <div className={version ? "mt-2" : "mt-1"}>⛓️ v{version}</div>
-          </a>
-        )} */}
       </div>
       {blocker.state === "blocked" && (
         <>

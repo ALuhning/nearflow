@@ -7,6 +7,10 @@ import { useMessagesStore } from "@/stores/messagesStore";
 import { useUtilityStore } from "@/stores/utilityStore";
 import { useVoiceStore } from "@/stores/voiceStore";
 import { cn } from "@/utils/utils";
+import useDetectScroll, {
+  Axis,
+  Direction,
+} from "@smakss/react-scroll-direction";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { v5 as uuidv5 } from "uuid";
 import useTabVisibility from "../../../../../shared/hooks/use-tab-visibility";
@@ -20,6 +24,7 @@ import useDragAndDrop from "../chatInput/hooks/use-drag-and-drop";
 import { useFileHandler } from "../chatInput/hooks/use-file-handler";
 import ChatMessage from "../chatMessage/chat-message";
 import { useShallow } from "zustand/react/shallow";
+import { ChatScrollAnchor } from "./chat-scroll-anchor";
 
 const MemoizedChatMessage = memo(ChatMessage, (prevProps, nextProps) => {
   return (
@@ -40,7 +45,6 @@ export default function ChatView({
   playgroundPage,
   sidebarOpen,
 }: chatViewProps): JSX.Element {
-  const flowPool = useFlowStore(useShallow((state) => state.flowPool));
   const inputs = useFlowStore(useShallow((state) => state.inputs));
   const clientId = useUtilityStore(useShallow((state) => state.clientId));
   let realFlowId = useFlowsManagerStore(useShallow((state) => state.currentFlowId));
@@ -118,12 +122,6 @@ export default function ChatView({
     setChatHistory(finalChatHistory);
   }, [messages, visibleSession]);
 
-  useEffect(() => {
-    if (messagesRef.current) {
-      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-    }
-  }, []);
-
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -147,13 +145,16 @@ export default function ChatView({
       });
   }
 
-  const { files, setFiles, handleFiles } = useFileHandler(currentFlowId);
+  const { files, setFiles, handleFiles } = useFileHandler(realFlowId);
   const [isDragging, setIsDragging] = useState(false);
 
-  const { dragOver, dragEnter, dragLeave } = useDragAndDrop(setIsDragging);
+  const { dragOver, dragEnter, dragLeave } = useDragAndDrop(
+    setIsDragging,
+    !!playgroundPage,
+  );
 
   const onDrop = (e) => {
-    if (!ENABLE_IMAGE_ON_PLAYGROUND) {
+    if (!ENABLE_IMAGE_ON_PLAYGROUND && playgroundPage) {
       e.stopPropagation();
       return;
     }
@@ -171,6 +172,44 @@ export default function ChatView({
     (state) => state.isVoiceAssistantActive,
   );
 
+  const [customElement, setCustomElement] = useState<HTMLDivElement>();
+
+  useEffect(() => {
+    if (messagesRef.current) {
+      setCustomElement(messagesRef.current);
+    }
+  }, [messagesRef]);
+
+  const { scrollDir } = useDetectScroll({
+    target: customElement,
+    axis: Axis.Y,
+    thr: 0,
+  });
+
+  const [canScroll, setCanScroll] = useState<boolean>(false);
+  const [scrolledUp, setScrolledUp] = useState<boolean>(false);
+
+  const handleScroll = () => {
+    if (!messagesRef.current) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = messagesRef.current;
+    const atBottom = scrollHeight - clientHeight <= scrollTop + 3;
+
+    if (scrollDir === Direction.Up) {
+      setCanScroll(false);
+      setScrolledUp(true);
+    } else {
+      if (atBottom || !scrolledUp) {
+        setCanScroll(true);
+      }
+      setScrolledUp(false);
+    }
+  };
+
+  useEffect(() => {
+    setCanScroll(true);
+  }, [chatHistory?.length]);
+
   return (
     <div
       className={cn(
@@ -185,7 +224,11 @@ export default function ChatView({
       onDragLeave={dragLeave}
       onDrop={onDrop}
     >
-      <div ref={messagesRef} className="chat-message-div">
+      <div
+        ref={messagesRef}
+        onScroll={handleScroll}
+        className="chat-message-div"
+      >
         {chatHistory &&
           (isBuilding || chatHistory?.length > 0 ? (
             <>
@@ -199,6 +242,12 @@ export default function ChatView({
                   playgroundPage={playgroundPage}
                 />
               ))}
+              {chatHistory?.length > 0 && (
+                <ChatScrollAnchor
+                  trackVisibility={chatHistory?.[chatHistory.length - 1]}
+                  canScroll={canScroll}
+                />
+              )}
             </>
           ) : (
             <>

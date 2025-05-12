@@ -7,6 +7,7 @@ import { useShallow } from "zustand/react/shallow";
 
 const useFetchDataOnMount = (
   node: APIClassType,
+  nodeId: string,
   setNodeClass: (node: APIClassType) => void,
   name: string,
   postTemplateValue: UseMutationResult<
@@ -21,16 +22,22 @@ const useFetchDataOnMount = (
     async function fetchData() {
       const template = node.template[name];
       if (
-        (template?.real_time_refresh || template?.refresh_button) &&
+        (template?.real_time_refresh ||
+          template?.refresh_button ||
+          (node.tool_mode && name === "tools_metadata")) &&
         // options can be undefined but not an empty array
         (template?.options?.length ?? 0) === 0
       ) {
         mutateTemplate(
           template?.value,
+          nodeId,
           node,
           setNodeClass,
           postTemplateValue,
           setErrorData,
+          name,
+          () => {},
+          node.tool_mode,
         );
       }
     }

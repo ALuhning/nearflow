@@ -1,3 +1,4 @@
+import { UUID_PARSING_ERROR } from "@/constants/constants";
 import { usePostAddFlow } from "@/controllers/API/queries/flows/use-post-add-flow";
 import useAlertStore from "@/stores/alertStore";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
@@ -18,13 +19,17 @@ import { useParams } from "react-router";
 import useDeleteFlow from "./use-delete-flow";
 import { useShallow } from "zustand/react/shallow";
 
+const FLOW_CREATION_ERROR = "Flow creation error";
+const FOLDER_NOT_FOUND_ERROR = "Folder not found. Redirecting to flows...";
+const FLOW_CREATION_ERROR_MESSAGE =
+  "An unexpected error occurred, please try again";
+const REDIRECT_DELAY = 3000;
 const useAddFlow = () => {
   const flows = useFlowsManagerStore(useShallow((state) => state.flows));
   const setFlows = useFlowsManagerStore(useShallow((state) => state.setFlows));
   const { deleteFlow } = useDeleteFlow();
 
-  const { setFlowToCanvas } = useFlowsManagerStore();
-
+  const setNoticeData = useAlertStore.getState().setNoticeData;
   const { folderId } = useParams();
 
   const myCollectionId = useFolderStore(useShallow((state) => state.myCollectionId));
@@ -89,22 +94,29 @@ const useAddFlow = () => {
             }),
           }));
 
-          setFlowToCanvas(createdFlow);
           resolve(createdFlow.id);
         },
         onError: (error) => {
+          if (error?.response?.data?.detail[0]?.type === UUID_PARSING_ERROR) {
+            setNoticeData({
+              title: FOLDER_NOT_FOUND_ERROR,
+            });
+            setTimeout(() => {
+              window.location.href = `/flows`;
+            }, REDIRECT_DELAY);
+
+            return;
+          }
+
           if (error.response?.data?.detail) {
             useAlertStore.getState().setErrorData({
-              title: "Could not create flow",
+              title: FLOW_CREATION_ERROR,
               list: [error.response?.data?.detail],
             });
           } else {
             useAlertStore.getState().setErrorData({
-              title: "Could not create flow",
-              list: [
-                error.message ??
-                  "An unexpected error occurred, please try again",
-              ],
+              title: FLOW_CREATION_ERROR,
+              list: [error.message ?? FLOW_CREATION_ERROR_MESSAGE],
             });
           }
           reject(error); // Re-throw the error so the caller can handle it if needed},
