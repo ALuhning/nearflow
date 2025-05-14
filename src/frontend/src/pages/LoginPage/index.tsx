@@ -71,10 +71,10 @@ export default function LoginPage(): JSX.Element {
             title="Langflow logo"
             className="mb-4 h-10 w-10 scale-[1.5]"
           />
-          <span className="mb-6 text-2xl font-semibold text-primary">
+          <span className="mb-1 text-2xl font-semibold text-primary">
             Sign in to Nearflow
           </span>
-          <span className="mb-6 text-sm font-medium text-primary">
+          <span className="mb-6 text-sm text-muted-foreground">
             (built on Langflow)
           </span>
           <div className="mb-3 w-full">
