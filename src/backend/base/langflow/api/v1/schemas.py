@@ -406,3 +406,36 @@ class MCPSettings(BaseModel):
     action_description: str | None = None
     name: str | None = None
     description: str | None = None
+
+
+# NEAR Authentication Schemas
+
+class NEARChallengeRequest(BaseModel):
+    """Request schema for getting a NEAR authentication challenge."""
+    near_account_id: str = Field(..., description="NEAR account ID (e.g., user.near)")
+
+
+class NEARChallengeResponse(BaseModel):
+    """Response schema for NEAR authentication challenge."""
+    challenge: str = Field(..., description="Base64 encoded challenge nonce")
+    message: str = Field(..., description="Message to be signed")
+    recipient: str = Field(..., description="Application name/recipient")
+
+
+class NEARSignatureLogin(BaseModel):
+    """Schema for NEAR signature-based login request."""
+    near_account_id: str = Field(..., description="NEAR account ID (e.g., user.near)")
+    public_key: str = Field(..., description="Public key used to sign the challenge")
+    signature: str = Field(..., description="Base64 encoded signature of the challenge")
+    challenge: str = Field(..., description="Base64 encoded challenge nonce that was signed")
+    message: str = Field(..., description="Message that was signed")
+    recipient: str = Field(..., description="Application name/recipient")
+
+
+class NEARLoginResponse(BaseModel):
+    """Response schema for NEAR account login."""
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+    user_created: bool = Field(description="Whether a new user was created")
+    stake_amount: str | None = Field(None, description="User's stake amount in NEAR tokens")

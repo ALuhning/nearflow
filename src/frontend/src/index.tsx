@@ -1,5 +1,5 @@
-import { Buffer } from 'buffer';
-(window as any).Buffer = Buffer;// Set global Buffer for the entire window
+// Import polyfills first
+import './polyfills';
 
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";

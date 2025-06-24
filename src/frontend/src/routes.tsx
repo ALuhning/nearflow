@@ -2,6 +2,7 @@ import { lazy } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Outlet,
   Route,
 } from "react-router";
@@ -43,7 +44,6 @@ const AdminPage = lazy(() => import("./pages/AdminPage"));
 const LoginAdminPage = lazy(() => import("./pages/AdminPage/LoginPage"));
 const DeleteAccountPage = lazy(() => import("./pages/DeleteAccountPage"));
 const PlaygroundPage = lazy(() => import("./pages/Playground"));
-const SignUp = lazy(() => import("./pages/SignUpPage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements([
@@ -179,7 +179,7 @@ const router = createBrowserRouter(
             path="signup"
             element={
               <ProtectedLoginRoute>
-                <SignUp />
+                <Navigate to="/login" replace />
               </ProtectedLoginRoute>
             }
           />

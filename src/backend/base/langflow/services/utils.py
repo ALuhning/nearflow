@@ -99,7 +99,9 @@ async def setup_superuser(settings_service, session: AsyncSession) -> None:
         msg = "Could not create superuser. Please create a superuser manually."
         raise RuntimeError(msg) from exc
     finally:
-        settings_service.auth_settings.reset_credentials()
+        # Only reset credentials if AUTO_LOGIN is True to avoid overriding custom credentials
+        if settings_service.auth_settings.AUTO_LOGIN:
+            settings_service.auth_settings.reset_credentials()
 
 
 async def teardown_superuser(settings_service, session: AsyncSession) -> None:

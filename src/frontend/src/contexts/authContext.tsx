@@ -64,13 +64,14 @@ export function AuthProvider({ children }): React.ReactElement {
       {},
       {
         onSuccess: async (user) => {
+          console.log("AuthContext: User data received:", user);
           setUserData(user);
-          const isSuperUser = user!.is_superuser;
-          useAuthStore.getState().setIsAdmin(isSuperUser);
+          // isAdmin is now automatically set by setUserData in authStore
           checkHasStore();
           fetchApiData();
         },
         onError: () => {
+          console.log("AuthContext: Failed to get user data");
           setUserData(null);
         },
       },

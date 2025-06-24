@@ -50,6 +50,18 @@ class AuthSettings(BaseSettings):
     COOKIE_DOMAIN: str | None = None
     """The domain attribute of the cookies. If None, the domain is not set."""
 
+    # NEAR blockchain staking verification settings
+    ENABLE_NEAR_STAKING_VERIFICATION: bool = False
+    """Enable NEAR blockchain staking verification for login authorization."""
+    NEAR_DEV_MODE: bool = False
+    """Enable NEAR development mode to bypass signature verification (ONLY for development)."""
+    NEAR_RPC_URL: str = "https://rpc.mainnet.near.org"
+    """NEAR RPC endpoint URL."""
+    NEAR_POOL_CONTRACT: str = "vitalpoint.pool.near"
+    """NEAR staking pool contract address."""
+    NEAR_MIN_STAKE_AMOUNT: str = "100"
+    """Minimum stake amount required in NEAR tokens."""
+
     pwd_context: CryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     model_config = SettingsConfigDict(validate_assignment=True, extra="ignore", env_prefix="LANGFLOW_")
@@ -66,14 +78,13 @@ class AuthSettings(BaseSettings):
     @classmethod
     def validate_superuser(cls, value, info):
         if info.data.get("AUTO_LOGIN"):
-            if value != DEFAULT_SUPERUSER:
+            field_name = info.field_name
+            if field_name == "SUPERUSER" and value != DEFAULT_SUPERUSER:
+                logger.debug(f"Resetting {field_name} from {value} to {DEFAULT_SUPERUSER}")
                 value = DEFAULT_SUPERUSER
-                logger.debug("Resetting superuser to default value")
-            if info.data.get("SUPERUSER_PASSWORD") != DEFAULT_SUPERUSER_PASSWORD:
-                info.data["SUPERUSER_PASSWORD"] = DEFAULT_SUPERUSER_PASSWORD
-                logger.debug("Resetting superuser password to default value")
-
-            return value
+            elif field_name == "SUPERUSER_PASSWORD" and value != DEFAULT_SUPERUSER_PASSWORD:
+                logger.debug(f"Resetting {field_name} to default value")
+                value = DEFAULT_SUPERUSER_PASSWORD
 
         return value
 
