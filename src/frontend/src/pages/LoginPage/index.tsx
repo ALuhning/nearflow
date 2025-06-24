@@ -1,7 +1,6 @@
 import LangflowLogo from "@/assets/vitalpoint.svg?react";
 import { JSX, useContext, useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../components/ui/accordion";
 import SimpleNEARAuth from "../../components/SimpleNEARAuth";
 import NEARTestAuth from "../../components/NEARTestAuth";
@@ -213,14 +212,7 @@ export default function LoginPage(): JSX.Element {
                   <p className="text-gray-600">Connect your NEAR wallet to get started</p>
                 </div>
 
-                <Tabs defaultValue="near-auth" className="w-full">
-                  <TabsList className="grid w-full grid-cols-1">
-                    <TabsTrigger value="near-auth" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-                      NEAR Wallet Authentication
-                    </TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="near-auth" className="space-y-4">
+                <div className="space-y-4">
                     {isAuthenticated ? (
                       // User is fully authenticated
                       <div className="text-center py-8">
@@ -429,8 +421,7 @@ export default function LoginPage(): JSX.Element {
                         </div>
                       </div>
                     )}
-                  </TabsContent>
-                </Tabs>
+                </div>
               </div>
 
               {!isAuthenticated && (
@@ -501,75 +492,6 @@ export default function LoginPage(): JSX.Element {
                     <div className="bg-blue-50 rounded-lg p-4 mt-6">
                       <h3 className="font-semibold text-blue-800 mb-2">Why 25 NEAR Minimum?</h3>
                       <p className="text-blue-700">The 25 NEAR minimum stake requirement ensures committed community members while supporting the infrastructure costs of running NearFlow and the Vital Point Guild ecosystem.</p>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-                
-                <AccordionItem value="hardware-wallet-help">
-                  <AccordionTrigger className="text-lg font-semibold text-gray-800">
-                    🔐 Using Hardware Wallets (Ledger)
-                  </AccordionTrigger>
-                  <AccordionContent className="prose prose-sm max-w-none text-gray-700">
-                    <div className="space-y-4">
-                      <div className="bg-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
-                        <h4 className="font-semibold text-orange-800 mb-2">📱 Before You Start</h4>
-                        <p className="text-orange-700 text-sm">Hardware wallets like Ledger require additional setup steps for NEAR authentication. Follow these steps carefully:</p>
-                      </div>
-                      
-                      <div className="space-y-3">
-                        <div className="bg-white border border-gray-200 rounded-lg p-4">
-                          <h5 className="font-semibold text-gray-800 mb-2">1. 🔌 Connect Your Ledger</h5>
-                          <ul className="text-sm text-gray-700 space-y-1 ml-4">
-                            <li>• Connect your Ledger device to your computer via USB</li>
-                            <li>• Enter your PIN to unlock the device</li>
-                            <li>• Make sure your device is not sleeping/locked</li>
-                          </ul>
-                        </div>
-                        
-                        <div className="bg-white border border-gray-200 rounded-lg p-4">
-                          <h5 className="font-semibold text-gray-800 mb-2">2. 📱 Open NEAR App</h5>
-                          <ul className="text-sm text-gray-700 space-y-1 ml-4">
-                            <li>• Navigate to and open the <strong>NEAR app</strong> on your Ledger</li>
-                            <li>• The screen should show "NEAR ready" or similar</li>
-                            <li>• Ensure you have the latest version of the NEAR app installed</li>
-                          </ul>
-                        </div>
-                        
-                        <div className="bg-white border border-gray-200 rounded-lg p-4">
-                          <h5 className="font-semibold text-gray-800 mb-2">3. 🌐 Browser Settings</h5>
-                          <ul className="text-sm text-gray-700 space-y-1 ml-4">
-                            <li>• Use Chrome, Firefox, or Edge (Safari may have issues)</li>
-                            <li>• Disable any ad blockers that might interfere</li>
-                            <li>• Allow popup windows for wallet connections if prompted</li>
-                          </ul>
-                        </div>
-                      </div>                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-red-800 mb-2">⚠️ Wallet Compatibility</h4>
-                        <div className="text-sm text-red-700 space-y-3">
-                          <div><strong>✅ Recommended Hardware Wallet Compatible Options:</strong></div>
-                          <ul className="ml-4 space-y-1">
-                            <li>• <strong>MeteorWallet:</strong> Excellent Ledger support with smooth authentication</li>
-                            <li>• <strong>HereWallet:</strong> Good Ledger compatibility and user experience</li>
-                          </ul>
-                          
-                          <div className="mt-3"><strong>❌ Not Supported:</strong></div>
-                          <ul className="ml-4 space-y-1">
-                            <li>• <strong>MyNearWallet:</strong> Not supported in NearFlow due to Ledger compatibility issues</li>
-                            <li>• Known problems with key verification when using Ledger devices</li>
-                            <li>• If you have an existing MyNearWallet account, you can import it into MeteorWallet</li>
-                          </ul>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-blue-800 mb-2">💡 Alternative Options</h4>
-                        <p className="text-blue-700 text-sm">If you continue to have issues with your Ledger, you can:</p>
-                        <ul className="text-blue-700 text-sm ml-4 mt-2 space-y-1">
-                          <li>• Use a compatible hot wallet (MeteorWallet, HereWallet) for authentication</li>
-                          <li>• Import your account into a compatible software wallet temporarily</li>
-                          <li>• Contact support if you need assistance with wallet setup</li>
-                        </ul>
-                      </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
