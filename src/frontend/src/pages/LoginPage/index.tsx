@@ -202,16 +202,11 @@ export default function LoginPage(): JSX.Element {
                   <LangflowLogo className="h-10 w-10 scale-[1.5]" />
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900">Welcome to NearFlow</h1>
-                    <p className="text-gray-600">AI Development Platform on NEAR Protocol</p>
+                    <p className="text-gray-600">Build & Launch AI Agents with NEAR AI + Langflow</p>
                   </div>
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow-xl p-8">
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Access NearFlow</h2>
-                  <p className="text-gray-600">Connect your NEAR wallet to get started</p>
-                </div>
-
                 <div className="space-y-4">
                     {isAuthenticated ? (
                       // User is fully authenticated
@@ -443,21 +438,8 @@ export default function LoginPage(): JSX.Element {
           {/* Right Column - Information about Staking (hidden for superusers) */}
           {!isSuperuser && (
             <div className="space-y-6">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-3">Stake to Join the VP Guild</h2>
-              <p className="mb-4">A network of innovators, builders, and visionaries shaping the future of decentralized AI and Web3 - powered by NEAR.</p>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <div className="font-semibold">🚀 Stake, Belong, Build & Create</div>
-                </div>
-                <div>
-                  <div className="font-semibold">💡 Open Innovation</div>
-                  <div className="opacity-90">Collaborative development</div>
-                </div>
-              </div>
-            </div>
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible defaultValue="what-is-staking" className="w-full">
                 <AccordionItem value="what-is-staking">
                   <AccordionTrigger className="text-lg font-semibold text-gray-800">
                     💰 What is Staking?
@@ -474,7 +456,7 @@ export default function LoginPage(): JSX.Element {
                           
                           <p>NEAR staking has historically generated a rate of return (since mainnet launch in 2020) of around 8–10% annually.</p>
                           
-                          <p>The Vital Point validator automatically allocates 5% of the rewards to the guild treasury and the remaining ~4% is allocated to members proportionate to their stake.</p>
+                          <p>Your effective compounded APY is ~9.65% after accounting for the 5% Vital Point validator fee we use to fund Vital Point operations. You'll see your rewards arrive in your wallet every epoch (~7.5hrs).</p>
                         </div>
                         
                         <div className="mt-4 bg-blue-50 rounded-lg p-3">
@@ -483,15 +465,11 @@ export default function LoginPage(): JSX.Element {
                             <li>You stay in control of your funds - they never leave your wallet</li>
                             <li>You can unstake anytime (though there is a short waiting period)</li>
                             <li>There's no risk of losing your funds</li>
-                            <li>Your stake makes you a VP guild member and opens the door to guild rewards and support</li>
+                            <li>The more you stake, the more you make</li>
+                            <li>Your stake makes you a <a href="https://vitalpoint.ai/vital-point-guild/">VP Guild</a> member and opens the door to guild rewards and support</li>
                           </ul>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="bg-blue-50 rounded-lg p-4 mt-6">
-                      <h3 className="font-semibold text-blue-800 mb-2">Why 25 NEAR Minimum?</h3>
-                      <p className="text-blue-700">The 25 NEAR minimum stake requirement ensures committed community members while supporting the infrastructure costs of running NearFlow and the Vital Point Guild ecosystem.</p>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
