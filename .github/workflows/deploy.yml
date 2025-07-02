@@ -68,6 +68,12 @@ jobs:
           TF_VAR_PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
           TF_VAR_PROD_SSH_PUB_KEY: ${{ secrets.PROD_SSH_PUB_KEY }}
           TF_VAR_LANGFLOW_DOMAIN: ${{ secrets.LANGFLOW_DOMAIN }}
+          TF_VAR_LANGFLOW_ENABLE_NEAR_STAKING_VERIFICATION: ${{ secrets.LANGFLOW_ENABLE_NEAR_STAKING_VERIFICATION }}
+          TF_VAR_LANGFLOW_NEAR_DEV_MODE: ${{ secrets.LANGFLOW_NEAR_DEV_MODE }}
+          TF_VAR_LANGFLOW_NEAR_MIN_STAKE_AMOUNT: ${{ secrets.LANGFLOW_NEAR_MIN_STAKE_AMOUNT }}
+          TF_VAR_LANGFLOW_NEAR_POOL_CONTRACT: ${{ secrets.LANGFLOW_NEAR_POOL_CONTRACT }}
+          TF_VAR_LANGFLOW_NEAR_RPC_URL: ${{ secrets.LANGFLOW_NEAR_RPC_URL }}
+
         
   build-and-deploy:
     name: Build and Deploy Docker Image
@@ -108,6 +114,11 @@ jobs:
           echo "LANGFLOW_HOST=${{ secrets.LANGFLOW_HOST }}" >> nearflow.env
           echo "GHCR_PAT=${{ secrets.GHCR_PAT }}" >> nearflow.env
           echo "LANGFLOW_DOMAIN=${{ secrets.LANGFLOW_DOMAIN }}" >> nearflow.env
+          echo "LANGFLOW_ENABLE_NEAR_STAKING_VERIFICATION=${{ secrets.LANGFLOW_ENABLE_NEAR_STAKING_VERIFICATION }}" >> nearflow.env
+          echo "LANGFLOW_NEAR_DEV_MODE=${{ secrets.LANGFLOW_NEAR_DEV_MODE }}" >> nearflow.env
+          echo "LANGFLOW_NEAR_MIN_STAKE_AMOUNT=${{ secrets.LANGFLOW_NEAR_MIN_STAKE_AMOUNT }}" >> nearflow.env
+          echo "LANGFLOW_NEAR_POOL_CONTRACT=${{ secrets.LANGFLOW_NEAR_POOL_CONTRACT }}" >> nearflow.env
+          echo "LANGFLOW_NEAR_RPC_URL=${{ secrets.LANGFLOW_NEAR_RPC_URL }}" >> nearflow.env
         
       - name: Print .env contents (DEBUG ONLY – remove in production)
         run: cat nearflow.env | grep POSTGRES
