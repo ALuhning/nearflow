@@ -50,7 +50,7 @@ Your current `.env` configuration is properly set up:
 LANGFLOW_ENABLE_NEAR_STAKING_VERIFICATION=true
 
 # NEAR RPC endpoint with API key
-LANGFLOW_NEAR_RPC_URL=https://rpc.mainnet.fastnear.com?apiKey=3c1b8c4dfab4e640040dd3009e1ccec93fcb84409f88ce220aa398750e20edac
+LANGFLOW_NEAR_RPC_URL=https://rpc.mainnet.fastnear.com?apiKey=YOUR_API_KEY_HERE
 
 # Staking pool contract
 LANGFLOW_NEAR_POOL_CONTRACT=vitalpoint.pool.near
