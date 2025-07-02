@@ -17,9 +17,10 @@ def test_frontend_superuser_flow():
     
     # Step 1: Login as superuser
     print("1. Testing superuser login...")
+    superuser_password = os.getenv("LANGFLOW_SUPERUSER_PASSWORD", "CHANGE_ME_DEFAULT_PASSWORD")
     login_response = requests.post(f"{base_url}/api/v1/login/login", data={
         "username": "vitalpointai.near", 
-        "password": "supersecure"
+        "password": superuser_password
     })
     print(f"   Login response status: {login_response.status_code}")
     

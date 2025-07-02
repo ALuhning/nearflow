@@ -12,8 +12,9 @@ async def test_real_near_account():
     """Test with real NEAR accounts to verify the staking verification works."""
     
     # Configure with your settings
+    rpc_url = os.getenv("NEAR_RPC_URL", "https://rpc.mainnet.near.org")  # Use env var for API key
     verifier = NEARStakingVerifier(
-        rpc_url="https://rpc.mainnet.fastnear.com?apiKey=3c1b8c4dfab4e640040dd3009e1ccec93fcb84409f88ce220aa398750e20edac",
+        rpc_url=rpc_url,
         pool_contract="vitalpoint.pool.near",
         min_stake_amount="25"
     )

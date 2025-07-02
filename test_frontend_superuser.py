@@ -14,7 +14,7 @@ def test_superuser_frontend_flow():
     
     base_url = "http://localhost:7860"
     superuser = os.getenv("LANGFLOW_SUPERUSER", "vitalpointai.near")
-    password = os.getenv("LANGFLOW_SUPERUSER_PASSWORD", "supersecure")
+    password = os.getenv("LANGFLOW_SUPERUSER_PASSWORD", "CHANGE_ME_DEFAULT_PASSWORD")
     
     print(f"Testing superuser frontend flow for: {superuser}")
     print("=" * 60)

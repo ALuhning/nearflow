@@ -21,6 +21,6 @@ try:
     print(f"\nSettings service auth:")
     print(f"AUTO_LOGIN: {settings.auth_settings.AUTO_LOGIN}")
     print(f"SUPERUSER: {settings.auth_settings.SUPERUSER}")
-    print(f"SUPERUSER_PASSWORD: {settings.auth_settings.SUPERUSER_PASSWORD}")
+    print(f"SUPERUSER_PASSWORD: {'***REDACTED***' if settings.auth_settings.SUPERUSER_PASSWORD else 'NOT SET'}")
 except Exception as e:
     print(f"\nError importing settings: {e}")
