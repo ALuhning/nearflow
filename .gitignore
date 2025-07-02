@@ -4,6 +4,7 @@ prepare-commit-msg
 # Test files - exclude from production
 test_*.py
 SECURITY_AUDIT_REPORT.md
+DOCUMENTATION_SECURITY_AUDIT.md
 
 # Logs
 logs
