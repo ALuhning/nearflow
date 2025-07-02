@@ -410,13 +410,16 @@ class MCPSettings(BaseModel):
 
 # NEAR Authentication Schemas
 
+
 class NEARChallengeRequest(BaseModel):
     """Request schema for getting a NEAR authentication challenge."""
+
     near_account_id: str = Field(..., description="NEAR account ID (e.g., user.near)")
 
 
 class NEARChallengeResponse(BaseModel):
     """Response schema for NEAR authentication challenge."""
+
     challenge: str = Field(..., description="Base64 encoded challenge nonce")
     message: str = Field(..., description="Message to be signed")
     recipient: str = Field(..., description="Application name/recipient")
@@ -424,6 +427,7 @@ class NEARChallengeResponse(BaseModel):
 
 class NEARSignatureLogin(BaseModel):
     """Schema for NEAR signature-based login request."""
+
     near_account_id: str = Field(..., description="NEAR account ID (e.g., user.near)")
     public_key: str = Field(..., description="Public key used to sign the challenge")
     signature: str = Field(..., description="Base64 encoded signature of the challenge")
@@ -434,6 +438,7 @@ class NEARSignatureLogin(BaseModel):
 
 class NEARLoginResponse(BaseModel):
     """Response schema for NEAR account login."""
+
     access_token: str
     refresh_token: str
     token_type: str = "bearer"

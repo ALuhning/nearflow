@@ -3,6 +3,7 @@ from fastapi import APIRouter
 
 from langflow.api.v1 import (
     api_key_router,
+    auth_router,
     chat_router,
     endpoints_router,
     files_router,
@@ -19,7 +20,6 @@ from langflow.api.v1 import (
     validate_router,
     variables_router,
     voice_mode_router,
-    auth_router,
 )
 from langflow.api.v2 import files_router as files_router_v2
 

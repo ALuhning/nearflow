@@ -924,30 +924,33 @@ async def create_or_update_starter_projects(all_types_dict: dict, *, do_create: 
 
 async def initialize_super_user_if_needed() -> None:
     """Initialize superuser from environment variables if needed.
-    
-    This function ensures that the superuser specified in .env (LANGFLOW_SUPERUSER) 
+
+    This function ensures that the superuser specified in .env (LANGFLOW_SUPERUSER)
     is properly created and configured, regardless of AUTO_LOGIN setting.
     """
     settings_service = get_settings_service()
     username = settings_service.auth_settings.SUPERUSER
     password = settings_service.auth_settings.SUPERUSER_PASSWORD
-    
+
     logger.debug(f"Checking superuser configuration for: {username}")
-    
+
     # If no superuser credentials are provided, skip
     if not username or not password:
         if not settings_service.auth_settings.AUTO_LOGIN:
-            logger.warning("No SUPERUSER credentials provided in .env file. Please set LANGFLOW_SUPERUSER and LANGFLOW_SUPERUSER_PASSWORD to ensure admin access.")
+            logger.warning(
+                "No SUPERUSER credentials provided in .env file. Please set LANGFLOW_SUPERUSER and LANGFLOW_SUPERUSER_PASSWORD to ensure admin access."
+            )
         return
-    
+
     async with session_scope() as async_session:
         # Check if the user already exists
-        from langflow.services.database.models.user.model import User
         from sqlmodel import select
-        
+
+        from langflow.services.database.models.user.model import User
+
         stmt = select(User).where(User.username == username)
         existing_user = (await async_session.exec(stmt)).first()
-        
+
         if existing_user:
             # User exists - ensure they have the correct permissions
             needs_update = False
@@ -955,12 +958,12 @@ async def initialize_super_user_if_needed() -> None:
                 existing_user.is_active = True
                 needs_update = True
                 logger.info(f"Updating user '{username}' to active status")
-                
+
             if not existing_user.is_superuser:
                 existing_user.is_superuser = True
                 needs_update = True
                 logger.info(f"Updating user '{username}' to superuser status")
-                
+
             if needs_update:
                 async_session.add(existing_user)
                 await async_session.commit()
@@ -968,18 +971,18 @@ async def initialize_super_user_if_needed() -> None:
                 logger.info(f"Superuser '{username}' updated successfully")
             else:
                 logger.info(f"Superuser '{username}' already exists with correct permissions")
-                
+
             super_user = existing_user
         else:
             # User doesn't exist - create new superuser
             logger.info(f"Creating superuser '{username}'")
             super_user = await create_super_user(db=async_session, username=username, password=password)
             logger.info(f"Superuser '{username}' created successfully")
-        
+
         # Initialize user variables and default folder
         await get_variable_service().initialize_user_variables(super_user.id, async_session)
         _ = await get_or_create_default_folder(async_session, super_user.id)
-        
+
     logger.info(f"Superuser initialization completed for '{username}'")
 
 
