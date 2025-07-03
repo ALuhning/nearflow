@@ -164,7 +164,7 @@ export default function SimpleNEARAuth({
       
       // Call backend to check staking - don't skip based on local isSuperuser state
       // Let the backend determine superuser status
-      const response = await fetch(`http://localhost:7860/api/v1/near-stake-check/${accountId}`, {
+      const response = await fetch(`/api/v1/near-stake-check/${accountId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

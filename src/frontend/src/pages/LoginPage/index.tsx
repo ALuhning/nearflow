@@ -104,7 +104,7 @@ export default function LoginPage(): JSX.Element {
             } else {
               // Check staking for this account
               try {
-                const response = await fetch(`http://localhost:7860/api/v1/near-stake-check/${accountId}`);
+                const response = await fetch(`/api/v1/near-stake-check/${accountId}`);
                 if (response.ok) {
                   const data = await response.json();
                   setStakingMeetsRequirements(data.meets_requirements);
@@ -170,7 +170,7 @@ export default function LoginPage(): JSX.Element {
         if (isAccountSuperuser) {
           setStakingMeetsRequirements(true); // Superusers always meet requirements
         } else {
-          const response = await fetch(`http://localhost:7860/api/v1/near-stake-check/${nearAccountId}`);
+          const response = await fetch(`/api/v1/near-stake-check/${nearAccountId}`);
           if (response.ok) {
             const data = await response.json();
             setStakingMeetsRequirements(data.meets_requirements);
