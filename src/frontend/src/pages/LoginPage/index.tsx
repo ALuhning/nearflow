@@ -86,7 +86,7 @@ export default function LoginPage(): JSX.Element {
             
             // Check if user already exists
             try {
-              const userExistsResponse = await fetch(`http://localhost:7860/api/v1/check-user-exists/${accountId}`);
+              const userExistsResponse = await fetch(`/api/v1/check-user-exists/${accountId}`);
               if (userExistsResponse.ok) {
                 const userData = await userExistsResponse.json();
                 setUserExists(userData.exists);
@@ -154,7 +154,7 @@ export default function LoginPage(): JSX.Element {
         
         // Check if user already exists
         try {
-          const userExistsResponse = await fetch(`http://localhost:7860/api/v1/check-user-exists/${nearAccountId}`);
+          const userExistsResponse = await fetch(`/api/v1/check-user-exists/${nearAccountId}`);
           if (userExistsResponse.ok) {
             const userData = await userExistsResponse.json();
             setUserExists(userData.exists);

@@ -201,7 +201,7 @@ export default function SimpleNEARAuth({
       // Check if user already exists
       let userExistsForAccount = false;
       try {
-        const userExistsResponse = await fetch(`http://localhost:7860/api/v1/check-user-exists/${accountId}`);
+        const userExistsResponse = await fetch(`/api/v1/check-user-exists/${accountId}`);
         if (userExistsResponse.ok) {
           const userData = await userExistsResponse.json();
           userExistsForAccount = userData.exists;
