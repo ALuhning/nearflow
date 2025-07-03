@@ -119,12 +119,25 @@ export default function SimpleNEARAuth({
         const isConnected = state.accounts && state.accounts.length > 0;
         const currentAccount = state.accounts.find(acc => acc.active)?.accountId || null;
         
-        setWalletConnected(isConnected);
-        setAccountId(currentAccount);
+        console.log("SimpleNEARAuth: Wallet state changed:", { isConnected, currentAccount, previousAccount: accountId });
         
-        // Check staking when account changes
-        if (currentAccount && currentAccount !== accountId) {
-          checkStakingRequirement(currentAccount);
+        setWalletConnected(isConnected);
+        
+        // Check if account actually changed
+        if (currentAccount !== accountId) {
+          setAccountId(currentAccount);
+          
+          if (currentAccount) {
+            // New account connected or switched - check staking
+            console.log("SimpleNEARAuth: Account changed to:", currentAccount);
+            checkStakingRequirement(currentAccount);
+          } else {
+            // Account disconnected
+            console.log("SimpleNEARAuth: Account disconnected");
+            setStakingRequired(false);
+            setStakingAmount(null);
+            onAccountChange?.(null, false, false, false);
+          }
         }
       });
     };
@@ -155,13 +168,12 @@ export default function SimpleNEARAuth({
   const checkStakingRequirement = async (accountId: string) => {
     if (!accountId) return;
     
+    console.log(`SimpleNEARAuth: Starting staking check for account: ${accountId}`);
     setCheckingStaking(true);
     setStakingRequired(false);
     setStakingAmount(null);
     
     try {
-      console.log(`Checking staking requirement for: ${accountId}`);
-      
       // Call backend to check staking - don't skip based on local isSuperuser state
       // Let the backend determine superuser status
       const response = await fetch(`/api/v1/near-stake-check/${accountId}`, {
@@ -176,7 +188,7 @@ export default function SimpleNEARAuth({
       
       if (response.ok) {
         const data = await response.json();
-        console.log("Staking check result:", data);
+        console.log("SimpleNEARAuth: Staking check result:", data);
         
         // Check if this account is a superuser based on the API response
         isAccountSuperuser = data.superuser || false;
@@ -185,15 +197,15 @@ export default function SimpleNEARAuth({
           setStakingRequired(false);
           setStakingAmount(data.current_stake);
           stakingMeetsRequirements = true;
-          console.log(`Account ${accountId} meets requirements. Superuser: ${isAccountSuperuser}`);
+          console.log(`SimpleNEARAuth: Account ${accountId} meets requirements. Superuser: ${isAccountSuperuser}`);
         } else {
           setStakingRequired(true);
           setStakingAmount(data.current_stake || "0");
           stakingMeetsRequirements = false;
-          console.log(`Account ${accountId} does not meet staking requirements. Current stake: ${data.current_stake}`);
+          console.log(`SimpleNEARAuth: Account ${accountId} does not meet staking requirements. Current stake: ${data.current_stake}`);
         }
       } else {
-        console.log("Failed to check staking, assuming requirements not met");
+        console.log("SimpleNEARAuth: Failed to check staking, assuming requirements not met");
         setStakingRequired(true);
         stakingMeetsRequirements = false;
       }
@@ -205,20 +217,27 @@ export default function SimpleNEARAuth({
         if (userExistsResponse.ok) {
           const userData = await userExistsResponse.json();
           userExistsForAccount = userData.exists;
-          console.log(`User exists check for ${accountId}: ${userExistsForAccount}`);
+          console.log(`SimpleNEARAuth: User exists check for ${accountId}: ${userExistsForAccount}`);
         }
       } catch (error) {
-        console.error("Error checking user existence:", error);
+        console.error("SimpleNEARAuth: Error checking user existence:", error);
       }
       
-      // Notify parent component about the account change
+      // Always notify parent component about the account state
+      console.log(`SimpleNEARAuth: Calling onAccountChange with:`, { 
+        accountId, 
+        userExists: userExistsForAccount, 
+        isSuperuser: isAccountSuperuser, 
+        stakingMeetsRequirements 
+      });
       onAccountChange?.(accountId, userExistsForAccount, isAccountSuperuser, stakingMeetsRequirements);
       
     } catch (error) {
-      console.error("Error checking staking:", error);
+      console.error("SimpleNEARAuth: Error checking staking:", error);
       // Assume staking required if check fails
       setStakingRequired(true);
       // Still notify parent about account change, even if checks failed
+      console.log(`SimpleNEARAuth: Error occurred, calling onAccountChange with default values for ${accountId}`);
       onAccountChange?.(accountId, false, false, false);
     } finally {
       setCheckingStaking(false);

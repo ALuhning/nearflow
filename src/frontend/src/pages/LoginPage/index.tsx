@@ -77,6 +77,7 @@ export default function LoginPage(): JSX.Element {
           
           if (accounts && accounts.length > 0) {
             const accountId = accounts[0].accountId;
+            console.log("LoginPage: Initial wallet check found account:", accountId);
             setNearWalletConnected(true);
             setNearAccountId(accountId);
             
@@ -117,77 +118,38 @@ export default function LoginPage(): JSX.Element {
               }
             }
           } else {
+            console.log("LoginPage: No accounts found, resetting state");
             setNearWalletConnected(false);
             setNearAccountId(null);
             setStakingMeetsRequirements(null);
+            setUserExists(null);
+            setIsSuperuser(false);
           }
         } else {
+          console.log("LoginPage: Wallet not signed in, resetting state");
           setNearWalletConnected(false);
           setNearAccountId(null);
           setStakingMeetsRequirements(null);
+          setUserExists(null);
+          setIsSuperuser(false);
         }
       } catch (error) {
         console.error("Error checking NEAR wallet:", error);
         setNearWalletConnected(false);
         setNearAccountId(null);
         setStakingMeetsRequirements(null);
+        setUserExists(null);
+        setIsSuperuser(false);
       } finally {
         setCheckingWalletAndStaking(false);
       }
     };
     
-    checkNearWalletAndStaking();
+    // Only run this effect on initial load or when superuser config changes
+    if (superuserAccount !== null) {
+      checkNearWalletAndStaking();
+    }
   }, [isAuthenticated, superuserAccount]);
-
-  // Separate effect to re-check staking when account changes (for account switching)
-  useEffect(() => {
-    const recheckStaking = async () => {
-      if (!nearAccountId || isAuthenticated) return;
-      
-      setCheckingWalletAndStaking(true);
-      setStakingMeetsRequirements(null); // Reset to null while checking
-      
-      try {
-        // Check if this account is the designated superuser  
-        const isAccountSuperuser = nearAccountId === superuserAccount;
-        setIsSuperuser(isAccountSuperuser);
-        
-        // Check if user already exists
-        try {
-          const userExistsResponse = await fetch(`/api/v1/check-user-exists/${nearAccountId}`);
-          if (userExistsResponse.ok) {
-            const userData = await userExistsResponse.json();
-            setUserExists(userData.exists);
-          } else {
-            setUserExists(false);
-          }
-        } catch (error) {
-          console.error("Error checking user existence:", error);
-          setUserExists(false);
-        }
-        
-        // Skip staking check for superusers
-        if (isAccountSuperuser) {
-          setStakingMeetsRequirements(true); // Superusers always meet requirements
-        } else {
-          const response = await fetch(`/api/v1/near-stake-check/${nearAccountId}`);
-          if (response.ok) {
-            const data = await response.json();
-            setStakingMeetsRequirements(data.meets_requirements);
-          } else {
-            setStakingMeetsRequirements(false);
-          }
-        }
-      } catch (error) {
-        console.error("Error rechecking staking:", error);
-        setStakingMeetsRequirements(false);
-      } finally {
-        setCheckingWalletAndStaking(false);
-      }
-    };
-    
-    recheckStaking();
-  }, [nearAccountId, isAuthenticated, superuserAccount]);
 
   return (
     <div className="min-h-screen w-full bg-background overflow-auto">
@@ -267,16 +229,22 @@ export default function LoginPage(): JSX.Element {
                             }}
                             onAccountChange={(accountId, userExists, isSuperuser, stakingMeetsRequirements) => {
                               console.log("LoginPage: Account changed:", { accountId, userExists, isSuperuser, stakingMeetsRequirements });
+                              // Always reset all account-related state when account changes
                               if (accountId) {
                                 setNearAccountId(accountId);
                                 setNearWalletConnected(true);
+                                setUserExists(userExists);
+                                setIsSuperuser(isSuperuser);
+                                setStakingMeetsRequirements(stakingMeetsRequirements);
                               } else {
+                                // Account disconnected - reset all state
                                 setNearAccountId(null);
                                 setNearWalletConnected(false);
+                                setUserExists(null);
+                                setIsSuperuser(false);
+                                setStakingMeetsRequirements(null);
                               }
-                              setUserExists(userExists);
-                              setIsSuperuser(isSuperuser);
-                              setStakingMeetsRequirements(stakingMeetsRequirements);
+                              setCheckingWalletAndStaking(false); // Ensure loading state is cleared
                             }}
                           />
                         ) : (
@@ -378,17 +346,23 @@ export default function LoginPage(): JSX.Element {
                               });
                             }}
                             onAccountChange={(accountId, userExists, isSuperuser, stakingMeetsRequirements) => {
-                              console.log("LoginPage: Account changed (third instance):", { accountId, userExists, isSuperuser, stakingMeetsRequirements });
+                              console.log("LoginPage: Account changed (authentication flow):", { accountId, userExists, isSuperuser, stakingMeetsRequirements });
+                              // Always reset all account-related state when account changes
                               if (accountId) {
                                 setNearAccountId(accountId);
                                 setNearWalletConnected(true);
+                                setUserExists(userExists);
+                                setIsSuperuser(isSuperuser);
+                                setStakingMeetsRequirements(stakingMeetsRequirements);
                               } else {
+                                // Account disconnected - reset all state
                                 setNearAccountId(null);
                                 setNearWalletConnected(false);
+                                setUserExists(null);
+                                setIsSuperuser(false);
+                                setStakingMeetsRequirements(null);
                               }
-                              setUserExists(userExists);
-                              setIsSuperuser(isSuperuser);
-                              setStakingMeetsRequirements(stakingMeetsRequirements);
+                              setCheckingWalletAndStaking(false); // Ensure loading state is cleared
                             }}
                           />
                         ) : (
