@@ -36,10 +36,10 @@ export const useGetConfig: useQueryFunctionType<undefined, ConfigResponse> = (
   ));
   const setMaxFileSizeUpload = useUtilityStore(useShallow(
     (state) => state.setMaxFileSizeUpload,
-  );
+  ));
   const setSerializationMaxItemsLength = useUtilityStore(useShallow(
     (state) => state.setSerializationMaxItemsLength,
-  )));
+  ));
   const setFeatureFlags = useUtilityStore((state) => state.setFeatureFlags);
   const setWebhookPollingInterval = useUtilityStore(
     (state) => state.setWebhookPollingInterval,

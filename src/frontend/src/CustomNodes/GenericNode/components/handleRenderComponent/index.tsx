@@ -3,7 +3,6 @@ import useFlowStore from "@/stores/flowStore";
 import { nodeColorsName } from "@/utils/styleUtils";
 import { Connection, Handle, Position } from "@xyflow/react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useShallow } from "zustand/react/shallow";
 import ShadTooltip from "../../../../components/common/shadTooltipComponent";
 import {
   isValidConnection,

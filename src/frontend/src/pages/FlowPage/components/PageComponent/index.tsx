@@ -34,8 +34,8 @@ import {
   useState,
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useShallow } from "zustand/react/shallow";
 import GenericNode from "../../../../CustomNodes/GenericNode";
+import { JSX } from "react";
 import {
   INVALID_SELECTION_ERROR_ALERT,
   UPLOAD_ALERT_LIST,

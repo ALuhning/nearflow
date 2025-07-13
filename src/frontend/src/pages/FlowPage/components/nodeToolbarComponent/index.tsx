@@ -42,6 +42,7 @@ import ToolbarModals from "./components/toolbar-modals";
 import useShortcuts from "./hooks/use-shortcuts";
 import ShortcutDisplay from "./shortcutDisplay";
 import ToolbarSelectItem from "./toolbarSelectItem";
+import { JSX } from "react";
 
 const NodeToolbarComponent = memo(
   ({

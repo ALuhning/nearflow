@@ -6,9 +6,10 @@ import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { convertUTCToLocalTimezone } from "@/utils/utils";
 import { ColDef, ColGroupDef } from "ag-grid-community";
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import BaseModal from "../baseModal";
 import { useShallow } from "zustand/react/shallow";
+import { JSX } from "react";
 
 export default function FlowLogsModal({
   children,

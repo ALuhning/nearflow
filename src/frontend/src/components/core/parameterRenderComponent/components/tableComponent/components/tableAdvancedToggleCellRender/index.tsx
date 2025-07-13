@@ -13,7 +13,7 @@ export default function TableAdvancedToggleCellRender({
 }: CustomCellRendererProps) {
   const edges = useFlowStore(useShallow((state) => state.edges));
   const node = isTweaks
-    ? useTweaksStore(useShallow((state) => state.getNode(nodeId)));
+    ? useTweaksStore(useShallow((state) => state.getNode(nodeId)))
     : useFlowStore(useShallow((state) => state.getNode(nodeId)));
   const parameter = node?.data?.node?.template?.[parameterId];
 

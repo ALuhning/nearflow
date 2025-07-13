@@ -10,7 +10,7 @@ import { useIsAutoLogin } from "@/hooks/use-is-auto-login";
 import useAuthStore from "@/stores/authStore";
 import { cn } from "@/utils/utils";
 import { useEffect, useMemo, useRef } from "react";
-import { useShallow } from "zustand/react/shallow";
+import { JSX } from "react";
 import { default as IconComponent } from "../../../../components/common/genericIconComponent";
 import ShadTooltip from "../../../../components/common/shadTooltipComponent";
 import {

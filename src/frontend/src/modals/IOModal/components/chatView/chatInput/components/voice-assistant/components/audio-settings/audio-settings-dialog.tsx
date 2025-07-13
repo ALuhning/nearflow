@@ -70,7 +70,7 @@ const SettingsVoiceModal = ({
 
   const globalVariables = useGlobalVariablesStore(useShallow(
     (state) => state.globalVariablesEntries,
-  );
+  ));
 
   const globalVariablesEntities = useGlobalVariablesStore(
     (state) => state.globalVariablesEntities,
