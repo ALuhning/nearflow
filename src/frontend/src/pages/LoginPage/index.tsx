@@ -35,6 +35,19 @@ export default function LoginPage(): JSX.Element {
     setIsSuperuser(isAdmin);
   }, [isAdmin]);
 
+  // Reset NEAR wallet state when user logs out
+  useEffect(() => {
+    if (!isAuthenticated && nearWalletConnected) {
+      console.log("LoginPage: User logged out, resetting NEAR wallet state");
+      setNearWalletConnected(false);
+      setNearAccountId(null);
+      setStakingMeetsRequirements(null);
+      setCheckingWalletAndStaking(false);
+      setIsSuperuser(false);
+      setUserExists(null);
+    }
+  }, [isAuthenticated, nearWalletConnected]);
+
   // Check NEAR dev mode from backend
   useEffect(() => {
     nearAuthEnabledMutation.mutate(undefined, {
@@ -137,7 +150,10 @@ export default function LoginPage(): JSX.Element {
       }
     };
     
-    checkNearWalletAndStaking();
+    // Only check wallet connection if not authenticated
+    if (!isAuthenticated) {
+      checkNearWalletAndStaking();
+    }
   }, [isAuthenticated, superuserAccount]);
 
   // Separate effect to re-check staking when account changes (for account switching)
