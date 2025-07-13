@@ -26,6 +26,7 @@ export default function LoginPage(): JSX.Element {
   const isCheckingWallet = useRef<boolean>(false);
   const lastCheckedAccount = useRef<string | null>(null);
   const walletCheckInterval = useRef<NodeJS.Timeout | null>(null);
+  const isInitialized = useRef<boolean>(false);
   
   const { login, userData } = useContext(AuthContext);
   const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
@@ -39,10 +40,12 @@ export default function LoginPage(): JSX.Element {
         setNearDevMode(data.dev_mode || false);
         setSuperuserAccount(data.superuser || null);
         setNearAuthConfig(data);
+        isInitialized.current = true;
       },
       onError: (error) => {
         console.error('Failed to check NEAR dev mode:', error);
         setNearDevMode(false);
+        isInitialized.current = true;
       }
     });
   }, []);
@@ -134,22 +137,8 @@ export default function LoginPage(): JSX.Element {
             setUserExists(null);
           }
         } else {
-          // Reset state if not signed in
-          if (nearWalletConnected || nearAccountId) {
-            console.log("LoginPage: Wallet not signed in, resetting state");
-            lastCheckedAccount.current = null;
-            setNearWalletConnected(false);
-            setNearAccountId(null);
-            setStakingMeetsRequirements(null);
-            setIsSuperuser(false);
-            setUserExists(null);
-          }
-        }
-      } catch (error) {
-        console.error("Error checking NEAR wallet:", error);
-        // Reset state on error
-        if (nearWalletConnected || nearAccountId) {
-          console.log("LoginPage: Error checking wallet, resetting state");
+          // Reset state if not signed in - be more aggressive about clearing state
+          console.log("LoginPage: Wallet not signed in, resetting state");
           lastCheckedAccount.current = null;
           setNearWalletConnected(false);
           setNearAccountId(null);
@@ -157,22 +146,32 @@ export default function LoginPage(): JSX.Element {
           setIsSuperuser(false);
           setUserExists(null);
         }
+      } catch (error) {
+        console.error("Error checking NEAR wallet:", error);
+        // Reset state on error - be more aggressive
+        console.log("LoginPage: Error checking wallet, resetting state");
+        lastCheckedAccount.current = null;
+        setNearWalletConnected(false);
+        setNearAccountId(null);
+        setStakingMeetsRequirements(null);
+        setIsSuperuser(false);
+        setUserExists(null);
       } finally {
         setCheckingWalletAndStaking(false);
         isCheckingWallet.current = false;
       }
     };
     
-    // Only check wallet connection if not authenticated and superuserAccount is available
-    if (!isAuthenticated && superuserAccount !== null) {
+    // Only check wallet connection if not authenticated, superuserAccount is available, and component is initialized
+    if (!isAuthenticated && superuserAccount !== null && isInitialized.current) {
       checkNearWalletAndStaking();
       
-      // Set up periodic check for wallet disconnection (every 3 seconds)
+      // Set up periodic check for wallet disconnection (every 2 seconds)
       walletCheckInterval.current = setInterval(() => {
-        if (!isAuthenticated && !isCheckingWallet.current) {
+        if (!isAuthenticated && !isCheckingWallet.current && superuserAccount !== null && isInitialized.current) {
           checkNearWalletAndStaking();
         }
-      }, 3000);
+      }, 2000);
     }
     
     // Cleanup interval on unmount or when dependencies change
@@ -182,7 +181,7 @@ export default function LoginPage(): JSX.Element {
         walletCheckInterval.current = null;
       }
     };
-  }, [isAuthenticated, superuserAccount, nearWalletConnected, nearAccountId]);
+  }, [isAuthenticated, superuserAccount]);
 
   // Reset state when user logs out (improved detection)
   useEffect(() => {
@@ -205,19 +204,21 @@ export default function LoginPage(): JSX.Element {
         setUserExists(null);
       }
     }
-  }, [isAuthenticated, nearWalletConnected, nearAccountId, stakingMeetsRequirements, isSuperuser, userExists]);
+  }, [isAuthenticated]);
 
-  // Reset when superuser account changes
+  // Reset when superuser account changes (but don't trigger loops)
   useEffect(() => {
     if (superuserAccount !== null && nearAccountId && !isAuthenticated) {
       const isAccountSuperuser = nearAccountId === superuserAccount;
-      setIsSuperuser(isAccountSuperuser);
-      // Only update staking requirements if this changes the superuser status
-      if (isAccountSuperuser && stakingMeetsRequirements !== true) {
-        setStakingMeetsRequirements(true);
+      if (isSuperuser !== isAccountSuperuser) {
+        setIsSuperuser(isAccountSuperuser);
+        // Only update staking requirements if this changes the superuser status
+        if (isAccountSuperuser && stakingMeetsRequirements !== true) {
+          setStakingMeetsRequirements(true);
+        }
       }
     }
-  }, [superuserAccount, nearAccountId, isAuthenticated]);
+  }, [superuserAccount]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -307,6 +308,19 @@ export default function LoginPage(): JSX.Element {
                             }}
                             onAccountChange={(accountId, userExistsParam, isSuperuserParam, stakingMeetsRequirementsParam) => {
                               console.log("LoginPage: Account changed:", { accountId, userExists: userExistsParam, isSuperuser: isSuperuserParam, stakingMeetsRequirements: stakingMeetsRequirementsParam });
+                              
+                              // If account is null/undefined, immediately clear all state
+                              if (!accountId) {
+                                console.log("LoginPage: Account disconnected via onAccountChange, clearing state");
+                                lastCheckedAccount.current = null;
+                                setNearAccountId(null);
+                                setNearWalletConnected(false);
+                                setUserExists(null);
+                                setIsSuperuser(false);
+                                setStakingMeetsRequirements(null);
+                                return;
+                              }
+                              
                               // Only update if values have actually changed to prevent loops
                               if (nearAccountId !== accountId) {
                                 setNearAccountId(accountId);
@@ -421,6 +435,19 @@ export default function LoginPage(): JSX.Element {
                             }}
                             onAccountChange={(accountId, userExistsParam, isSuperuserParam, stakingMeetsRequirementsParam) => {
                               console.log("LoginPage: Account changed (third instance):", { accountId, userExists: userExistsParam, isSuperuser: isSuperuserParam, stakingMeetsRequirements: stakingMeetsRequirementsParam });
+                              
+                              // If account is null/undefined, immediately clear all state
+                              if (!accountId) {
+                                console.log("LoginPage: Account disconnected via onAccountChange (third instance), clearing state");
+                                lastCheckedAccount.current = null;
+                                setNearAccountId(null);
+                                setNearWalletConnected(false);
+                                setUserExists(null);
+                                setIsSuperuser(false);
+                                setStakingMeetsRequirements(null);
+                                return;
+                              }
+                              
                               // Only update if values have actually changed to prevent loops
                               if (nearAccountId !== accountId) {
                                 setNearAccountId(accountId);
