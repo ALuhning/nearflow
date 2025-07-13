@@ -210,17 +210,33 @@ const HeaderComponent = ({
                       (selectedFlows.length > 1 ? "their" : "its") +
                       " message history"
                     }
+                    asChild
                   >
-                    <Button
-                      variant="destructive"
-                      size="iconMd"
-                      className="px-2.5 !text-mmd"
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      className={cn(
+                        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors",
+                        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                        "disabled:pointer-events-none disabled:opacity-50",
+                        "bg-destructive text-destructive-foreground shadow hover:bg-destructive/90",
+                        "h-8 px-2.5 text-mmd cursor-pointer",
+                        isDeleting && "opacity-50 pointer-events-none"
+                      )}
                       data-testid="delete-bulk-btn"
-                      loading={isDeleting}
                     >
-                      <ForwardedIconComponent name="Trash2" />
-                      Delete
-                    </Button>
+                      {isDeleting ? (
+                        <>
+                          <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                          Deleting...
+                        </>
+                      ) : (
+                        <>
+                          <ForwardedIconComponent name="Trash2" />
+                          Delete
+                        </>
+                      )}
+                    </div>
                   </DeleteConfirmationModal>
                 </div>
                 <ShadTooltip content="New Flow" side="bottom">

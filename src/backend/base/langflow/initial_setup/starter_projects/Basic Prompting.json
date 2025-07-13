@@ -4,7 +4,6 @@
     "edges": [
       {
         "animated": false,
-        "animated": false,
         "className": "",
         "data": {
           "sourceHandle": {
@@ -29,10 +28,9 @@
         "source": "ChatInput-c8Qhd",
         "sourceHandle": "{œdataTypeœ: œChatInputœ, œidœ: œChatInput-c8Qhdœ, œnameœ: œmessageœ, œoutput_typesœ: [œMessageœ]}",
         "target": "NearAIModel-N9jzB",
-        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œOpenAIModel-OcXklœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
+        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œLanguageModelComponent-kBOjaœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
       },
       {
-        "animated": false,
         "animated": false,
         "className": "",
         "data": {
@@ -48,8 +46,6 @@
             "fieldName": "input_value",
             "id": "ChatOutput-8ZWWB",
             "inputTypes": [
-              "Data",
-              "DataFrame",
               "Message"
             ],
             "type": "str"
@@ -60,7 +56,7 @@
         "source": "Prompt-ar7p8",
         "sourceHandle": "{œdataTypeœ: œPromptœ, œidœ: œPrompt-ar7p8œ, œnameœ: œpromptœ, œoutput_typesœ: [œMessageœ]}",
         "target": "NearAIModel-N9jzB",
-        "targetHandle": "{œfieldNameœ: œsystem_messageœ, œidœ: œOpenAIModel-OcXklœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
+        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œChatOutput-8ZWWBœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
       },
       {
         "animated": false,
@@ -88,7 +84,7 @@
         "source": "NearAIModel-N9jzB",
         "sourceHandle": "{œdataTypeœ: œNearAIModelœ, œidœ: œNearAIModel-N9jzBœ, œnameœ: œtext_outputœ, œoutput_typesœ: [œMessageœ]}",
         "target": "ChatOutput-TYHBQ",
-        "targetHandle": "{œfieldNameœ: œinput_valueœ, œidœ: œChatOutput-gDYiJœ, œinputTypesœ: [œDataœ, œDataFrameœ, œMessageœ], œtypeœ: œstrœ}"
+        "targetHandle": "{œfieldNameœ: œsystem_messageœ, œidœ: œLanguageModelComponent-kBOjaœ, œinputTypesœ: [œMessageœ], œtypeœ: œstrœ}"
       }
     ],
     "nodes": [
@@ -368,7 +364,6 @@
         "measured": {
           "height": 234,
           "width": 320
-          "width": 320
         },
         "position": {
           "x": 689.5720422421635,
@@ -497,7 +492,6 @@
         "id": "Prompt-ar7p8",
         "measured": {
           "height": 260,
-          "width": 320
           "width": 320
         },
         "position": {
@@ -874,7 +868,6 @@
         "measured": {
           "height": 234,
           "width": 320
-          "width": 320
         },
         "position": {
           "x": 1460.070372772908,
@@ -940,11 +933,8 @@
                 "cache": true,
                 "display_name": "Model Response",
                 "group_outputs": false,
-                "hidden": null,
                 "method": "text_response",
                 "name": "text_output",
-                "options": null,
-                "required_inputs": null,
                 "selected": "Message",
                 "tool_mode": true,
                 "types": [
@@ -957,12 +947,8 @@
                 "cache": true,
                 "display_name": "Language Model",
                 "group_outputs": false,
-                "hidden": null,
                 "method": "build_model",
                 "name": "model_output",
-                "required_inputs": [
-                  "near_credentials"
-                ],
                 "selected": "LanguageModel",
                 "tool_mode": true,
                 "types": [
@@ -998,7 +984,7 @@
                 "advanced": false,
                 "display_name": "Input",
                 "dynamic": false,
-                "info": "The input text to send to the model",
+                "info": "",
                 "input_types": [
                   "Message"
                 ],
@@ -1098,7 +1084,6 @@
                 "_input_type": "DropdownInput",
                 "advanced": false,
                 "combobox": false,
-                "combobox": false,
                 "dialog_inputs": {},
                 "display_name": "Model Name 📏",
                 "dynamic": false,
@@ -1180,7 +1165,7 @@
                 "advanced": true,
                 "display_name": "Stream",
                 "dynamic": false,
-                "info": "Whether to stream the response",
+                "info": "Stream the response from the model. Streaming works only in Chat.",
                 "list": false,
                 "list_add_label": "Add More",
                 "name": "stream",
@@ -1197,10 +1182,9 @@
                 "_input_type": "MultilineInput",
                 "advanced": false,
                 "copy_field": false,
-                "copy_field": false,
                 "display_name": "System Message",
                 "dynamic": false,
-                "info": "A system message that helps set the behavior of the assistant",
+                "info": "System message to pass to the model.",
                 "input_types": [
                   "Message"
                 ],

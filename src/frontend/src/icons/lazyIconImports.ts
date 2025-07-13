@@ -180,6 +180,7 @@ export const lazyIconsMapping = {
     import("@/icons/mistral").then((mod) => ({ default: mod.MistralIcon })),
   MongoDB: () =>
     import("@/icons/MongoDB").then((mod) => ({ default: mod.MongoDBIcon })),
+  NEAR: () => import("@/icons/NEAR").then((mod) => ({ default: mod.NearIcon })),
   NearAI: () => import("@/icons/NEAR").then((mod) => ({ default: mod.NearIcon })),
   Needle: () =>
     import("@/icons/Needle").then((mod) => ({ default: mod.NeedleIcon })),

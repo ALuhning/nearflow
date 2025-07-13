@@ -2,6 +2,7 @@ import asyncio
 import copy
 import io
 import json
+import os
 import re
 import shutil
 import zipfile
@@ -557,6 +558,10 @@ async def copy_profile_pictures() -> None:
     if config_dir is None:
         msg = "Config dir is not set in the settings"
         raise ValueError(msg)
+
+    # Always expand ~ to the actual home directory
+    if "~" in str(config_dir):
+        config_dir = os.path.expanduser(str(config_dir))
 
     # Setup source and target paths
     origin = anyio.Path(__file__).parent / "profile_pictures"

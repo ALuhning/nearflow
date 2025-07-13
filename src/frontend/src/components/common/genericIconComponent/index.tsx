@@ -138,12 +138,27 @@ export const ForwardedIconComponent = memo(
 class ErrorBoundary extends React.Component<{
   children: React.ReactNode;
   onError: () => void;
-}> {
+}, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode; onError: () => void }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: any) {
+    // Update state so the next render will show the fallback UI
+    return { hasError: true };
+  }
+
   componentDidCatch(error: any) {
     this.props.onError();
   }
 
   render() {
+    if (this.state.hasError) {
+      // Return null or fallback UI
+      return null;
+    }
+    
     return this.props.children;
   }
 }

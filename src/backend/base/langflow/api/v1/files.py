@@ -135,15 +135,11 @@ async def download_profile_picture(
         storage_service = get_storage_service()
         extension = file_name.split(".")[-1]
         config_dir = storage_service.settings_service.settings.config_dir
-        # Check if the environment is local and config_dir contains '~'
-        if "development" in os.environ.get("LANGFLOW_ENV", "") and "~" in config_dir:
-            # First, expand the '~' in the config_dir to the home directory
-            config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
-
-            # Now, append the project directory (e.g., "nearflow")
-            project_directory = Path(os.getcwd())  # Get the current working directory (project root)
-            config_dir = project_directory / Path(config_dir).relative_to(Path.home())  # Append project dir to home
-
+        
+        # Always expand ~ to the actual home directory
+        if config_dir and "~" in str(config_dir):
+            config_dir = os.path.expanduser(str(config_dir))
+        
         config_path = Path(config_dir)  # type: ignore[arg-type]
         folder_path = config_path / "profile_pictures" / folder_name
         content_type = build_content_type_from_extension(extension)
@@ -182,14 +178,9 @@ async def list_profile_pictures():
         storage_service = get_storage_service()
         config_dir = storage_service.settings_service.settings.config_dir
 
-        # Check if the environment is local and config_dir contains '~'
-        if "development" in os.environ.get("LANGFLOW_ENV", "") and "~" in config_dir:
-            # First, expand the '~' in the config_dir to the home directory
-            config_dir = os.path.expanduser(config_dir)  # Resolves '~' to the user's home directory
-
-            # Now, append the project directory (e.g., "nearflow")
-            project_directory = Path(os.getcwd())  # Get the current working directory (project root)
-            config_dir = project_directory / Path(config_dir).relative_to(Path.home())  # Append project dir to home
+        # Always expand ~ to the actual home directory
+        if config_dir and "~" in str(config_dir):
+            config_dir = os.path.expanduser(str(config_dir))
 
         config_path = Path(config_dir)  # type: ignore[arg-type]
 

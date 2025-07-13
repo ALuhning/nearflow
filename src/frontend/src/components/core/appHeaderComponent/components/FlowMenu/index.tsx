@@ -1,4 +1,4 @@
-import { memo, useMemo, useRef, useState } from "react";
+import { memo, useMemo, useRef, useEffect, useState } from "react";
 
 import IconComponent from "@/components/common/genericIconComponent";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
@@ -24,10 +24,9 @@ import { swatchColors } from "@/utils/styleUtils";
 import { cn, getNumberFromString } from "@/utils/utils";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useShallow } from "zustand/react/shallow";
+import { JSX } from "react";
 
 export const MenuBar = memo((): JSX.Element => {
-  const shortcuts = useShortcutsStore(useShallow((state) => state.shortcuts));
-  const addFlow = useAddFlow();
   const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const setSuccessData = useAlertStore(useShallow((state) => state.setSuccessData));
   const undo = useFlowsManagerStore(useShallow((state) => state.undo));
@@ -37,7 +36,6 @@ export const MenuBar = memo((): JSX.Element => {
   const navigate = useCustomNavigate();
   const isBuilding = useFlowStore(useShallow((state) => state.isBuilding));
   const saveFlow = useSaveFlow();
-  const queryClient = useQueryClient();
   const autoSaving = useFlowsManagerStore(useShallow((state) => state.autoSaving));
   const {
     currentFlowName,

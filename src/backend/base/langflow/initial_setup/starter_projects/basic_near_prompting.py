@@ -1,7 +1,6 @@
-from langflow.components.inputs import ChatInput
+from langflow.components.input_output import ChatInput, ChatOutput
 from langflow.components.models.nearai import NearAIModelComponent
-from langflow.components.outputs import ChatOutput
-from langflow.components.prompts import PromptComponent
+from langflow.components.processing import PromptComponent
 from langflow.graph import Graph
 
 
@@ -26,4 +25,9 @@ Answer:
     chat_output = ChatOutput()
     chat_output.set(input_value=openai_component.text_response)
 
-    return Graph(start=chat_input, end=chat_output)
+    return Graph(
+        start=chat_input, 
+        end=chat_output,
+        flow_name="Basic NearAI Prompting",
+        description="A basic prompting flow using Near AI language model."
+    )

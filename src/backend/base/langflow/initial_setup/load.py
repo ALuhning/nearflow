@@ -3,7 +3,8 @@ from .starter_projects import (
     blog_writer_graph,
     document_qa_graph,
     memory_chatbot_graph,
-    vector_store_rag_graph,
+    near_vector_store_rag_graph,
+    simple_near_agent_graph,
 )
 
 
@@ -13,7 +14,8 @@ def get_starter_projects_graphs():
         blog_writer_graph(),
         document_qa_graph(),
         memory_chatbot_graph(),
-        vector_store_rag_graph(),
+        near_vector_store_rag_graph(),
+        simple_near_agent_graph(),
     ]
 
 

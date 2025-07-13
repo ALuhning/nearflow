@@ -1,12 +1,11 @@
 from textwrap import dedent
 
 from langflow.components.data import FileComponent
-from langflow.components.inputs import ChatInput
+from langflow.components.input_output import ChatInput, ChatOutput
 from langflow.components.models.nearai import NearAIModelComponent
-from langflow.components.outputs import ChatOutput
 from langflow.components.processing import ParseDataComponent
 from langflow.components.processing.split_text import SplitTextComponent
-from langflow.components.prompts import PromptComponent
+from langflow.components.processing import PromptComponent
 from langflow.components.vectorstores import NearVectorStoreComponent
 from langflow.graph import Graph
 
@@ -15,7 +14,7 @@ def ingestion_graph():
     # Ingestion Graph
     file_component = FileComponent()
     text_splitter = SplitTextComponent()
-    text_splitter.set(data_inputs=file_component.load_files)
+    text_splitter.set(data_inputs=file_component.load_files_message)
     vector_store = NearVectorStoreComponent()
     vector_store.set(
         ingest_data=text_splitter.split_text,
@@ -55,4 +54,7 @@ def rag_graph():
 
 
 def near_vector_store_rag_graph():
-    return ingestion_graph() + rag_graph()
+    combined_graph = ingestion_graph() + rag_graph()
+    combined_graph.flow_name = "NearAI Vector Store RAG"
+    combined_graph.description = "A RAG (Retrieval Augmented Generation) flow using Near AI and vector storage."
+    return combined_graph

@@ -14,7 +14,6 @@ import { useDarkStore } from "@/stores/darkStore";
 import { useShallow } from "zustand/react/shallow";
 import { cn } from "@/utils/utils";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
-import { useParams } from "react-router";
 import {
   HeaderMenu,
   HeaderMenuItemButton,

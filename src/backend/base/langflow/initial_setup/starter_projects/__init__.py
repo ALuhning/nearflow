@@ -6,6 +6,7 @@ from .hierarchical_tasks_agent import hierarchical_tasks_agent_graph
 from .memory_chatbot import memory_chatbot_graph
 from .near_vector_store_rag import near_vector_store_rag_graph
 from .sequential_tasks_agent import sequential_tasks_agent_graph
+from .simple_near_agent import simple_near_agent_graph
 
 __all__ = [
     "basic_prompting_graph",
@@ -16,4 +17,5 @@ __all__ = [
     "memory_chatbot_graph",
     "near_vector_store_rag_graph",
     "sequential_tasks_agent_graph",
+    "simple_near_agent_graph",
 ]
