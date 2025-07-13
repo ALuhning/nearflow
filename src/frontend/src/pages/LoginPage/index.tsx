@@ -26,6 +26,7 @@ export default function LoginPage(): JSX.Element {
   const setErrorData = useAlertStore(useShallow((state) => state.setErrorData));
   const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
   const isAdmin = useAuthStore(useShallow((state) => state.isAdmin));
+  const setIsAdmin = useAuthStore(useShallow((state) => state.setIsAdmin));
   const nearAuthEnabledMutation = useNEARAuthEnabled();
 
   // Check admin status from auth store (this gets set automatically when user data is loaded)
@@ -277,6 +278,10 @@ export default function LoginPage(): JSX.Element {
                               setUserExists(userExists);
                               setIsSuperuser(isSuperuser);
                               setStakingMeetsRequirements(stakingMeetsRequirements);
+                              
+                              // Update auth store's admin status when account changes
+                              console.log(`LoginPage: Updating auth store isAdmin to ${isSuperuser} for account ${accountId}`);
+                              setIsAdmin(isSuperuser);
                             }}
                           />
                         ) : (
