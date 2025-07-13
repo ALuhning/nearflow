@@ -7,6 +7,7 @@ import {
   VITALPOINT_ACADEMY_URL,
 } from "@/constants/constants";
 import { useLogout } from "@/controllers/API/queries/auth";
+import { CustomProfileIcon } from "@/customization/components/custom-profile-icon";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useAuthStore from "@/stores/authStore";
 import { useDarkStore } from "@/stores/darkStore";
@@ -50,7 +51,7 @@ export const AccountMenu = () => {
             className="h-6 w-6 rounded-lg focus-visible:outline-0"
             data-testid="user-profile-settings"
           >
-            <ProfileIcon />
+            <CustomProfileIcon />
           </div>
         </HeaderMenuToggle>
         <HeaderMenuItems position="right" classNameSize="w-[272px]">

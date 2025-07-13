@@ -7,7 +7,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Icon from "@site/src/components/icon";
 
-Use the [MCP server component](/components-tools#mcp-server) to connect Langflow to a [Datastax Astra DB MCP server](https://github.com/datastax/astra-db-mcp).
+Use the [MCP Tools component](/mcp-client) to connect Langflow to a [Datastax Astra DB MCP server](https://github.com/datastax/astra-db-mcp).
 
 1. Install an LTS release of [Node.js](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
@@ -17,20 +17,20 @@ Use the [MCP server component](/components-tools#mcp-server) to connect Langflow
 
 4. Get your database's **Astra DB API endpoint** and an **Astra DB application token** with the Database Administrator role. For more information, see [Generate an application token for a database](https://docs.datastax.com/en/astra-db-serverless/administration/manage-application-tokens.html#database-token).
 
-5. Create a [Simple agent starter project](/starter-projects-simple-agent).
+5. Create a [Simple agent starter project](/simple-agent) if you want to follow along with this guide. Otherwise, you can use an existing flow or create a new, blank flow.
 
-6. Remove the **URL** tool and replace it with an [MCP server](/components-tools#mcp-server) component.
+6. Remove the **URL** tool, and then replace it with an [MCP Tools component](/mcp-client).
 The flow should look like this:
 
-    ![MCP stdio component connecting to Astra](/img/component-mcp-astra-db.png)
+    ![MCP Tools component connecting to Astra](/img/component-mcp-astra-db.png)
 
-7. In the **MCP server** component, in the **MCP server** field, add the following code to connect to an Astra DB MCP server:
+7. In the **MCP Tools** component, in the **MCP server** field, add the following code to connect to an Astra DB MCP server:
 
     ```bash
     npx -y @datastax/astra-db-mcp
     ```
 
-8. In the **MCP server** component, in the **Env** fields, add variables for `ASTRA_DB_APPLICATION_TOKEN` and `ASTRA_DB_API_ENDPOINT` with the values from your Astra database.
+8. In the **MCP Tools** component, in the **Env** fields, add variables for `ASTRA_DB_APPLICATION_TOKEN` and `ASTRA_DB_API_ENDPOINT` with the values from your Astra database.
 
     :::important
     Langflow passes environment variables from the `.env` file to MCP, but not global variables declared in the UI.

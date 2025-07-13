@@ -6,21 +6,23 @@ import {
   CustomParameterLabel,
   getCustomParameterTitle,
 } from "@/customization/components/custom-parameter";
+import { useIsAutoLogin } from "@/hooks/use-is-auto-login";
 import useAuthStore from "@/stores/authStore";
 import { cn } from "@/utils/utils";
 import { useEffect, useMemo, useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { default as IconComponent } from "../../../../components/common/genericIconComponent";
 import ShadTooltip from "../../../../components/common/shadTooltipComponent";
 import {
   DEFAULT_TOOLSET_PLACEHOLDER,
   FLEX_VIEW_TYPES,
   ICON_STROKE_WIDTH,
+  IS_AUTO_LOGIN,
   LANGFLOW_SUPPORTED_TYPES,
 } from "../../../../constants/constants";
 import useFlowStore from "../../../../stores/flowStore";
 import { useTypesStore } from "../../../../stores/typesStore";
 import { NodeInputFieldComponentType } from "../../../../types/components";
-import { scapedJSONStringfy } from "../../../../utils/reactflowUtils";
 import useFetchDataOnMount from "../../../hooks/use-fetch-data-on-mount";
 import useHandleOnNewValue from "../../../hooks/use-handle-new-value";
 import NodeInputInfo from "../NodeInputInfo";
@@ -45,10 +47,17 @@ export default function NodeInputField({
   isToolMode = false,
 }: NodeInputFieldComponentType): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const nodes = useFlowStore(useShallow((state) => state.nodes));
-  const edges = useFlowStore(useShallow((state) => state.edges));
-  const isAuth = useAuthStore(useShallow((state) => state.isAuthenticated));
-  const currentFlow = useFlowStore(useShallow((state) => state.currentFlow));
+  const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
+  const isAutoLogin = useIsAutoLogin();
+  const shouldDisplayApiKey = isAuthenticated && !isAutoLogin;
+
+  const { currentFlowId, currentFlowName } = useFlowStore(
+    useShallow((state) => ({
+      currentFlowId: state.currentFlow?.id,
+      currentFlowName: state.currentFlow?.name,
+    })),
+  );
+
   const myData = useTypesStore(useShallow((state) => state.data));
   const postTemplateValue = usePostTemplateValue({
     node: data.node!,
@@ -57,11 +66,6 @@ export default function NodeInputField({
   });
   const setFilterEdge = useFlowStore(useShallow((state) => state.setFilterEdge));
   const { handleNodeClass } = useHandleNodeClass(data.id);
-  let disabled =
-    edges.some(
-      (edge) =>
-        edge.targetHandle === scapedJSONStringfy(proxy ? { ...id, proxy } : id),
-    ) || isToolMode;
 
   const { handleOnNewValue } = useHandleOnNewValue({
     node: data.node!,
@@ -75,13 +79,13 @@ export default function NodeInputField({
 
   const nodeInformationMetadata: NodeInfoType = useMemo(() => {
     return {
-      flowId: currentFlow?.id ?? "",
+      flowId: currentFlowId ?? "",
       nodeType: data?.type?.toLowerCase() ?? "",
-      flowName: currentFlow?.name ?? "",
-      isAuth,
+      flowName: currentFlowName ?? "",
+      isAuth: shouldDisplayApiKey!,
       variableName: name,
     };
-  }, [data?.node?.id, isAuth, name]);
+  }, [data?.node?.id, shouldDisplayApiKey, name]);
 
   useFetchDataOnMount(
     data.node!,
@@ -108,12 +112,10 @@ export default function NodeInputField({
   const Handle = (
     <HandleRenderComponent
       left={true}
-      nodes={nodes}
       tooltipTitle={tooltipTitle}
       proxy={proxy}
       id={id}
       title={title}
-      edges={edges}
       myData={myData}
       colors={colors}
       setFilterEdge={setFilterEdge}
@@ -208,12 +210,12 @@ export default function NodeInputField({
             handleOnNewValue={handleOnNewValue}
             name={name}
             nodeId={data.id}
+            inputId={id}
             templateData={data.node?.template[name]!}
             templateValue={data.node?.template[name].value ?? ""}
             editNode={false}
             handleNodeClass={handleNodeClass}
             nodeClass={data.node!}
-            disabled={disabled}
             placeholder={
               isToolMode
                 ? DEFAULT_TOOLSET_PLACEHOLDER
@@ -221,6 +223,7 @@ export default function NodeInputField({
             }
             isToolMode={isToolMode}
             nodeInformationMetadata={nodeInformationMetadata}
+            proxy={proxy}
           />
         )}
       </div>

@@ -20,6 +20,7 @@ export interface ConfigResponse {
   max_file_size_upload: number;
   feature_flags: Record<string, any>;
   webhook_polling_interval: number;
+  serialization_max_items_length: number;
   event_delivery: EventDeliveryType;
 }
 
@@ -35,12 +36,16 @@ export const useGetConfig: useQueryFunctionType<undefined, ConfigResponse> = (
   ));
   const setMaxFileSizeUpload = useUtilityStore(useShallow(
     (state) => state.setMaxFileSizeUpload,
-  ));
-  const setFeatureFlags = useUtilityStore(useShallow((state) => state.setFeatureFlags));
-  const setWebhookPollingInterval = useUtilityStore(useShallow(
+  );
+  const setSerializationMaxItemsLength = useUtilityStore(useShallow(
+    (state) => state.setSerializationMaxItemsLength,
+  )));
+  const setFeatureFlags = useUtilityStore((state) => state.setFeatureFlags);
+  const setWebhookPollingInterval = useUtilityStore(
     (state) => state.setWebhookPollingInterval,
-  ));
+  );
   const setEventDelivery = useUtilityStore(useShallow((state) => state.setEventDelivery));
+
   const { query } = UseRequestProcessor();
 
   const getConfigFn = async () => {
@@ -57,6 +62,7 @@ export const useGetConfig: useQueryFunctionType<undefined, ConfigResponse> = (
       setHealthCheckMaxRetries(data.health_check_max_retries);
       setMaxFileSizeUpload(data.max_file_size_upload);
       setFeatureFlags(data.feature_flags);
+      setSerializationMaxItemsLength(data.serialization_max_items_length);
       setWebhookPollingInterval(
         data.webhook_polling_interval ?? DEFAULT_POLLING_INTERVAL,
       );

@@ -39,7 +39,6 @@ import HandleRenderComponent from "../handleRenderComponent";
 import OutputModal from "../outputModal";
 import { useShallow } from "zustand/react/shallow";
 
-// Memoize IconComponent instances
 const EyeIcon = memo(
   ({ hidden, className }: { hidden: boolean; className: string }) => (
     <IconComponent
@@ -53,54 +52,6 @@ const EyeIcon = memo(
 const SnowflakeIcon = memo(() => (
   <IconComponent className="h-5 w-5 text-ice" name="Snowflake" />
 ));
-
-// Memoize Button components
-const HideShowButton = memo(
-  ({
-    disabled,
-    onClick,
-    hidden,
-    isToolMode,
-    title,
-  }: {
-    disabled: boolean;
-    onClick: () => void;
-    hidden: boolean;
-    isToolMode: boolean;
-    title: string;
-  }) => (
-    <Button
-      disabled={disabled}
-      unstyled
-      onClick={onClick}
-      data-testid={`input-inspection-${title.toLowerCase()}`}
-    >
-      <ShadTooltip
-        content={
-          disabled
-            ? "Connected outputs can't be hidden."
-            : hidden
-              ? "Show output"
-              : "Hide output"
-        }
-      >
-        <div>
-          <EyeIcon
-            hidden={hidden}
-            className={cn(
-              "icon-size",
-              disabled
-                ? "text-placeholder-foreground opacity-60"
-                : isToolMode
-                  ? "text-background hover:text-secondary-hover"
-                  : "text-placeholder-foreground hover:text-primary-hover",
-            )}
-          />
-        </div>
-      </ShadTooltip>
-    </Button>
-  ),
-);
 
 const InspectButton = memo(
   forwardRef(
@@ -139,10 +90,10 @@ const InspectButton = memo(
           className={cn(
             "icon-size",
             isToolMode
-              ? displayOutputPreview && !unknownOutput
+              ? displayOutputPreview && !unknownOutput && !disabled
                 ? "text-background hover:text-secondary-hover"
                 : "cursor-not-allowed text-placeholder-foreground opacity-80"
-              : displayOutputPreview && !unknownOutput
+              : displayOutputPreview && !unknownOutput && !disabled
                 ? "text-foreground hover:text-primary-hover"
                 : "cursor-not-allowed text-placeholder-foreground opacity-60",
             errorOutput ? "text-destructive" : "",
@@ -167,25 +118,25 @@ function NodeOutputField({
   index,
   type,
   outputName,
+  outputs,
   outputProxy,
   lastOutput,
   colorName,
   isToolMode = false,
   showHiddenOutputs,
   hidden,
+  handleSelectOutput,
 }: NodeOutputFieldComponentType): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const updateNodeInternals = useUpdateNodeInternals();
 
   // Use selective store subscriptions
-  const nodes = useFlowStore(useShallow((state) => state.nodes));
   const edges = useFlowStore(useShallow((state) => state.edges));
   const setNode = useFlowStore(useShallow((state) => state.setNode));
   const setFilterEdge = useFlowStore(useShallow((state) => state.setFilterEdge));
   const flowPool = useFlowStore(useShallow((state) => state.flowPool));
   const myData = useTypesStore(useShallow((state) => state.data));
 
-  // Memoize computed values
   const { flowPoolId, internalOutputName } = useMemo(() => {
     if (data.node?.flow && outputProxy) {
       const realOutput = getGroupOutputNodeId(
@@ -267,10 +218,19 @@ function NodeOutputField({
   );
 
   useEffect(() => {
-    if (disabledOutput && hidden) {
+    const outputHasGroupOutputsFalse =
+      data.node?.outputs?.[index]?.group_outputs === false;
+
+    if (disabledOutput && hidden && !outputHasGroupOutputsFalse) {
       handleUpdateOutputHide(false);
     }
-  }, [disabledOutput, handleUpdateOutputHide, hidden]);
+  }, [
+    disabledOutput,
+    handleUpdateOutputHide,
+    hidden,
+    data.node?.outputs,
+    index,
+  ]);
 
   const [openOutputModal, setOpenOutputModal] = useState(false);
 
@@ -317,11 +277,9 @@ function NodeOutputField({
       return (
         <HandleRenderComponent
           left={true}
-          nodes={nodes}
           tooltipTitle={tooltipTitle}
           id={id}
           title={title}
-          edges={edges}
           nodeId={data.id}
           myData={myData}
           colors={colors}
@@ -333,11 +291,9 @@ function NodeOutputField({
       );
     }
   }, [
-    nodes,
     tooltipTitle,
     id,
     title,
-    edges,
     data.id,
     myData,
     colors,
@@ -351,11 +307,9 @@ function NodeOutputField({
     () => (
       <HandleRenderComponent
         left={false}
-        nodes={nodes}
         tooltipTitle={tooltipTitle}
         id={id}
         title={title}
-        edges={edges}
         nodeId={data.id}
         myData={myData}
         colors={colors}
@@ -366,11 +320,9 @@ function NodeOutputField({
       />
     ),
     [
-      nodes,
       tooltipTitle,
       id,
       title,
-      edges,
       data.id,
       myData,
       colors,
@@ -391,7 +343,7 @@ function NodeOutputField({
     <div
       ref={ref}
       className={cn(
-        "relative mt-1 flex h-11 w-full flex-wrap items-center justify-between bg-muted px-5 py-2",
+        "relative flex h-11 w-full flex-wrap items-center justify-between bg-muted px-5 py-2",
         lastOutput ? "rounded-b-[0.69rem]" : "",
         isToolMode && "bg-primary",
       )}
@@ -404,17 +356,10 @@ function NodeOutputField({
               <ForwardedIconComponent name="Infinity" className="h-4 w-4" />
             </Badge>
           )}
-          <HideShowButton
-            disabled={disabledOutput}
-            onClick={() => handleUpdateOutputHide()}
-            hidden={!!hidden}
-            isToolMode={isToolMode}
-            title={title}
-          />
         </div>
 
         {data.node?.frozen && (
-          <div className="pr-1">
+          <div className="pr-1" data-testid="frozen-icon">
             <SnowflakeIcon />
           </div>
         )}
@@ -423,6 +368,7 @@ function NodeOutputField({
           <span className={data.node?.frozen ? "text-ice" : ""}>
             <MemoizedOutputComponent
               proxy={outputProxy}
+              outputs={outputs}
               idx={index}
               types={type?.split("|") ?? []}
               selected={
@@ -434,6 +380,8 @@ function NodeOutputField({
               frozen={data.node?.frozen}
               name={title ?? type}
               isToolMode={isToolMode}
+              handleSelectOutput={handleSelectOutput}
+              outputName={data.node?.key as string}
             />
           </span>
 
@@ -462,9 +410,7 @@ function NodeOutputField({
                   errorOutput={errorOutput ?? false}
                   isToolMode={isToolMode}
                   title={title}
-                  onClick={() => {
-                    //just to trigger the memoization
-                  }}
+                  onClick={() => {}}
                   id={data?.type}
                 />
               </OutputModal>

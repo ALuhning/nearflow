@@ -29,7 +29,7 @@
 
 ## ⚡ Quick Start (Development)
 
-Langflow works with Python 3.10 to 3.13.
+Langflow requires [Python 3.10 to 3.13](https://www.python.org/downloads/release/python-3100/) and [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
 ```bash
 git clone https://github.com/ALuhning/nearflow.git

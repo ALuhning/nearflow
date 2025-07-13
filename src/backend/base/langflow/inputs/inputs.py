@@ -458,6 +458,7 @@ class DictInput(BaseInputMixin, ListableInputMixin, InputTraceMixin, ToolModeMix
     """
 
     field_type: SerializableFieldTypes = FieldTypes.DICT
+    # value: dict | None = {"key": "value"}
     # Note do not set value to an empty dict, it will break the component in dynamic update build config
     # value: dict | None = {}
     value: dict = Field(default_factory=dict)
@@ -621,6 +622,20 @@ class FileInput(BaseInputMixin, ListableInputMixin, FileMixin, MetadataTraceMixi
     field_type: SerializableFieldTypes = FieldTypes.FILE
 
 
+class McpInput(BaseInputMixin, MetadataTraceMixin):
+    """Represents a mcp input field.
+
+    This class represents a mcp input and provides functionality for handling mcp values.
+    It inherits from the `BaseInputMixin` and `MetadataTraceMixin` classes.
+
+    Attributes:
+        field_type (SerializableFieldTypes): The field type of the input. Defaults to FieldTypes.MCP.
+    """
+
+    field_type: SerializableFieldTypes = FieldTypes.MCP
+    value: dict[str, Any] = Field(default_factory=dict)
+
+
 class LinkInput(BaseInputMixin, LinkMixin):
     field_type: SerializableFieldTypes = FieldTypes.LINK
 
@@ -658,6 +673,7 @@ InputTypes: TypeAlias = (
     | FloatInput
     | HandleInput
     | IntInput
+    | McpInput
     | MultilineInput
     | MultilineSecretInput
     | NestedDictInput

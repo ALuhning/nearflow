@@ -42,6 +42,8 @@ export const lazyIconsMapping = {
     import("@/icons/Cassandra").then((mod) => ({ default: mod.CassandraIcon })),
   Chroma: () =>
     import("@/icons/ChromaIcon").then((mod) => ({ default: mod.ChromaIcon })),
+  Cleanlab: () =>
+    import("@/icons/Cleanlab").then((mod) => ({ default: mod.CleanlabIcon })),
   Clickhouse: () =>
     import("@/icons/Clickhouse").then((mod) => ({
       default: mod.ClickhouseIcon,
@@ -60,10 +62,16 @@ export const lazyIconsMapping = {
     })),
   Couchbase: () =>
     import("@/icons/Couchbase").then((mod) => ({ default: mod.CouchbaseIcon })),
+  Claude: () =>
+    import("@/icons/Claude").then((mod) => ({ default: mod.ClaudeIcon })),
   CrewAI: () =>
     import("@/icons/CrewAI").then((mod) => ({ default: mod.CrewAiIcon })),
+  Cursor: () =>
+    import("@/icons/Cursor").then((mod) => ({ default: mod.CursorIcon })),
   DeepSeek: () =>
     import("@/icons/DeepSeek").then((mod) => ({ default: mod.DeepSeekIcon })),
+  Docling: () =>
+    import("@/icons/Docling").then((mod) => ({ default: mod.DoclingIcon })),
   Dropbox: () =>
     import("@/icons/Dropbox").then((mod) => ({ default: mod.DropboxIcon })),
   DuckDuckGo: () =>
@@ -105,6 +113,8 @@ export const lazyIconsMapping = {
     })),
   Gmail: () =>
     import("@/icons/gmail").then((mod) => ({ default: mod.GmailIcon })),
+  Outlook: () =>
+    import("@/icons/outlook").then((mod) => ({ default: mod.OutlookIcon })),
   Googlecalendar: () =>
     import("@/icons/googlecalendar").then((mod) => ({
       default: mod.GooglecalendarIcon,
@@ -145,6 +155,10 @@ export const lazyIconsMapping = {
     import("@/icons/IFixIt").then((mod) => ({ default: mod.IFixIcon })),
   javascript: () =>
     import("@/icons/JSicon").then((mod) => ({ default: mod.JSIcon })),
+  JigsawStack: () =>
+    import("@/icons/JigsawStack").then((mod) => ({
+      default: mod.JigsawStackIcon,
+    })),
   LangChain: () =>
     import("@/icons/LangChain").then((mod) => ({ default: mod.LangChainIcon })),
   Langwatch: () =>
@@ -259,6 +273,10 @@ export const lazyIconsMapping = {
     import("@/icons/thumbs").then((mod) => ({
       default: mod.ThumbUpIconCustom,
     })),
+  TwelveLabs: () =>
+    import("@/icons/TwelveLabs").then((mod) => ({
+      default: mod.TwelveLabsIcon,
+    })),
   TwitterX: () =>
     import("@/icons/Twitter X").then((mod) => ({
       default: mod.TwitterXIcon,
@@ -283,6 +301,8 @@ export const lazyIconsMapping = {
     import("@/icons/Wikipedia/Wikipedia").then((mod) => ({
       default: mod.default,
     })),
+  Windsurf: () =>
+    import("@/icons/Windsurf").then((mod) => ({ default: mod.WindsurfIcon })),
   Wolfram: () =>
     import("@/icons/Wolfram/Wolfram").then((mod) => ({ default: mod.default })),
   xAI: () => import("@/icons/xAI").then((mod) => ({ default: mod.XAIIcon })),

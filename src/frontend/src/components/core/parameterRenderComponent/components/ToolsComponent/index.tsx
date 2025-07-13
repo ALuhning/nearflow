@@ -15,6 +15,7 @@ export default function ToolsComponent({
   id = "",
   handleOnNewValue,
   isAction = false,
+  placeholder,
   button_description,
   title,
   icon,
@@ -46,18 +47,17 @@ export default function ToolsComponent({
         disabled && "cursor-not-allowed",
       )}
     >
-      {value && (
-        <ToolsModal
-          open={isModalOpen}
-          setOpen={setIsModalOpen}
-          isAction={isAction}
-          description={description}
-          rows={value}
-          handleOnNewValue={handleOnNewValue}
-          title={title}
-          icon={icon}
-        />
-      )}
+      <ToolsModal
+        open={isModalOpen}
+        placeholder={placeholder || ""}
+        setOpen={setIsModalOpen}
+        isAction={isAction}
+        description={description}
+        rows={value || []}
+        handleOnNewValue={handleOnNewValue}
+        title={title}
+        icon={icon}
+      />
       <div
         className="relative flex w-full items-center gap-3"
         data-testid={"div-" + id}
@@ -68,7 +68,7 @@ export default function ToolsComponent({
             disabled={!value || disabled}
             size={"iconMd"}
             className={cn(
-              "absolute -top-8 right-0 font-semibold text-muted-foreground group-hover:text-primary",
+              "absolute -top-8 right-0 !text-mmd font-normal text-muted-foreground group-hover:text-primary",
             )}
             data-testid="button_open_actions"
             onClick={() => setIsModalOpen(true)}
@@ -124,7 +124,7 @@ export default function ToolsComponent({
 
         {visibleActions.length === 0 && !isAction && value && (
           <Button
-            disabled={disabled}
+            disabled={disabled || value.length === 0}
             size={editNode ? "xs" : "default"}
             className={
               "w-full " +
@@ -132,7 +132,12 @@ export default function ToolsComponent({
             }
             onClick={() => setIsModalOpen(true)}
           >
-            <span>Select actions</span>
+            <span>
+              {placeholder ||
+                (value.length === 0
+                  ? "No actions available"
+                  : "Select actions")}
+            </span>
           </Button>
         )}
       </div>

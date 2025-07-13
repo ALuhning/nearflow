@@ -47,6 +47,7 @@ const TextAreaWrapper = ({
       data-testid="input-chat-playground"
       onKeyDown={(event) => {
         if (checkSendingOk(event)) {
+          event.preventDefault();
           send();
         }
       }}

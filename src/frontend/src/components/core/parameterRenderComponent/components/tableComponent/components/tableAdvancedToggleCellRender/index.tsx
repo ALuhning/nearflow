@@ -2,17 +2,22 @@ import useHandleOnNewValue from "@/CustomNodes/hooks/use-handle-new-value";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import useFlowStore from "@/stores/flowStore";
 import { useShallow } from "zustand/react/shallow";
+import { useTweaksStore } from "@/stores/tweaksStore";
 import { APIClassType } from "@/types/api";
 import { isTargetHandleConnected } from "@/utils/reactflowUtils";
 import { CustomCellRendererProps } from "ag-grid-react";
 import ToggleShadComponent from "../../../toggleShadComponent";
 
 export default function TableAdvancedToggleCellRender({
-  value: { nodeId, parameterId },
+  value: { nodeId, parameterId, isTweaks },
 }: CustomCellRendererProps) {
   const edges = useFlowStore(useShallow((state) => state.edges));
-  const node = useFlowStore(useShallow((state) => state.getNode(nodeId)));
+  const node = isTweaks
+    ? useTweaksStore(useShallow((state) => state.getNode(nodeId)));
+    : useFlowStore(useShallow((state) => state.getNode(nodeId)));
   const parameter = node?.data?.node?.template?.[parameterId];
+
+  const setNode = useTweaksStore((state) => state.setNode);
 
   const disabled = isTargetHandleConnected(
     edges,
@@ -25,6 +30,7 @@ export default function TableAdvancedToggleCellRender({
     node: node?.data.node as APIClassType,
     nodeId,
     name: parameterId,
+    setNode: isTweaks ? setNode : undefined,
   });
 
   return (
@@ -32,22 +38,24 @@ export default function TableAdvancedToggleCellRender({
       <ShadTooltip
         content={
           disabled
-            ? "Cannot change visibility of connected handles"
-            : "Change visibility of the field"
+            ? isTweaks
+              ? "Cannot enable input of connected handles"
+              : "Cannot change visibility of connected handles"
+            : isTweaks
+              ? "Toggle input of the field in the API"
+              : "Change visibility of the field"
         }
         styleClasses="z-50"
       >
-        <div>
-          <div className="flex h-full items-center">
-            <ToggleShadComponent
-              disabled={disabled}
-              value={!parameter.advanced}
-              handleOnNewValue={handleOnNewValue}
-              editNode={true}
-              showToogle
-              id={"show" + parameterId}
-            />
-          </div>
+        <div className="flex h-full w-full items-center justify-center">
+          <ToggleShadComponent
+            disabled={disabled}
+            value={!parameter.advanced}
+            handleOnNewValue={handleOnNewValue}
+            editNode={true}
+            showToogle
+            id={"show" + parameterId}
+          />
         </div>
       </ShadTooltip>
     )

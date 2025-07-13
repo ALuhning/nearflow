@@ -6,6 +6,8 @@ import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import ShadTooltip from "@/components/common/shadTooltipComponent";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import CustomAccountMenu from "@/customization/components/custom-AccountMenu";
+import CustomLangflowCounts from "@/customization/components/custom-langflow-counts";
 import { CustomOrgSelector } from "@/customization/components/custom-org-selector";
 import { CustomProductSelector } from "@/customization/components/custom-product-selector";
 import { ENABLE_DATASTAX_LANGFLOW } from "@/customization/feature-flags";
@@ -57,12 +59,12 @@ export default function AppHeader(): JSX.Element {
 
   return (
     <div
-      className={`flex h-[48px] w-full items-center justify-between border-b px-6 dark:bg-background`}
+      className={`z-10 flex h-[48px] w-full items-center justify-between border-b px-6 dark:bg-background`}
       data-testid="app-header"
     >
       {/* Left Section */}
       <div
-        className={`z-30 flex items-center gap-2`}
+        className={`z-30 flex shrink-0 items-center gap-2`}
         data-testid="header_left_section_wrapper"
       >
         <Button
@@ -86,13 +88,13 @@ export default function AppHeader(): JSX.Element {
       </div>
 
       {/* Middle Section */}
-      <div className="w-full flex-1 truncate lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+      <div className="absolute left-1/2 -translate-x-1/2">
         <FlowMenu />
       </div>
 
       {/* Right Section */}
       <div
-        className={`relative left-3 z-30 flex items-center gap-1`}
+        className={`relative left-3 z-30 flex shrink-0 items-center gap-3`}
         data-testid="header_right_section_wrapper"
       >
         {!ENABLE_DATASTAX_LANGFLOW && (
@@ -133,7 +135,7 @@ export default function AppHeader(): JSX.Element {
                 }
                 data-testid="notification_button"
               >
-                <div className="hit-area-hover group items-center rounded-md px-2 py-1 text-muted-foreground">
+                <div className="hit-area-hover group relative items-center rounded-md px-2 py-2 text-muted-foreground">
                   <span className={getNotificationBadge()} />
                   <ForwardedIconComponent
                     name="Bell"
@@ -244,7 +246,7 @@ export default function AppHeader(): JSX.Element {
           </>
         )}
         <div className="flex">
-          <AccountMenu />
+          <CustomAccountMenu />
         </div>
       </div>
     </div>

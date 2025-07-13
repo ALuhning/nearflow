@@ -34,6 +34,8 @@ withEventDeliveryModes(
 
     await initialGPTsetup(page);
 
+    await page.getByTestId("tab_1_stringify").click();
+
     await page.getByTestId("playground-btn-flow-io").click();
 
     await page.waitForSelector('[data-testid="button-send"]', {
@@ -59,6 +61,6 @@ withEventDeliveryModes(
       .allTextContents();
     const concatAllText = textContents.join(" ").toLowerCase();
     expect(concatAllText.length).toBeGreaterThan(10);
-    expect(concatAllText).toContain("ebitida");
+    expect(concatAllText).toContain("ebitda");
   },
 );

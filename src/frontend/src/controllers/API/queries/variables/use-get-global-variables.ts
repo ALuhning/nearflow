@@ -21,6 +21,9 @@ export const useGetGlobalVariables: useQueryFunctionType<
   const setUnavailableFields = useGlobalVariablesStore(
     (state) => state.setUnavailableFields,
   );
+  const setGlobalVariablesEntities = useGlobalVariablesStore(
+    (state) => state.setGlobalVariablesEntities,
+  );
 
   const isAuthenticated = useAuthStore(useShallow((state) => state.isAuthenticated));
 
@@ -29,6 +32,7 @@ export const useGetGlobalVariables: useQueryFunctionType<
     const res = await api.get(`${getURL("VARIABLES")}/`);
     setGlobalVariablesEntries(res.data.map((entry) => entry.name));
     setUnavailableFields(getUnavailableFields(res.data));
+    setGlobalVariablesEntities(res.data);
     return res.data;
   };
 

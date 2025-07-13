@@ -1,5 +1,7 @@
-import { IS_AUTO_LOGIN, LANGFLOW_ACCESS_TOKEN } from "@/constants/constants";
+import { IS_AUTO_LOGIN } from "@/constants/constants";
+import { baseURL } from "@/customization/constants";
 import { useCustomApiHeaders } from "@/customization/hooks/use-custom-api-headers";
+import { customGetAccessToken } from "@/customization/utils/custom-get-access-token";
 import useAuthStore from "@/stores/authStore";
 import { useUtilityStore } from "@/stores/utilityStore";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
@@ -15,7 +17,7 @@ import { useLogout, useRefreshAccessToken } from "./queries/auth";
 
 // Create a new Axios instance
 const api: AxiosInstance = axios.create({
-  baseURL: "",
+  baseURL: baseURL,
 });
 
 const cookies = new Cookies();
@@ -42,7 +44,8 @@ function ApiInterceptor() {
   useEffect(() => {
     const unregister = fetchIntercept.register({
       request: function (url, config) {
-        const accessToken = cookies.get(LANGFLOW_ACCESS_TOKEN);
+        const accessToken = customGetAccessToken();
+
         if (accessToken && !isAuthorizedURL(config?.url)) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
@@ -85,7 +88,8 @@ function ApiInterceptor() {
 
           await tryToRenewAccessToken(error);
 
-          const accessToken = cookies.get(LANGFLOW_ACCESS_TOKEN);
+          const accessToken = customGetAccessToken();
+
           if (!accessToken && error?.config?.url?.includes("login")) {
             return Promise.reject(error);
           }
@@ -144,7 +148,7 @@ function ApiInterceptor() {
 
     // Request interceptor to add access token to every request
     const requestInterceptor = api.interceptors.request.use(
-      (config) => {
+      async (config) => {
         const controller = new AbortController();
         try {
           checkDuplicateRequestAndStoreRequest(config);
@@ -154,7 +158,8 @@ function ApiInterceptor() {
           console.error(error.message);
         }
 
-        const accessToken = cookies.get(LANGFLOW_ACCESS_TOKEN);
+        const accessToken = customGetAccessToken();
+
         if (accessToken && !isAuthorizedURL(config?.url)) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
@@ -236,7 +241,8 @@ function ApiInterceptor() {
     const originalRequest = error.config as AxiosRequestConfig;
 
     try {
-      const accessToken = cookies.get(LANGFLOW_ACCESS_TOKEN);
+      const accessToken = customGetAccessToken();
+
       if (!accessToken) {
         throw new Error("Access token not found in cookies");
       }
@@ -267,6 +273,16 @@ export type StreamingRequestParams = {
   buildController: AbortController;
   eventDeliveryConfig?: EventDeliveryType;
 };
+
+// Helper function to sanitize JSON strings
+function sanitizeJsonString(jsonStr: string): string {
+  // Replace NaN with null (valid JSON)
+  return jsonStr
+    .replace(/:\s*NaN\b/g, ": null")
+    .replace(/\[\s*NaN\s*\]/g, "[null]")
+    .replace(/,\s*NaN\s*,/g, ", null,")
+    .replace(/,\s*NaN\s*\]/g, ", null]");
+}
 
 async function performStreamingRequest({
   method,
@@ -319,7 +335,8 @@ async function performStreamingRequest({
           const allString = current.join("") + string;
           let data: object;
           try {
-            data = JSON.parse(allString);
+            const sanitizedJson = sanitizeJsonString(allString);
+            data = JSON.parse(sanitizedJson);
             current = [];
           } catch (e) {
             current.push(string);
@@ -338,7 +355,8 @@ async function performStreamingRequest({
     if (current.length > 0) {
       const allString = current.join("");
       if (allString) {
-        const data = JSON.parse(current.join(""));
+        const sanitizedJson = sanitizeJsonString(allString);
+        const data = JSON.parse(sanitizedJson);
         await onData(data);
       }
     }

@@ -8,7 +8,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 Global variables let you store and reuse generic input values and credentials across your projects.
-You can use a global variable in any text input field that displays the <Icon name="Globe" aria-label="Globe" /> icon.
+You can use a global variable in any text input field that displays the <Icon name="Globe" aria-hidden="true"/> **Globe** icon.
 
 Langflow stores global variables in its internal database, and encrypts the values using a secret key.
 
@@ -16,8 +16,7 @@ Langflow stores global variables in its internal database, and encrypts the valu
 
 To create a new global variable, follow these steps.
 
-1. In the Langflow UI, click your profile icon, and then select **Settings**.
-
+1. In the Langflow UI header, click your profile icon, and then select **Settings**.
 2. Click **Global Variables**.
 
 3. Click **Add New**.
@@ -39,11 +38,11 @@ To create a new global variable, follow these steps.
 
 8. Click **Save Variable**.
 
-You can now select your global variable from any text input field that displays the <Icon name="Globe" aria-label="Globe" /> icon.
+You can now select your global variable from any text input field that displays the <Icon name="Globe" aria-hidden="true"/> **Globe** icon.
 
 ## Edit a global variable
 
-1. In the Langflow UI, click your profile icon, and then select **Settings**.
+1. In the Langflow UI header, click your profile icon, and then select **Settings**.
 
 2. Click **Global Variables**.
 
@@ -59,13 +58,13 @@ You can now select your global variable from any text input field that displays 
 Deleting a global variable permanently deletes any references to it from your existing projects.
 :::
 
-1. In the Langflow UI, click your profile icon, and then select **Settings**.
+1. In the Langflow UI header, click your profile icon, and then select **Settings**.
 
 2. Click **Global Variables**.
 
 3. Click the checkbox next to the global variable that you want to delete.
 
-4. Click the Trash icon.
+4. Click <Icon name="Trash2" aria-hidden="true"/> **Delete**.
 
 The global variable, and any existing references to it, are deleted.
 
@@ -114,13 +113,11 @@ If you installed Langflow locally, you must define the `LANGFLOW_VARIABLES_TO_GE
    Make sure to expose your environment variables to Langflow in a manner that best suits your own environment.
    :::
 
-5. Confirm that Langflow successfully sourced the global variables from the environment.
+5. Confirm that Langflow successfully sourced the global variables from the environment:
 
-   1. In the Langflow UI, click your profile icon, and then select **Settings**.
+   1. In the Langflow UI header, click your profile icon, and then select **Settings**.
 
-   2. Click **Global Variables**.
-
-   The environment variables appear in the list of **Global Variables**.
+   2. Click **Global Variables**, and then make sure that your environment variables appear in the **Global Variables** list.
 
 </TabItem>
 
