@@ -19,7 +19,18 @@ from langflow.inputs.inputs import (
 from langflow.io import Output
 
 # TODO: We get the list from the API but we need to filter it
-enabled_tools = ["confluence", "discord", "dropbox", "github", "gmail", "linkedin", "notion", "slack", "youtube", "one_drive"]
+enabled_tools = [
+    "confluence",
+    "discord",
+    "dropbox",
+    "github",
+    "gmail",
+    "linkedin",
+    "notion",
+    "slack",
+    "youtube",
+    "one_drive",
+]
 
 
 class ComposioAPIComponent(LCToolComponent):

@@ -1,6 +1,10 @@
 # --- CDK ---
 scripts/aws/cdk.out
 
+# --- Test files (exclude from production) ---
+test_*.py
+SECURITY_AUDIT_REPORT.md
+
 # --- Python ---
 __pycache__/
 *.py[cod]

@@ -59,6 +59,7 @@ export default defineConfig(({ mode }) => {
       global: 'globalThis',  
       'process.env': {},  // Ensure process.env is properly defined
       'process': 'globalThis.process',  // Directly assign process to globalThis
+      'Buffer': 'globalThis.Buffer',  // Add Buffer global for NEAR wallet selector
       "process.env.BACKEND_URL": JSON.stringify(envLangflow.BACKEND_URL ?? "http://localhost:7860"),
       "process.env.ACCESS_TOKEN_EXPIRE_SECONDS": JSON.stringify(envLangflow.ACCESS_TOKEN_EXPIRE_SECONDS ?? 60),
       "process.env.CI": JSON.stringify(envLangflow.CI ?? false),
@@ -77,6 +78,7 @@ export default defineConfig(({ mode }) => {
       tsconfigPaths(),
     ],
     optimizeDeps: {
+      include: ['buffer'],
       esbuildOptions: {
         define: {
           global: 'globalThis',

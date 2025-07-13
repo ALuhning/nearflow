@@ -1,6 +1,6 @@
+import inspect
 import json
 from typing import Any
-import inspect
 
 import httpx
 from pydantic import SecretStr
@@ -188,97 +188,100 @@ class NearAIAgentComponent(ToolCallingAgentComponent):
     async def message_response(self) -> Message:
         try:
             logger.info("[NearAI] Starting message_response")
-    
+
             # Step 1: Get API credentials
             api_key = self.get_credentials_api_key()
             if not api_key:
                 raise ValueError("Missing or invalid NEAR AI credentials")
-    
+
             # Step 2: Load memory history (already sanitized)
             memory_data = await self.get_memory_data()
             self.chat_history = memory_data or []
             logger.info(f"[NearAI] Retrieved memory data: {len(self.chat_history)} messages")
-    
+
             # Step 3: Fetch available models if needed
             if not self.__class__._openai_models:
                 self.__class__.fetch_openai_models(api_key=api_key, base_url=self.nearai_api_base)
-    
+
             # Step 4: Resolve model name
             model_name = self.model_name
             if not self.__class__._model_display_map:
                 self.__class__._model_display_map = {
-                    self.__class__.format_model_display_name(m): m
-                    for m in self.__class__._openai_models
+                    self.__class__.format_model_display_name(m): m for m in self.__class__._openai_models
                 }
             resolved_model = self.__class__._model_display_map.get(model_name, model_name)
             base_url = self.nearai_api_base
-    
+
             # Step 5: Parse and register tool schemas
             openai_tool_schemas = []
             for i, tool in enumerate(getattr(self, "tools", []) or []):
                 if tool and hasattr(tool, "name") and hasattr(tool, "func"):
                     args_schema = getattr(tool, "args_schema", None)
                     annotations = getattr(args_schema, "__annotations__", {}) or {}
-                    openai_tool_schemas.append({
-                        "type": "function",
-                        "function": {
-                            "name": tool.name,
-                            "description": tool.description or f"{tool.name} tool",
-                            "parameters": {
-                                "type": "object",
-                                "properties": {k: {"type": "string"} for k in annotations},
-                                "required": list(annotations),
+                    openai_tool_schemas.append(
+                        {
+                            "type": "function",
+                            "function": {
+                                "name": tool.name,
+                                "description": tool.description or f"{tool.name} tool",
+                                "parameters": {
+                                    "type": "object",
+                                    "properties": {k: {"type": "string"} for k in annotations},
+                                    "required": list(annotations),
+                                },
                             },
-                        },
-                    })
+                        }
+                    )
                     logger.info(f"[Tool schema] Tool #{i} registered: {tool.name}")
-    
+
             # Step 6: Format messages
             formatted_history = self._format_chat_history_for_api(self.chat_history)
             messages = [{"role": "system", "content": self.system_prompt}]
             if formatted_history:
                 messages.extend(formatted_history)
-    
+
             clean_user = self._extract_value(self.input_value)
             messages.append({"role": "user", "content": clean_user})
             logger.debug(f"[NearAI] Final payload messages: {messages}")
-    
+
             # Step 7: Initial API call
             response = await self.run_near_ai_completion(
                 api_key, base_url, resolved_model, messages, openai_tool_schemas
             )
             if not response or "choices" not in response or not response["choices"]:
                 return Message(text="[NEARAI ERROR] No response generated.", sender="Assistant")
-    
+
             message = response["choices"][0].get("message", {})
             tool_calls = message.get("tool_calls")
-    
+
             # Step 8: Tool-call follow-up logic
             if tool_calls:
                 logger.info(f"[NearAI] Tool calls received: {tool_calls}")
-                messages.append({
-                    "role": "assistant",
-                    "content": "",
-                    "tool_calls": tool_calls,
-                })
-    
+                messages.append(
+                    {
+                        "role": "assistant",
+                        "content": "",
+                        "tool_calls": tool_calls,
+                    }
+                )
+
                 for call in tool_calls:
                     tool_name = call["function"]["name"]
                     tool_args = json.loads(call["function"].get("arguments", "{}"))
                     tool_call_id = call.get("id", "call_id")
-    
+
                     tool_func = next((t for t in self.tools if t.name == tool_name), None)
                     if not tool_func:
                         logger.warning(f"[Tool Execution] Tool '{tool_name}' not found.")
                         continue
-    
+
                     try:
                         logger.info(f"[Tool Execution] Running {tool_name} with args: {tool_args}")
                         if inspect.iscoroutinefunction(tool_func.ainvoke):
                             result = await tool_func.ainvoke(tool_args)
                         else:
                             result = tool_func.invoke(tool_args)
-                    
+
                         # Serialize tool result
                         try:
                             if isinstance(result, str):
@@ -292,28 +295,31 @@ class NearAIAgentComponent(ToolCallingAgentComponent):
                         except Exception as e:
                             logger.error(f"[Tool Result Serialize] Failed to serialize {tool_name} result: {e}")
                             content_str = f"[Tool error: Failed to serialize result: {e}]"
-                    
-                        messages.append({
-                            "role": "tool",
-                            "tool_call_id": tool_call_id,
-                            "name": tool_name,
-                            "content": content_str,
-                        })
-                    
+
+                        messages.append(
+                            {
+                                "role": "tool",
+                                "tool_call_id": tool_call_id,
+                                "name": tool_name,
+                                "content": content_str,
+                            }
+                        )
+
                     except Exception as e:
                         logger.error(f"[Tool Execution] Error executing {tool_name}")
-                        messages.append({
-                            "role": "tool",
-                            "tool_call_id": tool_call_id,
-                            "name": tool_name,
-                            "content": f"[Tool error: {repr(e)}]",
-                        })
+                        messages.append(
+                            {
+                                "role": "tool",
+                                "tool_call_id": tool_call_id,
+                                "name": tool_name,
+                                "content": f"[Tool error: {e!r}]",
+                            }
+                        )
 
-    
                 logger.debug(f"[NEARAI FINAL TOOL MESSAGE PAYLOAD]:\n{messages}")
                 if not any(m.get("role") == "tool" for m in messages):
                     logger.warning(f"[Tool Follow-up] No tool response messages added for: {tool_calls}")
-    
+
                 followup = await self.run_near_ai_completion(
                     api_key, base_url, resolved_model, messages, openai_tool_schemas
                 )
@@ -321,21 +327,21 @@ class NearAIAgentComponent(ToolCallingAgentComponent):
                 assistant_msg = followup_msg.get("content", "[⚠️ Empty followup response]")
             else:
                 assistant_msg = message.get("content", "[No assistant reply]")
-    
+
             # Step 9: Clean and append to memory
             clean_assistant = self._extract_value(assistant_msg)
             logger.debug(f"[Memory Append Raw] Assistant: {assistant_msg}")
             logger.debug(f"[Memory Append Cleaned] Assistant: {clean_assistant}")
-    
+
             if clean_assistant.strip():
                 await self.append_to_memory(clean_user, clean_assistant)
                 logger.info(f"[Memory Append] Stored → User: '{clean_user}' | Assistant: '{clean_assistant}'")
             else:
                 logger.warning(f"[Memory Append] Skipped: assistant response was blank → {assistant_msg}")
-    
+
             # Step 10: Return assistant response
             return Message(text=clean_assistant, sender="Assistant")
-    
+
         except ExceptionWithMessageError as e:
             logger.error(f"[ExceptionWithMessageError] {e}")
             return Message(text=str(e), sender="Assistant")
@@ -345,7 +351,6 @@ class NearAIAgentComponent(ToolCallingAgentComponent):
         except Exception as e:
             logger.exception("[NearAIAgentComponent] chat_response failed:")
             return Message(text=f"[❌ Exception in message_response] {e!s}", sender="Assistant")
-    
 
     def _extract_value(self, val):
         try:

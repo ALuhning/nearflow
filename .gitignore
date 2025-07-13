@@ -1,5 +1,11 @@
 # This is to avoid Opencommit hook from getting pushed
 prepare-commit-msg
+
+# Test files - exclude from production
+test_*.py
+SECURITY_AUDIT_REPORT.md
+DOCUMENTATION_SECURITY_AUDIT.md
+
 # Logs
 logs
 *.log
@@ -238,6 +244,8 @@ venv.bak/
 # Spyder project settings
 .spyderproject
 .spyproject
+/old
+old/
 
 # Rope project settings
 .ropeproject

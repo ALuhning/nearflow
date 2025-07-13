@@ -1,18 +1,19 @@
-from fastapi import APIRouter, Request, Response
-from pydantic import BaseModel
-from fastapi.responses import JSONResponse
-from fastapi.exceptions import RequestValidationError
 import base64
-from urllib.parse import quote, unquote
 import json
-from langflow.services.deps import get_settings_service
 import os
+from urllib.parse import quote, unquote
+
+from fastapi import APIRouter, Request, Response
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 # Constants
 AUTH_COOKIE_NAME = "auth"
 
 # FastAPI router
 router = APIRouter(tags=["Auth"])
+
 
 class SignedMessageInput(BaseModel):
     accountId: str
@@ -23,6 +24,7 @@ class SignedMessageInput(BaseModel):
     nonce: str
     recipient: str
 
+
 environment = os.getenv("LANGFLOW_ENV", "development").lower()
 print(f"Setting cookie for environment: {environment}")
 
@@ -32,6 +34,7 @@ print(f"Setting cookie for environment: {environ}")
 domain = os.getenv("LANGFLOW_DOMAIN", "vitalpoint.ai").lower()
 
 is_production = environment == "production" and environ == "production"
+
 
 # Auth cookie parser
 def parse_auth_cookie(request: Request):
@@ -56,9 +59,9 @@ def parse_auth_cookie(request: Request):
     except Exception:
         return {"error": True, "public_key": None, "signature": None}
 
+
 @router.post("/auth/sign-message")
 async def sign_message_auth(input_data: SignedMessageInput, response: Response):
-    
     cookie_dict = {
         "account_id": input_data.accountId,
         "signature": input_data.signature,
@@ -70,9 +73,7 @@ async def sign_message_auth(input_data: SignedMessageInput, response: Response):
         "on_behalf_of": None,
     }
     # Encode as JSON then base64
-    encoded_cookie = quote(
-        base64.b64encode(json.dumps(cookie_dict).encode("utf-8")).decode("utf-8")
-    )
+    encoded_cookie = quote(base64.b64encode(json.dumps(cookie_dict).encode("utf-8")).decode("utf-8"))
 
     cookie_config = {
         "key": AUTH_COOKIE_NAME,
@@ -89,6 +90,7 @@ async def sign_message_auth(input_data: SignedMessageInput, response: Response):
     except Exception as e:
         # Log or print the error for debugging
         import logging
+
         logging.exception("Failed to set auth cookie")
         return {
             "ok": False,
@@ -97,6 +99,7 @@ async def sign_message_auth(input_data: SignedMessageInput, response: Response):
         }
 
     return {"ok": True, "accountId": input_data.accountId}
+
 
 @router.post("/auth/sign-out")
 def sign_out(response: Response):
@@ -129,6 +132,7 @@ async def get_session(request: Request):
         "message": auth["message"],
         "on_behalf_of": auth["on_behalf_of"],
     }
+
 
 # Custom error handler for validation (mimics ZodError flattening)
 def include_custom_handlers(app):

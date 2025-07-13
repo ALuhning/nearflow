@@ -83,7 +83,7 @@ resource "aws_volume_attachment" "nearflow_attachment" {
 
 resource "aws_eip" "nearflow_ip" {
   instance   = aws_instance.nearflow_instance.id
-  vpc        = true
+  domain     = "vpc"
   depends_on = [aws_instance.nearflow_instance]
 }
 

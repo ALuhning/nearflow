@@ -12,7 +12,7 @@ export const config = {
   PUBLIC_BASE_URL: "https://app.near.ai",
   network: {
     networkId: 'mainnet',
-    nodeUrl: 'https://near.lava.build',
+    nodeUrl: 'https://rpc.mainnet.fastnear.com',
     walletUrl: 'https://app.mynearwallet.com',
     helperUrl: 'https://helper.mainnet.near.org',
     explorerUrl: 'https://explorer.mainnet.near.org',
