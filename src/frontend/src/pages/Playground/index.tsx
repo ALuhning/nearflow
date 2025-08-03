@@ -97,7 +97,7 @@ export default function PlaygroundPage() {
       {currentSavedFlow && (
         <CustomIOModal
           open={true}
-          setOpen={() => {}}
+          setOpen={() => { }}
           isPlayground
           playgroundPage
         >
