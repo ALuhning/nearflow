@@ -13,6 +13,7 @@ import { CustomLink } from "@/customization/components/custom-link";
 import { ENABLE_PUBLISH, ENABLE_WIDGET } from "@/customization/feature-flags";
 import { customMcpOpen } from "@/customization/utils/custom-mcp-open";
 import ApiModal from "@/modals/apiModal";
+import MarketplaceModal from "@/modals/marketplaceModal";
 import EmbedModal from "@/modals/EmbedModal/embed-modal";
 import ExportModal from "@/modals/exportModal";
 import useAlertStore from "@/stores/alertStore";
@@ -28,6 +29,7 @@ export default function PublishDropdown() {
   const location = useHref("/");
   const domain = window.location.origin + location;
   const [openEmbedModal, setOpenEmbedModal] = useState(false);
+  const [openMarketplaceModal, setOpenMarketplaceModal] = useState(false);
   const currentFlow = useFlowsManagerStore(useShallow((state) => state.currentFlow));
   const flowId = currentFlow?.id;
   const flowName = currentFlow?.name;
@@ -100,6 +102,13 @@ export default function PublishDropdown() {
           className="w-full min-w-[275px]"
         >
           <DropdownMenuItem
+            onClick={() => setOpenMarketplaceModal(true)}
+            className="deploy-dropdown-item group"
+          >
+            <IconComponent name="Store" className={`icon-size mr-2`} />
+            <span>Add to Marketplace</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
             className="deploy-dropdown-item group"
             onClick={() => setOpenApiModal(true)}
             data-testid="api-access-item"
@@ -121,7 +130,7 @@ export default function PublishDropdown() {
           >
             <DropdownMenuItem
               className="deploy-dropdown-item group"
-              onClick={() => {}}
+              onClick={() => { }}
               data-testid="mcp-server-item"
             >
               <IconComponent name="Mcp" className={`icon-size mr-2`} />
@@ -146,7 +155,7 @@ export default function PublishDropdown() {
             <DropdownMenuItem
               className="deploy-dropdown-item group"
               disabled={!hasIO}
-              onClick={() => {}}
+              onClick={() => { }}
               data-testid="shareable-playground"
             >
               <div className="flex w-full items-center justify-between">
@@ -206,6 +215,7 @@ export default function PublishDropdown() {
       <ApiModal open={openApiModal} setOpen={setOpenApiModal}>
         <></>
       </ApiModal>
+      <MarketplaceModal open={openMarketplaceModal} setOpen={setOpenMarketplaceModal} />
       <EmbedModal
         open={openEmbedModal}
         setOpen={setOpenEmbedModal}

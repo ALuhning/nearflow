@@ -105,6 +105,13 @@ export const limitScrollFieldsModal = 10;
  * @constant
  */
 export const EXPORT_DIALOG_SUBTITLE = "Export flow as JSON file.";
+
+/**
+ * The base text for subtitle of Add to Marketplace Dialog (Toolbar)
+ * @constant
+ */
+export const ADD_TO_MARKETPLACE_SUBTITLE = "Mint flow as NFT";
+
 /**
  * The base text for subtitle of Flow Settings (Menubar)
  * @constant

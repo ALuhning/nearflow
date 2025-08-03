@@ -19,6 +19,6 @@ export default function FlowToolbarOptions() {
         />
       </div>
       <PublishDropdown />
-    </div>
+    </div >
   );
 }
