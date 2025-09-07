@@ -30,7 +30,9 @@ import { CodeErrorDataTypeAPI } from "../../types/api";
 import { codeAreaModalPropsType } from "../../types/components";
 import BaseModal from "../baseModal";
 import ConfirmationModal from "../confirmationModal";
+import useFlowStore from "../../stores/flowStore";
 import { useShallow } from "zustand/react/shallow";
+import { JSX } from "react";
 
 export default function CodeAreaModal({
   value,
