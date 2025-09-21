@@ -1,7 +1,7 @@
-import TableAutoCellRender from "@/components/core/parameterRenderComponent/components/tableComponent/components/tableAutoCellRender";
-import TableDropdownCellEditor from "@/components/core/parameterRenderComponent/components/tableComponent/components/tableDropdownCellEditor";
-import useAlertStore from "@/stores/alertStore";
-import { ColumnField, FormatterType } from "@/types/utils/functions";
+import TableAutoCellRender from "../components/core/parameterRenderComponent/components/tableComponent/components/tableAutoCellRender";
+import TableDropdownCellEditor from "../components/core/parameterRenderComponent/components/tableComponent/components/tableDropdownCellEditor";
+import useAlertStore from "../stores/alertStore";
+import { ColumnField, FormatterType } from "../types/utils/functions";
 import { ColDef, ColGroupDef, ValueParserParams } from "ag-grid-community";
 import clsx, { ClassValue } from "clsx";
 import moment from "moment";

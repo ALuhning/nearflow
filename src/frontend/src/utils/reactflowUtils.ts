@@ -14,10 +14,10 @@
 import {
   getLeftHandleId,
   getRightHandleId,
-} from "@/CustomNodes/utils/get-handle-id";
-import { INCOMPLETE_LOOP_ERROR_ALERT } from "@/constants/alerts_constants";
-import { customDownloadFlow } from "@/customization/utils/custom-reactFlowUtils";
-import useFlowStore from "@/stores/flowStore";
+} from "../CustomNodes/utils/get-handle-id";
+import { INCOMPLETE_LOOP_ERROR_ALERT } from "../constants/alerts_constants";
+import { customDownloadFlow } from "../customization/utils/custom-reactFlowUtils";
+import useFlowStore from "../stores/flowStore";
 import {
   Connection,
   Edge,
@@ -825,34 +825,51 @@ export function updateEdgesHandleIds({
     let source = edge.sourceHandle;
     let target = edge.targetHandle;
     //right
-    let newSource: sourceHandleType;
+    let newSource: sourceHandleType | undefined;
     //left
-    let newTarget: targetHandleType;
-    if (target && targetNode) {
-      let field = target.split("|")[1];
-      newTarget = {
-        type: targetNode.data.node!.template[field].type,
-        fieldName: field,
-        id: targetNode.data.id,
-        inputTypes: targetNode.data.node!.template[field].input_types,
-      };
+    let newTarget: targetHandleType | undefined;
+    if (target && targetNode && targetNode.data && targetNode.data.node && targetNode.data.node.template) {
+      let field: string;
+      // Handle both old format (simple field name) and new format (id|fieldName)
+      if (target.includes("|")) {
+        field = target.split("|")[1];
+      } else {
+        // For simple field names, use the target as the field name directly
+        field = target;
+      }
+      
+      const templateField = targetNode.data.node.template[field];
+      if (templateField) {
+        newTarget = {
+          type: templateField.type,
+          fieldName: field,
+          id: targetNode.data.id,
+          inputTypes: templateField.input_types,
+        };
+      }
     }
-    if (source && sourceNode && sourceNode.type === "genericNode") {
+    if (source && sourceNode && sourceNode.type === "genericNode" && sourceNode.data && sourceNode.data.node) {
       const output_types =
-        sourceNode.data.node!.output_types ??
-        sourceNode.data.node!.base_classes!;
-      newSource = {
-        id: sourceNode.data.id,
-        output_types,
-        dataType: sourceNode.data.type,
-        name: output_types.join(" | "),
-      };
+        sourceNode.data.node.output_types ??
+        sourceNode.data.node.base_classes;
+      if (output_types) {
+        newSource = {
+          id: sourceNode.data.id,
+          output_types,
+          dataType: sourceNode.data.type,
+          name: output_types.join(" | "),
+        };
+      }
     }
-    edge.sourceHandle = scapedJSONStringfy(newSource!);
-    edge.targetHandle = scapedJSONStringfy(newTarget!);
+    if (newSource) {
+      edge.sourceHandle = scapedJSONStringfy(newSource);
+    }
+    if (newTarget) {
+      edge.targetHandle = scapedJSONStringfy(newTarget);
+    }
     const newData = {
-      sourceHandle: scapeJSONParse(edge.sourceHandle),
-      targetHandle: scapeJSONParse(edge.targetHandle),
+      sourceHandle: newSource ? newSource : (edge.sourceHandle ? scapeJSONParse(edge.sourceHandle) : undefined),
+      targetHandle: newTarget ? newTarget : (edge.targetHandle ? scapeJSONParse(edge.targetHandle) : undefined),
     };
     edge.data = newData;
   });
@@ -1066,7 +1083,13 @@ export function scapedJSONStringfy(json: object): string {
 }
 export function scapeJSONParse(json: string): any {
   let parsed = json.replace(/œ/g, '"');
-  return JSON.parse(parsed);
+  try {
+    return JSON.parse(parsed);
+  } catch (error) {
+    // If parsing fails, it might be a simple string handle, not JSON
+    // Return the original string
+    return json;
+  }
 }
 
 // this function receives an array of edges and return true if any of the handles are not a json string

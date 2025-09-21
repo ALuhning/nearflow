@@ -1,4 +1,5 @@
-import { handleOnNewValueType } from "@/CustomNodes/hooks/use-handle-new-value";
+import React from "react";
+import { handleOnNewValueType } from "../CustomNodes/hooks/use-handle-new-value";
 import { ReactFlowJsonObject } from "@xyflow/react";
 import { ReactElement, ReactNode } from "react";
 import { InputOutput } from "../../constants/enums";

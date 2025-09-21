@@ -1,0 +1,28 @@
+{
+  "flows": [
+    {
+      "name": "Test Flow",
+      "description": "A simple test flow",
+      "data": {
+        "nodes": [
+          {
+            "id": "1",
+            "type": "genericNode",
+            "position": {"x": 100, "y": 100},
+            "data": {
+              "type": "ChatInput",
+              "node": {
+                "template": {
+                  "message": {
+                    "value": "Hello World"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "edges": []
+      }
+    }
+  ]
+}

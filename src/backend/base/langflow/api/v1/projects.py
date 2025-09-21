@@ -323,37 +323,63 @@ async def upload_file(
     current_user: CurrentActiveUser,
 ):
     """Upload flows from a file."""
-    contents = await file.read()
-    data = orjson.loads(contents)
+    try:
+        contents = await file.read()
+        data = orjson.loads(contents)
 
-    if not data:
-        raise HTTPException(status_code=400, detail="No flows found in the file")
+        if not data:
+            raise HTTPException(status_code=400, detail="No flows found in the file")
 
-    project_name = await generate_unique_folder_name(data["folder_name"], current_user.id, session)
+        # Handle missing folder_name and folder_description with defaults
+        default_name = "Imported Project"
+        if file.filename:
+            try:
+                default_name = file.filename.split(".")[0]
+            except (AttributeError, IndexError):
+                default_name = "Imported Project"
+        
+        folder_name = data.get("folder_name", default_name)
+        folder_description = data.get("folder_description", "")
 
-    data["folder_name"] = project_name
+        project_name = await generate_unique_folder_name(folder_name, current_user.id, session)
 
-    project = FolderCreate(name=data["folder_name"], description=data["folder_description"])
+        project = FolderCreate(name=project_name, description=folder_description)
 
-    new_project = Folder.model_validate(project, from_attributes=True)
-    new_project.id = None
-    new_project.user_id = current_user.id
-    session.add(new_project)
-    await session.commit()
-    await session.refresh(new_project)
+        new_project = Folder.model_validate(project, from_attributes=True)
+        new_project.id = None
+        new_project.user_id = current_user.id
+        session.add(new_project)
+        await session.commit()
+        await session.refresh(new_project)
 
-    del data["folder_name"]
-    del data["folder_description"]
+        # Handle flows data - it could be directly in data or nested under "flows"
+        flows_data = None
+        if "flows" in data:
+            flows_data = data["flows"]
+        elif isinstance(data, list):
+            # If data is a list of flows
+            flows_data = data
+        elif "data" in data and "nodes" in data:
+            # If data is a single flow object
+            flows_data = [data]
+        
+        if not flows_data:
+            raise HTTPException(status_code=400, detail="No flows found in the data")
 
-    if "flows" in data:
-        flow_list = FlowListCreate(flows=[FlowCreate(**flow) for flow in data["flows"]])
-    else:
-        raise HTTPException(status_code=400, detail="No flows found in the data")
-    # Now we set the user_id for all flows
-    for flow in flow_list.flows:
-        flow_name = await generate_unique_flow_name(flow.name, current_user.id, session)
-        flow.name = flow_name
-        flow.user_id = current_user.id
-        flow.folder_id = new_project.id
+        flow_list = FlowListCreate(flows=[FlowCreate(**flow) for flow in flows_data])
+        
+        # Now we set the user_id for all flows
+        for flow in flow_list.flows:
+            flow_name = await generate_unique_flow_name(flow.name, current_user.id, session)
+            flow.name = flow_name
+            flow.user_id = current_user.id
+            flow.folder_id = new_project.id
 
-    return await create_flows(session=session, flow_list=flow_list, current_user=current_user)
+        return await create_flows(session=session, flow_list=flow_list, current_user=current_user)
+        
+    except orjson.JSONDecodeError as e:
+        raise HTTPException(status_code=400, detail=f"Invalid JSON format: {str(e)}") from e
+    except KeyError as e:
+        raise HTTPException(status_code=400, detail=f"Missing required field in upload data: {str(e)}") from e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing upload: {str(e)}") from e
